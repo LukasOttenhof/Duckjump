@@ -83,13 +83,11 @@ public class gameManager extends AppCompatActivity{
     private Runnable winChecker = new Runnable(){
         @Override
         public void run(){
-            //Check for collision
+            //Check for if duck is too low
             if (duckPlayer.getDuckY() >= screenHeight){
                 endGame();
                 return;
             }
-
-            //Continue the collision check
             winHandler.postDelayed(this, 100);
         }
     };

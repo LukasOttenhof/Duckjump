@@ -56,22 +56,22 @@ public class DuckPlayer{
 
 
 
-    public void jump() {
+    public void jump(){
 
-        // Jump and fall animation parameters
+
         float originalY = theDuck.getY();
         long jumpDuration = 500;
-        long fallDuration = 5000; // Adjust this value for the desired fall duration
+        long fallDuration = 5000; //Adjust this value for the fall duration
 
-        // Calculate the ending positions for the jump animation, 0 is at the top, 300 is the hight of the jump from where the duck was
+        //Calculate the ending positions for the jump animation, 0 is at the top, 300 is the hight of the jump from where the duck was
         float jumpPeak = originalY - 300;
 
-        // Create a ValueAnimator for the combined jump and fall animation
+        //Create a ValueAnimator for jump and fall animation
         ValueAnimator jumpAndFallAnimator = ValueAnimator.ofFloat(originalY, jumpPeak, screenHeight);
         jumpAndFallAnimator.setInterpolator(new LinearInterpolator()); // Constant speed
         jumpAndFallAnimator.setDuration(jumpDuration + fallDuration);
 
-        // Set up an update listener to handle the animation values
+        //Set up an update listener to handle the animation values
         jumpAndFallAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
             public void onAnimationUpdate(ValueAnimator animation) {
@@ -80,31 +80,31 @@ public class DuckPlayer{
             }
         });
 
-        // Start the jump and fall animation
+        //Start the jump and fall animation
         jumpAndFallAnimator.start();
     }
 
 
 
-    public float getDuckX() {
+    public float getDuckX(){
         return theDuck.getX();
     }
 
-    public float getDuckY() {
+    public float getDuckY(){
         return theDuck.getY();
     }
 
-    public int getDuckWidth() {
+    public int getDuckWidth(){
         return theDuck.getWidth();
     }
 
-    public int getDuckHeight() {
+    public int getDuckHeight(){
         return theDuck.getHeight();
     }
 
     //https://stackoverflow.com/questions/11633221/android-properties-that-can-be-animated-with-objectanimator
     //https://developer.android.com/develop/ui/views/animations/prop-animation#views
-    public void startBounceAnimation() {
+    public void startBounceAnimation(){
         float originalY = theDuck.getY();
         long duration = 5000;
         float initialJumpHeight = 600f;

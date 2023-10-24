@@ -58,7 +58,7 @@ public class CloudManager{
         float randomX = (float) Math.random() * screenWidth - 93;
         platform.setX(randomX);
 
-        // Set Y-coordinate above the screen, above the screen is negitive
+        //Set Y-coordinate above the screen, above the screen is negitive
         platform.setY(-2 * platform.getHeight());
 
     }
@@ -71,10 +71,10 @@ public class CloudManager{
         handler.postDelayed(new Runnable(){
             @Override
             public void run(){
-                // Trigger the next fall animation after respawn
+                //Trigger the next fall animation after respawn
                 startFallAnimation();
                 respawn();
-                // Repeat the process
+                //Repeat the process
                 manageCloud();
             }
         }, respawnDelay);
