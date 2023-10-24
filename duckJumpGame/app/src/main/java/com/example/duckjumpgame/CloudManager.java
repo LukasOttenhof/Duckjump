@@ -95,6 +95,8 @@ public class CloudManager{
         }
     };
 
+
+    //if the duck is on the cloud return true to indicate collision
     public boolean checkCollision(){
         float duckBottomY = duckPlayer.getDuckY() + duckPlayer.getDuckHeight();
         float cloudTopY = getCloudTopY();

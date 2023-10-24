@@ -89,7 +89,7 @@ public class gameManager extends AppCompatActivity{
             }
 
             //Continue the collision check
-            winHandler.postDelayed(this, 100); // Adjust the delay time as needed
+            winHandler.postDelayed(this, 100); 
         }
     };
 
