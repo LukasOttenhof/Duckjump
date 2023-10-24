@@ -86,10 +86,11 @@ public class gameManager extends AppCompatActivity{
             //Check for collision
             if (duckPlayer.getDuckY() >= screenHeight){
                 endGame();
+                return;
             }
 
             //Continue the collision check
-            winHandler.postDelayed(this, 100); 
+            winHandler.postDelayed(this, 100);
         }
     };
 
