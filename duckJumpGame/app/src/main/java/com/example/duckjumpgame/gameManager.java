@@ -35,7 +35,7 @@ public class gameManager extends AppCompatActivity{
         //Start the bounce animation for the duck player
         duckPlayer.startBounceAnimation();
 
-        //Start the cloud animation
+        //Start the platform animation
         managePlatforms();
         winHandler.postDelayed(winChecker, 100); // Adjust the delay time as needed
 

@@ -29,19 +29,19 @@ public class PlatformManager {
 
 
 
-    public float getCloudTopY(){
+    public float getPlatformTopY(){
         return platform.getY();
     }
 
-    public float getCloudBottomY(){
+    public float getPlatformBottomY(){
         return platform.getY() + platform.getHeight();
     }
 
-    public float getCloudX(){
+    public float getPlatformX(){
         return platform.getX();
     }
 
-    public int getCloudWidth(){
+    public int getPlatformWidth(){
         return platform.getWidth();
     }
 
@@ -95,14 +95,14 @@ public class PlatformManager {
     };
 
 
-    //if the duck is on the cloud return true to indicate collision
+    //if the duck is on the platform return true to indicate collision
     public boolean checkCollision(){
         float duckBottomY = duckPlayer.getDuckY() + duckPlayer.getDuckHeight();
-        float cloudTopY = getCloudTopY();
-        float cloudBottomY = getCloudBottomY();
+        float platformTopY = getPlatformTopY();
+        float platformBottomY = getPlatformBottomY();
 
-        return duckBottomY >= cloudTopY && duckPlayer.getDuckX() >= getCloudX()
-                && duckPlayer.getDuckX() + duckPlayer.getDuckWidth() <= getCloudX() + getCloudWidth()
-                && duckBottomY <= cloudBottomY;
+        return duckBottomY >= platformTopY && duckPlayer.getDuckX() >= getPlatformX()
+                && duckPlayer.getDuckX() + duckPlayer.getDuckWidth() <= getPlatformX() + getPlatformWidth()
+                && duckBottomY <= platformBottomY;
     }
 }
