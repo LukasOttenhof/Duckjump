@@ -36,13 +36,13 @@ public class gameManager extends AppCompatActivity{
         duckPlayer.startBounceAnimation();
 
         //Start the cloud animation
-        manageClouds();
+        managePlatforms();
         winHandler.postDelayed(winChecker, 100); // Adjust the delay time as needed
 
     }
 
 
-    public void manageClouds(){
+    public void managePlatforms(){
         ImageView platform1 = findViewById(R.id.platform1);
         ImageView platform2 = findViewById(R.id.platform2);
         ImageView platform3 = findViewById(R.id.platform3);
@@ -51,20 +51,20 @@ public class gameManager extends AppCompatActivity{
         ImageView TopPlatform2 = findViewById(R.id.platformTop2);
         ImageView TopPlatform3 = findViewById(R.id.platformTop3);
 
-        CloudManager cloud1 = new CloudManager(platform1, screenWidth, screenHeight, duckPlayer, 4000, 40000); // Adjust respawnDelay as needed
-        CloudManager cloud2 = new CloudManager(platform2, screenWidth, screenHeight, duckPlayer, 3000, 30000); // Adjust respawnDelay as needed
-        CloudManager cloud3 = new CloudManager(platform3, screenWidth, screenHeight, duckPlayer, 2000, 20000); // Adjust respawnDelay as needed
+        PlatformManager InitialPlatform1 = new PlatformManager(platform1, screenWidth, screenHeight, duckPlayer, 4000, 40000);
+        PlatformManager InitialPlatform2 = new PlatformManager(platform2, screenWidth, screenHeight, duckPlayer, 3000, 30000);
+        PlatformManager InitialPlatform3 = new PlatformManager(platform3, screenWidth, screenHeight, duckPlayer, 2000, 20000);
 
-        CloudManager cloud4 = new CloudManager(TopPlatform1, screenWidth, screenHeight, duckPlayer, 6000, 6000); // Adjust respawnDelay as needed
-        CloudManager cloud5 = new CloudManager(TopPlatform2, screenWidth, screenHeight, duckPlayer, 5000, 5000); // Adjust respawnDelay as needed
-        CloudManager cloud6 = new CloudManager(TopPlatform3, screenWidth, screenHeight, duckPlayer, 4000, 4000); // Adjust respawnDelay as needed
+        PlatformManager platform4 = new PlatformManager(TopPlatform1, screenWidth, screenHeight, duckPlayer, 6000, 6000);
+        PlatformManager platform5 = new PlatformManager(TopPlatform2, screenWidth, screenHeight, duckPlayer, 5000, 5000);
+        PlatformManager platform6 = new PlatformManager(TopPlatform3, screenWidth, screenHeight, duckPlayer, 4000, 4000);
 
-        cloud1.manageCloud();
-        cloud2.manageCloud();
-        cloud3.manageCloud();
-        cloud4.manageCloud();
-        cloud5.manageCloud();
-        cloud6.manageCloud();
+        InitialPlatform1.managePlatform();
+        InitialPlatform2.managePlatform();
+        InitialPlatform3.managePlatform();
+        platform4.managePlatform();
+        platform5.managePlatform();
+        platform6.managePlatform();
     }
 
     public void endGame(){

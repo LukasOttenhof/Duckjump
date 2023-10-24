@@ -5,7 +5,7 @@ import android.view.animation.AccelerateInterpolator;
 import android.widget.ImageView;
 
 
-public class CloudManager{
+public class PlatformManager {
     private int screenWidth;
     private int screenHeight;
     private Handler collisionHandler = new Handler();
@@ -15,7 +15,7 @@ public class CloudManager{
     private long respawnDelay;
     private Handler handler;
 
-    public CloudManager(ImageView platform, int screenWidth, int screenHeight, DuckPlayer duckPlayer, long duration, long respawnDelay){
+    public PlatformManager(ImageView platform, int screenWidth, int screenHeight, DuckPlayer duckPlayer, long duration, long respawnDelay){
         this.platform = platform;
         this.screenWidth = screenWidth;
         this.screenHeight = screenHeight;
@@ -63,7 +63,7 @@ public class CloudManager{
 
     }
 
-    public void manageCloud(){
+    public void managePlatform(){
         //first fall animation
         startFallAnimation();
 
@@ -75,7 +75,7 @@ public class CloudManager{
                 startFallAnimation();
                 respawn();
                 //Repeat the process
-                manageCloud();
+                managePlatform();
             }
         }, respawnDelay);
     }
@@ -89,7 +89,6 @@ public class CloudManager{
                 //If yes run jump
                 duckPlayer.jump();
             }
-
             //Continue the collision check
             collisionHandler.postDelayed(this, 100); // Adjust the delay time as needed
         }
