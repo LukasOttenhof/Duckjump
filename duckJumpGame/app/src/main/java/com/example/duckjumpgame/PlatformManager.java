@@ -36,9 +36,9 @@ public class PlatformManager {
         fallAnimator.start();
     }
 
-    public void respawn(){
-        int randomX = randomInt.nextInt(screenWidth); //random x coordiante
-        platform.setX(randomX);
+    public void respawn(){ //TODO: still respawning off screen
+        int randomX = randomInt.nextInt(screenWidth + platform.getWidth()) - platform.getWidth(); //random x coordiante - width so doesnt spawn off screen to left
+        platform.setX(randomX);                                             //and + width so doesnt spawn off screen to the right
 
         //Set y coordinate above the screen, above the screen is negitive
         platform.setY(-100);
@@ -80,12 +80,19 @@ public class PlatformManager {
 
     //if the duck is on the cloud return true to indicate collision
     public boolean checkCollision(){
+        int duckTopY = duckPlayer.getDuckY();
         int duckBottomY = duckPlayer.getDuckY() + duckPlayer.getDuckHeight();
-        int cloudTopY = (int)platform.getY();
-        int cloudBottomY = (int)platform.getY() + platform.getHeight();
+        int platformTopY = (int)platform.getY();
+        int platformBottomY = (int)platform.getY() + platform.getHeight();
+        int duckLeft = duckPlayer.getDuckX();
+        int duckRight = duckLeft + duckPlayer.getDuckWidth();
+        int platformLeft = (int) platform.getX();
+        int platformRight = platformLeft + platform.getWidth();
+        //if the ducks bottom is below the clouds top and the ducks x is below the patforms x and
 
-        return duckBottomY >= cloudTopY && duckPlayer.getDuckX() >= platform.getX()
-                && duckPlayer.getDuckX() + duckPlayer.getDuckWidth() <= platform.getX() + platform.getWidth()
-                && duckBottomY <= cloudBottomY;
+        return duckBottomY >= platformTopY && duckBottomY <= platformBottomY &&
+                (duckLeft >= platformLeft && duckLeft <= platformRight ||
+                        duckRight <= platformRight && duckRight >= platformRight);
+
     }
 }
