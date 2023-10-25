@@ -35,8 +35,7 @@
         android:onClick="startGame"
         android:text="Play Again"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/button3"
@@ -45,9 +44,37 @@
         android:layout_marginStart="67dp"
         android:layout_marginTop="536dp"
         android:background="#d8863b"
-        android:text="Main Menu"
         android:onClick="enterMainMenu"
+        android:text="Main Menu"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="111dp"
+        android:layout_height="115dp"
+        android:layout_marginStart="209dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/moonbats" />
+
+    <ImageView
+        android:id="@+id/imageView4"
+        android:layout_width="114dp"
+        android:layout_height="200dp"
+        android:layout_marginStart="281dp"
+        android:layout_marginTop="557dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/batwitheyes" />
+
+    <ImageView
+        android:id="@+id/imageView5"
+        android:layout_width="233dp"
+        android:layout_height="272dp"
+        android:layout_marginStart="7dp"
+        android:layout_marginTop="526dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/happyhalloween" />
 </androidx.constraintlayout.widget.ConstraintLayout>
