@@ -57,8 +57,6 @@ public class DuckPlayer{
 
 
     public void jump(){
-
-
         float originalY = theDuck.getY();
         long jumpDuration = 500;
         long fallDuration = 5000; //Adjust this value for the fall duration
@@ -71,7 +69,8 @@ public class DuckPlayer{
         jumpAndFallAnimator.setInterpolator(new LinearInterpolator()); // Constant speed
         jumpAndFallAnimator.setDuration(jumpDuration + fallDuration);
 
-        //Set up an update listener to handle the animation values
+        //Set up an update listener to handle the animation values, i found this online, i couldnt
+        //figure out how to get jump working properly on my own
         jumpAndFallAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
             public void onAnimationUpdate(ValueAnimator animation) {
@@ -85,7 +84,7 @@ public class DuckPlayer{
     }
 
 
-
+//getters are used for detecting collision
     public float getDuckX(){
         return theDuck.getX();
     }
@@ -102,6 +101,7 @@ public class DuckPlayer{
         return theDuck.getHeight();
     }
 
+    //animator found at
     //https://stackoverflow.com/questions/11633221/android-properties-that-can-be-animated-with-objectanimator
     //https://developer.android.com/develop/ui/views/animations/prop-animation#views
     public void startBounceAnimation(){
