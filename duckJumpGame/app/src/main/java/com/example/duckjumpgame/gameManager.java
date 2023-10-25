@@ -79,7 +79,7 @@ public class gameManager extends AppCompatActivity{
 
     //runnable is running every 100 milliseconds checking for game end condition
     //learned how to use runnable and handalers from examples online
-    private Runnable winChecker = new Runnable(){
+    Runnable winChecker = new Runnable(){
         public void run(){
             //Check for if duck is too low
             if (duckPlayer.getDuckY() >= screenHeight){

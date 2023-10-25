@@ -1,21 +1,23 @@
 package com.example.duckjumpgame;
+
 import android.animation.ObjectAnimator;
 import android.os.Handler;
 import android.view.animation.AccelerateInterpolator;
 import android.widget.ImageView;
-
+import java.util.Random;
 
 public class PlatformManager {
     private int screenWidth;
+    private Random randomInt = new Random();
     private int screenHeight;
     private Handler collisionHandler = new Handler();
     private ImageView platform;
     private DuckPlayer duckPlayer;
-    private long duration;
-    private long respawnDelay;
+    private int duration;
+    private int respawnDelay;
     private Handler platformHandler = new Handler();
 
-    public PlatformManager(ImageView platform, int screenWidth, int screenHeight, DuckPlayer duckPlayer, long duration, long respawnDelay){
+    public PlatformManager(ImageView platform, int screenWidth, int screenHeight, DuckPlayer duckPlayer, int duration, int respawnDelay){
         this.platform = platform;
         this.screenWidth = screenWidth;
         this.screenHeight = screenHeight;
@@ -35,7 +37,7 @@ public class PlatformManager {
     }
 
     public void respawn(){
-        float randomX = (float) Math.random() * screenWidth - 93;
+        int randomX = randomInt.nextInt(screenWidth); //random x coordiante
         platform.setX(randomX);
 
         //Set y coordinate above the screen, above the screen is negitive
@@ -52,7 +54,7 @@ public class PlatformManager {
         platformHandler.postDelayed(platformRunnable, respawnDelay);
         collisionHandler.postDelayed(collisionChecker, 100);
     }
-    private Runnable platformRunnable = new Runnable() {
+    Runnable platformRunnable = new Runnable() {
         public void run() {
             //Trigger the next fall animation after respawn
             respawn();
@@ -63,7 +65,7 @@ public class PlatformManager {
     };
 
     //runnable is running every 100 mills checking for collision
-    private Runnable collisionChecker = new Runnable(){
+    Runnable collisionChecker = new Runnable(){
         public void run(){
             //Check for collision
             if (checkCollision()){
@@ -78,9 +80,9 @@ public class PlatformManager {
 
     //if the duck is on the cloud return true to indicate collision
     public boolean checkCollision(){
-        float duckBottomY = duckPlayer.getDuckY() + duckPlayer.getDuckHeight();
-        float cloudTopY = platform.getY();
-        float cloudBottomY = platform.getY() + platform.getHeight();
+        int duckBottomY = duckPlayer.getDuckY() + duckPlayer.getDuckHeight();
+        int cloudTopY = (int)platform.getY();
+        int cloudBottomY = (int)platform.getY() + platform.getHeight();
 
         return duckBottomY >= cloudTopY && duckPlayer.getDuckX() >= platform.getX()
                 && duckPlayer.getDuckX() + duckPlayer.getDuckWidth() <= platform.getX() + platform.getWidth()
