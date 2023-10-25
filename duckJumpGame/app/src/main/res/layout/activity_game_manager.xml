@@ -15,12 +15,21 @@
         android:orientation="vertical">
 
         <FrameLayout
+
             android:id="@+id/cloudContainer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"></FrameLayout>
 
     </LinearLayout>
 
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="111dp"
+        android:layout_height="115dp"
+        android:layout_marginStart="209dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/moonbats" />
 
     <ImageView
         android:id="@+id/platform2"
@@ -89,18 +98,17 @@
         android:id="@+id/theDuck"
         android:layout_width="69dp"
         android:layout_height="61dp"
-        android:layout_marginStart="160dp"
-        android:layout_marginTop="624dp"
+        android:layout_marginStart="168dp"
+        android:layout_marginTop="668dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/duck" />
+        app:srcCompat="@drawable/theduck" />
 
     <TextView
         android:id="@+id/textView"
         android:layout_width="410dp"
         android:layout_height="43dp"
-        android:layout_marginStart="1dp"
-        android:layout_marginTop="685dp"
+        android:layout_marginTop="730dp"
         android:background="@color/green"
         android:text=""
         app:layout_constraintStart_toStartOf="parent"

@@ -16,12 +16,12 @@ public class gameManager extends AppCompatActivity{
     int screenHeight;
     public int score = 0; //need way to implement score
 
-    @Override
+
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game_manager);
 
-        //Get a reference to the player icon
+        //Get the player icon
         ImageView theDuck = findViewById(R.id.theDuck);
 
 
@@ -29,7 +29,7 @@ public class gameManager extends AppCompatActivity{
         this.screenWidth = getResources().getDisplayMetrics().widthPixels;
         this.screenHeight = getResources().getDisplayMetrics().heightPixels;
 
-        //Set up the DuckPlayerManager instance
+        //Set up the DuckPlayer instance
         duckPlayer = new DuckPlayer(theDuck, screenWidth, screenHeight);
 
         //Start the bounce animation for the duck player
@@ -37,7 +37,8 @@ public class gameManager extends AppCompatActivity{
 
         //Start the platform animation
         managePlatforms();
-        winHandler.postDelayed(winChecker, 100); // Adjust the delay time as needed
+        //start check for win
+        winHandler.postDelayed(winChecker, 100);
 
     }
 
@@ -59,6 +60,7 @@ public class gameManager extends AppCompatActivity{
         PlatformManager platform5 = new PlatformManager(TopPlatform2, screenWidth, screenHeight, duckPlayer, 5000, 5000);
         PlatformManager platform6 = new PlatformManager(TopPlatform3, screenWidth, screenHeight, duckPlayer, 4000, 4000);
 
+        //starting the animation and collison check
         InitialPlatform1.managePlatform();
         InitialPlatform2.managePlatform();
         InitialPlatform3.managePlatform();
@@ -73,22 +75,18 @@ public class gameManager extends AppCompatActivity{
         startActivity(intent);
     }
 
-    @Override
-    public boolean onTouchEvent(MotionEvent event){
-        duckPlayer.onTouchEvent(event);
-        return super.onTouchEvent(event);
-    }
 
-    //runnable is running every 100 milliseconds checking for game end
-    private Runnable winChecker = new Runnable(){
-        @Override
+
+    //runnable is running every 100 milliseconds checking for game end condition
+    //learned how to use runnable and handalers from examples online
+    Runnable winChecker = new Runnable(){
         public void run(){
             //Check for if duck is too low
             if (duckPlayer.getDuckY() >= screenHeight){
                 endGame();
                 return;
             }
-            winHandler.postDelayed(this, 100);
+            winHandler.postDelayed(this, 100); //execute again in 100 millis
         }
     };
 
