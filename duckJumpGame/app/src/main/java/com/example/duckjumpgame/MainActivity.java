@@ -18,7 +18,7 @@ public class MainActivity extends AppCompatActivity{
     // This method will be called when the play button is clicked
     public void startGame(View view){
         // Start game when the button is clicked
-        Intent intent = new Intent(this, gameManager.class);
+        Intent intent = new Intent(this, GameManager.class);
         startActivity(intent);
     }
 
@@ -27,7 +27,7 @@ public class MainActivity extends AppCompatActivity{
         TextView mainText = findViewById(R.id.mainText);
         Button playButton = findViewById(R.id.playButton);
         Button creditButton = findViewById(R.id.creditButton);
-        mainText.setText("Created by: Cole Edan and Lukas");
+        mainText.setText("Created by: Cole, Edan, and Lukas");
         mainText.setTextSize(30);
         creditButton.setOnClickListener(this::backToMain);
 

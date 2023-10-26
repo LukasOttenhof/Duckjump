@@ -12,7 +12,7 @@ import android.widget.ImageView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
-public class gameManager extends AppCompatActivity{
+public class GameManager extends AppCompatActivity{
     private DuckPlayer duckPlayer;
     private Handler winHandler = new Handler();
     int screenWidth;
@@ -105,7 +105,7 @@ public class gameManager extends AppCompatActivity{
 
     public void endGame(){
         // Open the winPage when game ends
-        Intent intent = new Intent(this, winPage.class);
+        Intent intent = new Intent(this, WinPage.class);
         startActivity(intent);
     }
 

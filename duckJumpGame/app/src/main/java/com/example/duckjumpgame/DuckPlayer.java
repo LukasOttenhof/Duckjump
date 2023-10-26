@@ -3,6 +3,7 @@ package com.example.duckjumpgame;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
+import android.media.MediaPlayer;
 import android.view.ViewGroup;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.DecelerateInterpolator;
@@ -24,7 +25,6 @@ public class DuckPlayer{
 
 
     public void jump(){
-
         int originalY = (int)theDuck.getY();
         int jumpDuration = 2000;
 
