@@ -29,7 +29,6 @@ public class PlatformManager {
 
     public void startFallAnimation(){
         float originalY = platform.getY();
-
         ObjectAnimator fallAnimator = ObjectAnimator.ofFloat(platform, "translationY", originalY, screenHeight);
         fallAnimator.setInterpolator(new AccelerateInterpolator());//makes the platform accelerate rather than constant speed
         fallAnimator.setDuration(duration);
@@ -88,9 +87,11 @@ public class PlatformManager {
         int duckRight = duckLeft + duckPlayer.getDuckWidth();
         int platformLeft = (int) platform.getX();
         int platformRight = platformLeft + platform.getWidth();
-        //if the ducks bottom is below the clouds top and the ducks x is below the patforms x and
 
-        return duckBottomY >= platformTopY && duckBottomY <= platformBottomY &&
+        //if the top or bottom of the duck is between the top and bottom of the platform and one of the sides
+        //of the duck is with in the platforms sides return true to indicate collision
+        return (duckBottomY >= platformTopY && duckBottomY <= platformBottomY ||
+                duckTopY <= platformBottomY && duckTopY >= platformTopY) &&
                 (duckLeft >= platformLeft && duckLeft <= platformRight ||
                         duckRight <= platformRight && duckRight >= platformRight);
 

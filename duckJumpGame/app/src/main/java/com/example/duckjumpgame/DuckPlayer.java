@@ -2,8 +2,6 @@ package com.example.duckjumpgame;
 
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
-import android.view.MotionEvent;
-import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.LinearInterpolator;
@@ -11,45 +9,15 @@ import android.widget.ImageView;
 
 
 public class DuckPlayer{
-    private int lastX;
+
     private ImageView theDuck;
-    private int screenWidth;
+
     private int screenHeight;
 
 
-    public DuckPlayer(ImageView theDuck, int screenWidth, int screenHeight){
+    public DuckPlayer(ImageView theDuck, int screenHeight){
         this.theDuck = theDuck;
-        this.screenWidth = screenWidth;
         this.screenHeight = screenHeight;
-
-        theDuck.setOnTouchListener(new View.OnTouchListener(){
-            @Override
-            public boolean onTouch(View v, MotionEvent event){
-                return onTouchEvent(event);
-            }
-        });
-    }
-
-    public boolean onTouchEvent(MotionEvent event){
-        int x = (int)event.getRawX() - theDuck.getWidth() / 2;
-        moveDuckPlayer(x);
-        lastX = x;
-        return true;
-    }
-
-    //gpt
-    private void moveDuckPlayer(int x){
-        int deltaX = x - lastX;
-        ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams) theDuck.getLayoutParams();
-        int newLeftMargin = (int) (params.leftMargin + deltaX);
-        if (newLeftMargin >= 0 && newLeftMargin + theDuck.getWidth() <= screenWidth) {
-            params.leftMargin = newLeftMargin;
-            theDuck.setLayoutParams(params);
-
-            ViewGroup.MarginLayoutParams duckLayout = (ViewGroup.MarginLayoutParams) theDuck.getLayoutParams();
-            duckLayout.leftMargin = newLeftMargin;
-            theDuck.setLayoutParams(duckLayout);
-        }
     }
 
 
@@ -66,8 +34,8 @@ public class DuckPlayer{
         jumpAndFallAnimator.setInterpolator(new LinearInterpolator()); // Constant speed
         jumpAndFallAnimator.setDuration(jumpDuration + fallDuration);
 
-        //Set up an update listener to handle the animation values, i found this online, i couldnt
-        //figure out how to get jump working properly on my own
+        //Set up an update listener to handle the animation values, i found this online, i did not
+        //know about update listeners before
         jumpAndFallAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
             public void onAnimationUpdate(ValueAnimator animation) {
@@ -80,7 +48,7 @@ public class DuckPlayer{
         jumpAndFallAnimator.start();
     }
 
-//getters are used for detecting collision
+    //getters are used for detecting collision
     public int getDuckX(){
         return (int)theDuck.getX();
     }
@@ -95,6 +63,15 @@ public class DuckPlayer{
 
     public int getDuckHeight(){
         return theDuck.getHeight();
+    }
+
+    //following are used to update duck location during on touch
+
+    public ViewGroup.MarginLayoutParams getDuckLayoutParams(){
+        return (ViewGroup.MarginLayoutParams) theDuck.getLayoutParams();
+    }
+    public void setDuckLayoutParams(ViewGroup.MarginLayoutParams params){
+        theDuck.setLayoutParams(params);
     }
 
     //animator found at
