@@ -8,7 +8,7 @@ import java.util.Random;
 
 public class PlatformManager {
     private int screenWidth;
-    private Random randomInt = new Random();
+
     private int screenHeight;
     private Handler collisionHandler = new Handler();
     private ImageView platform;
@@ -16,6 +16,7 @@ public class PlatformManager {
     private int duration;
     private int respawnDelay;
     private Handler platformHandler = new Handler();
+    private Random randomInt = new Random();
 
     public PlatformManager(ImageView platform, int screenWidth, int screenHeight, DuckPlayer duckPlayer, int duration, int respawnDelay){
         this.platform = platform;
@@ -24,19 +25,23 @@ public class PlatformManager {
         this.duckPlayer = duckPlayer;
         this.duration = duration;
         this.respawnDelay = respawnDelay;
+        startFallAnimation(); // Initial platform animation before the delayed ones
+        // Schedule next animations and respawns in a loop
+        platformHandler.postDelayed(platformRunnable, respawnDelay);
+        collisionHandler.postDelayed(collisionChecker, 100);
     }
 
 
     public void startFallAnimation(){
         float originalY = platform.getY();
-        ObjectAnimator fallAnimator = ObjectAnimator.ofFloat(platform, "translationY", originalY, screenHeight);
-        fallAnimator.setInterpolator(new AccelerateInterpolator()); // Makes the platform accelerate rather than constant speed
+        ObjectAnimator fallAnimator = ObjectAnimator.ofFloat(platform, "translationY", originalY, screenHeight+500);
+        fallAnimator.setInterpolator(new AccelerateInterpolator()); //Makes the platform accelerate rather than have a constant speed
         fallAnimator.setDuration(duration);
         fallAnimator.start();
     }
 
     public void respawn(){ //TODO: still respawning off screen
-        int randomX = randomInt.nextInt(screenWidth + platform.getWidth()) - platform.getWidth(); // Random x coordinate minus width so doesn't spawn off screen to left
+        int randomX = randomInt.nextInt(screenWidth - platform.getWidth()); // Random x coordinate minus width so doesn't spawn off screen to left
         platform.setX(randomX);                                             // And plus width so doesn't spawn off screen to the right
 
         // Set y coordinate above the screen, above the screen is negative
@@ -44,15 +49,6 @@ public class PlatformManager {
 
     }
 
-
-    // This is starting the handlers that handle collision and the platform animation
-    // called in game manager
-    public void managePlatform(){
-        startFallAnimation(); // Initial platform animation before the delayed ones
-        // Schedule next animations and respawns in a loop
-        platformHandler.postDelayed(platformRunnable, respawnDelay);
-        collisionHandler.postDelayed(collisionChecker, 100);
-    }
     Runnable platformRunnable = new Runnable() {
         public void run() {
             // Trigger the next fall animation after respawn
@@ -66,8 +62,8 @@ public class PlatformManager {
     // Runnable is running every 100 mills checking for collision
     Runnable collisionChecker = new Runnable(){
         public void run(){
-            // Check for collision
-            if (checkCollision()){
+            // Check for collision and if duck is too high
+            if (checkCollision() && duckPlayer.getDuckY() > 150){
                 //If yes run jump
                 duckPlayer.jump();
             }

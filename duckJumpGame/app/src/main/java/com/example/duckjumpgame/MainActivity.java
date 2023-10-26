@@ -15,12 +15,14 @@ public class MainActivity extends AppCompatActivity{
         setContentView(R.layout.activity_main);
 
     }
-    // This method will be called when the button is clicked
+    // This method will be called when the play button is clicked
     public void startGame(View view){
         // Start game when the button is clicked
         Intent intent = new Intent(this, gameManager.class);
         startActivity(intent);
     }
+
+    //used when pressing open credits button
     public void openCredits(View myView){
         TextView mainText = findViewById(R.id.mainText);
         Button playButton = findViewById(R.id.playButton);
@@ -33,6 +35,7 @@ public class MainActivity extends AppCompatActivity{
         playButton.setVisibility(View.INVISIBLE);
         playButton.setEnabled(false);
     }
+    //this is used to go back after opening credits
     public void backToMain(View myView){
         TextView mainText = findViewById(R.id.mainText);
         Button playButton = findViewById(R.id.playButton);

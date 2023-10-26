@@ -17,6 +17,15 @@ public class gameManager extends AppCompatActivity{
     private Handler winHandler = new Handler();
     int screenWidth;
     int screenHeight;
+    PlatformManager initialPlatform1;
+    PlatformManager initialPlatform2;
+    PlatformManager initialPlatform3;
+    PlatformManager hiddenPlatform1;
+    PlatformManager hiddenPlatform2;
+    PlatformManager hiddenPlatform3;
+    PlatformManager hiddenPlatform4;
+    PlatformManager hiddenPlatform5;
+    PlatformManager hiddenPlatform6;
     public int score = 0; // Need way to implement score
 
 
@@ -52,7 +61,8 @@ public class gameManager extends AppCompatActivity{
         });
     }
     public boolean onTouchEvent(MotionEvent event) {
-        int newX = (int) event.getRawX();
+        // Subtract to center duck on pointer
+        int newX = (int) event.getRawX() - duckPlayer.getDuckWidth()/2;
         // Getting duck params so we can change them
         ViewGroup.MarginLayoutParams params = duckPlayer.getDuckLayoutParams();
         // Adding the change
@@ -74,22 +84,23 @@ public class gameManager extends AppCompatActivity{
         ImageView TopPlatform1 = findViewById(R.id.platformTop1);
         ImageView TopPlatform2 = findViewById(R.id.platformTop2);
         ImageView TopPlatform3 = findViewById(R.id.platformTop3);
+        ImageView TopPlatform4 = findViewById(R.id.platformTop4);
+        ImageView TopPlatform5 = findViewById(R.id.platformTop5);
+        ImageView TopPlatform6 = findViewById(R.id.platformTop6);
 
-        PlatformManager InitialPlatform1 = new PlatformManager(platform1, screenWidth, screenHeight, duckPlayer, 4000, 40000);
-        PlatformManager InitialPlatform2 = new PlatformManager(platform2, screenWidth, screenHeight, duckPlayer, 3000, 30000);
-        PlatformManager InitialPlatform3 = new PlatformManager(platform3, screenWidth, screenHeight, duckPlayer, 2000, 20000);
+        // These platforms are the ones that start on the screen. Dont want them to respawn on screen so make delay huge
 
-        PlatformManager platform4 = new PlatformManager(TopPlatform1, screenWidth, screenHeight, duckPlayer, 6000, 6000);
-        PlatformManager platform5 = new PlatformManager(TopPlatform2, screenWidth, screenHeight, duckPlayer, 5000, 5000);
-        PlatformManager platform6 = new PlatformManager(TopPlatform3, screenWidth, screenHeight, duckPlayer, 4000, 4000);
+        initialPlatform1 = new PlatformManager(platform1, screenWidth, screenHeight, duckPlayer, 4000, 100000);
+        initialPlatform2 = new PlatformManager(platform2, screenWidth, screenHeight, duckPlayer, 3000, 100000);
+        initialPlatform3 = new PlatformManager(platform3, screenWidth, screenHeight, duckPlayer, 2000, 100000);
 
-        // Starting the animation and collison check
-        InitialPlatform1.managePlatform();
-        InitialPlatform2.managePlatform();
-        InitialPlatform3.managePlatform();
-        platform4.managePlatform();
-        platform5.managePlatform();
-        platform6.managePlatform();
+        hiddenPlatform1 = new PlatformManager(TopPlatform1, screenWidth, screenHeight, duckPlayer, 6000, 6000);
+        hiddenPlatform2 = new PlatformManager(TopPlatform2, screenWidth, screenHeight, duckPlayer, 5000, 5000);
+        hiddenPlatform3 = new PlatformManager(TopPlatform3, screenWidth, screenHeight, duckPlayer, 5500, 5500);
+        hiddenPlatform4 = new PlatformManager(TopPlatform4, screenWidth, screenHeight, duckPlayer, 7000, 7000);
+        hiddenPlatform5 = new PlatformManager(TopPlatform5, screenWidth, screenHeight, duckPlayer, 10000, 10000);
+        hiddenPlatform6 = new PlatformManager(TopPlatform6, screenWidth, screenHeight, duckPlayer, 6000, 6000);
+
     }
 
     public void endGame(){
