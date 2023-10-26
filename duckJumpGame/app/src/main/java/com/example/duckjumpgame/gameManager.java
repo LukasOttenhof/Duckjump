@@ -4,10 +4,13 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.MotionEvent;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 public class gameManager extends AppCompatActivity{
     private DuckPlayer duckPlayer;
@@ -23,14 +26,14 @@ public class gameManager extends AppCompatActivity{
 
         //Get the player icon
         ImageView theDuck = findViewById(R.id.theDuck);
-
+        ConstraintLayout background = findViewById(R.id.background);
 
         //Getting screen width so there is a max on how far left and right the player icon can move
         this.screenWidth = getResources().getDisplayMetrics().widthPixels;
         this.screenHeight = getResources().getDisplayMetrics().heightPixels;
 
         //Set up the DuckPlayer instance
-        duckPlayer = new DuckPlayer(theDuck, screenWidth, screenHeight);
+        duckPlayer = new DuckPlayer(theDuck, screenHeight);
 
         //Start the bounce animation for the duck player
         duckPlayer.startBounceAnimation();
@@ -40,7 +43,27 @@ public class gameManager extends AppCompatActivity{
         //start check for win
         winHandler.postDelayed(winChecker, 100);
 
+        //adding touch listener to move duck
+        background.setOnTouchListener(new View.OnTouchListener(){
+            @Override
+            public boolean onTouch(View v, MotionEvent event){
+                return onTouchEvent(event);
+            }
+        });
     }
+    public boolean onTouchEvent(MotionEvent event) {
+        int newX = (int) event.getRawX();
+        //getting duck params so we can change them
+        ViewGroup.MarginLayoutParams params = duckPlayer.getDuckLayoutParams();
+        //adding the change
+        //as long as the new location will be within the screen make the change
+        if (newX >= 0 && newX + duckPlayer.getDuckWidth() <= screenWidth) {
+            params.leftMargin = newX;
+            duckPlayer.setDuckLayoutParams(params);
+        }
+        return true;
+    }
+
 
 
     public void managePlatforms(){
@@ -74,7 +97,6 @@ public class gameManager extends AppCompatActivity{
         Intent intent = new Intent(this, winPage.class);
         startActivity(intent);
     }
-
 
 
     //runnable is running every 100 milliseconds checking for game end condition

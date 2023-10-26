@@ -29,16 +29,15 @@ public class PlatformManager {
 
     public void startFallAnimation(){
         float originalY = platform.getY();
-
         ObjectAnimator fallAnimator = ObjectAnimator.ofFloat(platform, "translationY", originalY, screenHeight);
         fallAnimator.setInterpolator(new AccelerateInterpolator());//makes the platform accelerate rather than constant speed
         fallAnimator.setDuration(duration);
         fallAnimator.start();
     }
 
-    public void respawn(){
-        int randomX = randomInt.nextInt(screenWidth); //random x coordiante
-        platform.setX(randomX);
+    public void respawn(){ //TODO: still respawning off screen
+        int randomX = randomInt.nextInt(screenWidth + platform.getWidth()) - platform.getWidth(); //random x coordiante - width so doesnt spawn off screen to left
+        platform.setX(randomX);                                             //and + width so doesnt spawn off screen to the right
 
         //Set y coordinate above the screen, above the screen is negitive
         platform.setY(-100);
@@ -80,12 +79,21 @@ public class PlatformManager {
 
     //if the duck is on the cloud return true to indicate collision
     public boolean checkCollision(){
+        int duckTopY = duckPlayer.getDuckY();
         int duckBottomY = duckPlayer.getDuckY() + duckPlayer.getDuckHeight();
-        int cloudTopY = (int)platform.getY();
-        int cloudBottomY = (int)platform.getY() + platform.getHeight();
+        int platformTopY = (int)platform.getY();
+        int platformBottomY = (int)platform.getY() + platform.getHeight();
+        int duckLeft = duckPlayer.getDuckX();
+        int duckRight = duckLeft + duckPlayer.getDuckWidth();
+        int platformLeft = (int) platform.getX();
+        int platformRight = platformLeft + platform.getWidth();
 
-        return duckBottomY >= cloudTopY && duckPlayer.getDuckX() >= platform.getX()
-                && duckPlayer.getDuckX() + duckPlayer.getDuckWidth() <= platform.getX() + platform.getWidth()
-                && duckBottomY <= cloudBottomY;
+        //if the top or bottom of the duck is between the top and bottom of the platform and one of the sides
+        //of the duck is with in the platforms sides return true to indicate collision
+        return (duckBottomY >= platformTopY && duckBottomY <= platformBottomY ||
+                duckTopY <= platformBottomY && duckTopY >= platformTopY) &&
+                (duckLeft >= platformLeft && duckLeft <= platformRight ||
+                        duckRight <= platformRight && duckRight >= platformRight);
+
     }
 }
