@@ -24,18 +24,18 @@ public class DuckPlayer{
     public void jump(){
         int originalY = (int)theDuck.getY();
         int jumpDuration = 500;
-        int fallDuration = 5000; //Adjust this value for the fall duration
+        int fallDuration = 5000; // Adjust this value for the fall duration
 
-        //Calculate the ending positions for the jump animation, 0 is at the top, 300 is the hight of the jump from where the duck was
+        // Calculate the ending positions for the jump animation, 0 is at the top, 300 is the hight of the jump from where the duck was
         int jumpPeak = originalY - 300;
 
-        //Create a ValueAnimator for jump and fall animation
+        // Create a ValueAnimator for jump and fall animation
         ValueAnimator jumpAndFallAnimator = ValueAnimator.ofFloat(originalY, jumpPeak, screenHeight);
         jumpAndFallAnimator.setInterpolator(new LinearInterpolator()); // Constant speed
         jumpAndFallAnimator.setDuration(jumpDuration + fallDuration);
 
-        //Set up an update listener to handle the animation values, i found this online, i did not
-        //know about update listeners before
+        // Set up an update listener to handle the animation values, i found this online, i did not
+        // know about update listeners before
         jumpAndFallAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
             public void onAnimationUpdate(ValueAnimator animation) {
@@ -44,11 +44,11 @@ public class DuckPlayer{
             }
         });
 
-        //Start the jump and fall animation
+        // Start the jump and fall animation
         jumpAndFallAnimator.start();
     }
 
-    //getters are used for detecting collision
+    // Getters are used for detecting collision
     public int getDuckX(){
         return (int)theDuck.getX();
     }
@@ -65,7 +65,7 @@ public class DuckPlayer{
         return theDuck.getHeight();
     }
 
-    //following are used to update duck location during on touch
+    // Following are used to update duck location during on touch
 
     public ViewGroup.MarginLayoutParams getDuckLayoutParams(){
         return (ViewGroup.MarginLayoutParams) theDuck.getLayoutParams();
@@ -74,9 +74,9 @@ public class DuckPlayer{
         theDuck.setLayoutParams(params);
     }
 
-    //animator found at
-    //https://stackoverflow.com/questions/11633221/android-properties-that-can-be-animated-with-objectanimator
-    //https://developer.android.com/develop/ui/views/animations/prop-animation#views
+    // Animator found at
+    // https://stackoverflow.com/questions/11633221/android-properties-that-can-be-animated-with-objectanimator
+    // https://developer.android.com/develop/ui/views/animations/prop-animation#views
     public void startBounceAnimation(){
         int originalY = (int)theDuck.getY();
         int duration = 5000;

@@ -15,7 +15,7 @@ public class winPage extends AppCompatActivity{
     }
 
     public void enterMainMenu(View view){
-        //Go back to main menu when the button is clicked
+        // Go back to main menu when the button is clicked
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
     }

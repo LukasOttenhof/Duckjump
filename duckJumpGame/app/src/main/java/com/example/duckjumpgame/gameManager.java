@@ -17,33 +17,33 @@ public class gameManager extends AppCompatActivity{
     private Handler winHandler = new Handler();
     int screenWidth;
     int screenHeight;
-    public int score = 0; //need way to implement score
+    public int score = 0; // Need way to implement score
 
 
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game_manager);
 
-        //Get the player icon
+        // Get the player icon
         ImageView theDuck = findViewById(R.id.theDuck);
         ConstraintLayout background = findViewById(R.id.background);
 
-        //Getting screen width so there is a max on how far left and right the player icon can move
+        // Getting screen width so there is a max on how far left and right the player icon can move
         this.screenWidth = getResources().getDisplayMetrics().widthPixels;
         this.screenHeight = getResources().getDisplayMetrics().heightPixels;
 
-        //Set up the DuckPlayer instance
+        // Set up the DuckPlayer instance
         duckPlayer = new DuckPlayer(theDuck, screenHeight);
 
-        //Start the bounce animation for the duck player
+        // Start the bounce animation for the duck player
         duckPlayer.startBounceAnimation();
 
-        //Start the platform animation
+        // Start the platform animation
         managePlatforms();
-        //start check for win
+        // Start check for win
         winHandler.postDelayed(winChecker, 100);
 
-        //adding touch listener to move duck
+        // Adding touch listener to move duck
         background.setOnTouchListener(new View.OnTouchListener(){
             @Override
             public boolean onTouch(View v, MotionEvent event){
@@ -53,10 +53,10 @@ public class gameManager extends AppCompatActivity{
     }
     public boolean onTouchEvent(MotionEvent event) {
         int newX = (int) event.getRawX();
-        //getting duck params so we can change them
+        // Getting duck params so we can change them
         ViewGroup.MarginLayoutParams params = duckPlayer.getDuckLayoutParams();
-        //adding the change
-        //as long as the new location will be within the screen make the change
+        // Adding the change
+        // as long as the new location will be within the screen make the change
         if (newX >= 0 && newX + duckPlayer.getDuckWidth() <= screenWidth) {
             params.leftMargin = newX;
             duckPlayer.setDuckLayoutParams(params);
@@ -83,7 +83,7 @@ public class gameManager extends AppCompatActivity{
         PlatformManager platform5 = new PlatformManager(TopPlatform2, screenWidth, screenHeight, duckPlayer, 5000, 5000);
         PlatformManager platform6 = new PlatformManager(TopPlatform3, screenWidth, screenHeight, duckPlayer, 4000, 4000);
 
-        //starting the animation and collison check
+        // Starting the animation and collison check
         InitialPlatform1.managePlatform();
         InitialPlatform2.managePlatform();
         InitialPlatform3.managePlatform();
@@ -93,17 +93,17 @@ public class gameManager extends AppCompatActivity{
     }
 
     public void endGame(){
-        //Open the winPage when game ends
+        // Open the winPage when game ends
         Intent intent = new Intent(this, winPage.class);
         startActivity(intent);
     }
 
 
-    //runnable is running every 100 milliseconds checking for game end condition
-    //learned how to use runnable and handalers from examples online
+    // Runnable is running every 100 milliseconds checking for game end condition
+    // Learned how to use runnable and handlers from examples online
     Runnable winChecker = new Runnable(){
         public void run(){
-            //Check for if duck is too low
+            // Check for if duck is too low
             if (duckPlayer.getDuckY() >= screenHeight){
                 endGame();
                 return;

@@ -15,7 +15,7 @@ public class MainActivity extends AppCompatActivity{
         setContentView(R.layout.activity_main);
 
     }
-    //This method will be called when the button is clicked
+    // This method will be called when the button is clicked
     public void startGame(View view){
         // Start game when the button is clicked
         Intent intent = new Intent(this, gameManager.class);
