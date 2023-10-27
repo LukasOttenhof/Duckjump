@@ -23,7 +23,9 @@ public class DuckPlayer{
         this.screenHeight = screenHeight;
     }
 
-
+    /**
+     * Handles the jumping animation of the DuckPlayer
+     */
     public void jump(){
         int originalY = (int)theDuck.getY();
         int jumpDuration = 2000;
@@ -90,9 +92,15 @@ public class DuckPlayer{
         theDuck.setLayoutParams(params);
     }
 
-    // Animator found at
-    // https://stackoverflow.com/questions/11633221/android-properties-that-can-be-animated-with-objectanimator
-    // https://developer.android.com/develop/ui/views/animations/prop-animation#views
+
+
+    /**
+     * Handles the bounce animation of the DuckPlayer on collision.
+     *
+     * Animator found at
+     * https://stackoverflow.com/questions/11633221/android-properties-that-can-be-animated-with-objectanimator
+     * https://developer.android.com/develop/ui/views/animations/prop-animation#views
+     */
     public void startBounceAnimation(){
         int originalY = (int)theDuck.getY();
         int duration = 4000;//slow and high to make the first platform easy to touch

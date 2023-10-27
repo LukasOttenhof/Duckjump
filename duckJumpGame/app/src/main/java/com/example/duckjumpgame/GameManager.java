@@ -60,6 +60,8 @@ public class GameManager extends AppCompatActivity{
             }
         });
     }
+
+
     public boolean onTouchEvent(MotionEvent event) {
         // Subtract to center duck on pointer
         int newX = (int) event.getRawX() - duckPlayer.getDuckWidth()/2;
@@ -75,7 +77,16 @@ public class GameManager extends AppCompatActivity{
     }
 
 
-
+    /**
+     * Manages the platforms that are created by this function.
+     *
+     * Each platform is created with bounds for screen width and height
+     * to prevent from spawning outside of play area, as well as a duration, and a respawn delay
+     *
+     * Initial platforms are spawned at the start of the game and are in the
+     * same location each time while hidden platforms respawn after falling off
+     * bottom of the screen
+     */
     public void managePlatforms(){
         ImageView platform1 = findViewById(R.id.platform1);
         ImageView platform2 = findViewById(R.id.platform2);
@@ -103,15 +114,21 @@ public class GameManager extends AppCompatActivity{
 
     }
 
+    /**
+     * Open the winPage when the game is over.
+     */
     public void endGame(){
-        // Open the winPage when game ends
         Intent intent = new Intent(this, WinPage.class);
         startActivity(intent);
     }
 
 
-    // Runnable is running every 100 milliseconds checking for game end condition
-    // Learned how to use runnable and handlers from examples online
+    /**
+     * Runnable is running every 100 milliseconds checking for game end condition
+     * which is when the DuckPlayer is below the screen bounds
+     *
+     * Learned how to use runnable and handlers from examples online
+     */
     Runnable winChecker = new Runnable(){
         public void run(){
             // Check for if duck is too low

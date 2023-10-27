@@ -16,13 +16,29 @@ public class MainActivity extends AppCompatActivity{
 
     }
     // This method will be called when the play button is clicked
+
+    /**
+     * Handles the new intent for the play button and
+     * switches to play screen
+     *
+     * @param view - Current View
+     */
     public void startGame(View view){
         // Start game when the button is clicked
         Intent intent = new Intent(this, GameManager.class);
         startActivity(intent);
     }
 
-    //used when pressing open credits button
+
+    /**
+     * Handles the "Credits" button on the main menu
+     * and swaps main menu widgets with the corresponding credits widgets.
+     *
+     * This is done to prevent memory leak and performance issues associated with creating
+     * or removing new intents.
+     *
+     * @param myView - Current View
+     */
     public void openCredits(View myView){
         TextView mainText = findViewById(R.id.mainText);
         Button playButton = findViewById(R.id.playButton);
@@ -35,7 +51,17 @@ public class MainActivity extends AppCompatActivity{
         playButton.setVisibility(View.INVISIBLE);
         playButton.setEnabled(false);
     }
-    //this is used to go back after opening credits
+
+
+    /**
+     * Handles the "Main Menu" button on the credits screen
+     * and swaps credits widgets with the corresponding main menu widgets.
+     *
+     * This is done to prevent memory leak and performance issues associated with creating
+     * or removing new intents.
+     *
+     * @param myView - Current View
+     */
     public void backToMain(View myView){
         TextView mainText = findViewById(R.id.mainText);
         Button playButton = findViewById(R.id.playButton);
