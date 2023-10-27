@@ -13,7 +13,7 @@
         android:theme="@style/Theme.DuckJumpGame"
         tools:targetApi="31" >
         <activity
-            android:name=".gameManager"
+            android:name=".GameManager"
             android:exported="false" />
         <activity
             android:name=".winPage"
