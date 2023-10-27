@@ -6,23 +6,8 @@
     android:layout_height="match_parent"
     android:background="@color/blue"
     android:id="@+id/background"
-    tools:context=".gameManager">
+    tools:context=".GameManager">
 
-
-
-    <LinearLayout
-        android:id="@+id/containerLayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
-
-        <FrameLayout
-
-            android:id="@+id/cloudContainer"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"></FrameLayout>
-
-    </LinearLayout>
 
     <ImageView
         android:id="@+id/imageView"
@@ -92,6 +77,34 @@
         android:layout_height="71dp"
         android:layout_marginStart="268dp"
         android:layout_marginTop="-100dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@android:drawable/button_onoff_indicator_off" />
+
+    <ImageView
+        android:id="@+id/platformTop4"
+        android:layout_width="93dp"
+        android:layout_height="71dp"
+        android:layout_marginStart="268dp"
+        android:layout_marginTop="-200dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@android:drawable/button_onoff_indicator_off" />
+    <ImageView
+        android:id="@+id/platformTop5"
+        android:layout_width="93dp"
+        android:layout_height="71dp"
+        android:layout_marginStart="156dp"
+        android:layout_marginTop="-200dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@android:drawable/button_onoff_indicator_off" />
+    <ImageView
+        android:id="@+id/platformTop6"
+        android:layout_width="93dp"
+        android:layout_height="71dp"
+        android:layout_marginStart="52dp"
+        android:layout_marginTop="-200dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@android:drawable/button_onoff_indicator_off" />

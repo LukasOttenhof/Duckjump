@@ -5,7 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
-public class winPage extends AppCompatActivity{
+public class WinPage extends AppCompatActivity{
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
@@ -15,7 +15,7 @@ public class winPage extends AppCompatActivity{
     }
 
     public void enterMainMenu(View view){
-        //Go back to main menu when the button is clicked
+        // Go back to main menu when the button is clicked
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
     }
