@@ -17,6 +17,7 @@ public class PlatformManager {
     private int respawnDelay;
     private Handler platformHandler = new Handler();
     private Random randomInt = new Random();
+    private SoundManager soundEffect;
 
     public PlatformManager(ImageView platform, int screenWidth, int screenHeight, DuckPlayer duckPlayer, int duration, int respawnDelay){
         this.platform = platform;
@@ -25,6 +26,8 @@ public class PlatformManager {
         this.duckPlayer = duckPlayer;
         this.duration = duration;
         this.respawnDelay = respawnDelay;
+        this.soundEffect = new SoundManager(platform.getContext());
+
         startFallAnimation(); // Initial platform animation before the delayed ones
         // Schedule next animations and respawns in a loop
         platformHandler.postDelayed(platformRunnable, respawnDelay);
@@ -64,7 +67,8 @@ public class PlatformManager {
         public void run(){
             // Check for collision and if duck is too high
             if (checkCollision() && duckPlayer.getDuckY() > 150){
-                //If yes run jump
+                // If yes run jump and play sound effect
+                soundEffect.playSound(R.raw.quack);
                 duckPlayer.jump();
             }
             // Continue the collision check
