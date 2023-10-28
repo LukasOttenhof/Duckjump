@@ -105,12 +105,14 @@ public class GameManager extends AppCompatActivity{
         initialPlatform2 = new PlatformManager(platform2, screenWidth, screenHeight, duckPlayer, 3000, 100000);
         initialPlatform3 = new PlatformManager(platform3, screenWidth, screenHeight, duckPlayer, 2000, 100000);
 
+        // The rest of the playforms, they will respawn consistalnty throughout the game.
         hiddenPlatform1 = new PlatformManager(TopPlatform1, screenWidth, screenHeight, duckPlayer, 6000, 6000);
         hiddenPlatform2 = new PlatformManager(TopPlatform2, screenWidth, screenHeight, duckPlayer, 5000, 5000);
         hiddenPlatform3 = new PlatformManager(TopPlatform3, screenWidth, screenHeight, duckPlayer, 5500, 5500);
         hiddenPlatform4 = new PlatformManager(TopPlatform4, screenWidth, screenHeight, duckPlayer, 7000, 7000);
         hiddenPlatform5 = new PlatformManager(TopPlatform5, screenWidth, screenHeight, duckPlayer, 10000, 10000);
         hiddenPlatform6 = new PlatformManager(TopPlatform6, screenWidth, screenHeight, duckPlayer, 6000, 6000);
+
 
     }
 
