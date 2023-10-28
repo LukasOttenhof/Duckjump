@@ -95,7 +95,9 @@ public class DuckPlayer{
 
 
     /**
-     * Handles the bounce animation of the DuckPlayer on collision.
+     * Handles the first bounce animation of the DuckPlayer, it is slower and higher
+     * than the rest of the jumps to make it easy to come into contact with at least
+     * one platfrom.
      *
      * Animator found at
      * https://stackoverflow.com/questions/11633221/android-properties-that-can-be-animated-with-objectanimator
