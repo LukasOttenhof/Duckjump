@@ -8,7 +8,6 @@ import java.util.Random;
 
 public class PlatformManager {
     private int screenWidth;
-
     private int screenHeight;
     private Handler collisionHandler = new Handler();
     private Boolean stopRunnable = false;

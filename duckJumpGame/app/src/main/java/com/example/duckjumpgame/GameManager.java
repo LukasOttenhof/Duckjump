@@ -152,7 +152,7 @@ public class GameManager extends AppCompatActivity{
                 return;
             }
             // If the game hasn't ended continue
-            if(!stopWinHandler) {
+            if(!stopWinHandler){
                 winHandler.postDelayed(this, 100); //execute again in 100 millis
             }
         }
