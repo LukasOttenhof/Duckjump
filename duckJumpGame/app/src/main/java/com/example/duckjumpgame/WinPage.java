@@ -19,5 +19,10 @@ public class WinPage extends AppCompatActivity{
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
     }
+    public void startGame(View view){
+        // Restart game when the button is clicked
+        Intent intent = new Intent(this, GameManager.class);
+        startActivity(intent);
+    }
 
 }

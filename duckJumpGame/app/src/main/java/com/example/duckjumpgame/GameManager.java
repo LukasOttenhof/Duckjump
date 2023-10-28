@@ -15,6 +15,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 public class GameManager extends AppCompatActivity{
     private DuckPlayer duckPlayer;
     private Handler winHandler = new Handler();
+    private boolean stopWinHandler = false;
     int screenWidth;
     int screenHeight;
     PlatformManager initialPlatform1;
@@ -105,7 +106,7 @@ public class GameManager extends AppCompatActivity{
         initialPlatform2 = new PlatformManager(platform2, screenWidth, screenHeight, duckPlayer, 3000, 100000);
         initialPlatform3 = new PlatformManager(platform3, screenWidth, screenHeight, duckPlayer, 2000, 100000);
 
-        // The rest of the playforms, they will respawn consistalnty throughout the game.
+        // The rest of the platforms, they will respawn consistalnty throughout the game.
         hiddenPlatform1 = new PlatformManager(TopPlatform1, screenWidth, screenHeight, duckPlayer, 6000, 6000);
         hiddenPlatform2 = new PlatformManager(TopPlatform2, screenWidth, screenHeight, duckPlayer, 5000, 5000);
         hiddenPlatform3 = new PlatformManager(TopPlatform3, screenWidth, screenHeight, duckPlayer, 5500, 5500);
@@ -117,9 +118,21 @@ public class GameManager extends AppCompatActivity{
     }
 
     /**
-     * Open the winPage when the game is over.
+     * Open the winPage when the game is over and end the runnables.
+     * If the runnables arent ended the quacking noise will continue
+     * while in the WinPage
      */
     public void endGame(){
+        stopWinHandler = true;
+        initialPlatform1.endRunnables();
+        initialPlatform2.endRunnables();
+        initialPlatform3.endRunnables();
+        hiddenPlatform1.endRunnables();
+        hiddenPlatform2.endRunnables();
+        hiddenPlatform3.endRunnables();
+        hiddenPlatform4.endRunnables();
+        hiddenPlatform5.endRunnables();
+        hiddenPlatform6.endRunnables();
         Intent intent = new Intent(this, WinPage.class);
         startActivity(intent);
     }
@@ -138,7 +151,10 @@ public class GameManager extends AppCompatActivity{
                 endGame();
                 return;
             }
-            winHandler.postDelayed(this, 100); //execute again in 100 millis
+            // If the game hasn't ended continue
+            if(!stopWinHandler) {
+                winHandler.postDelayed(this, 100); //execute again in 100 millis
+            }
         }
     };
 
