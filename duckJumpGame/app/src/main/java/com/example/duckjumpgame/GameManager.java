@@ -120,7 +120,7 @@ public class GameManager extends AppCompatActivity{
     /**
      * Open the winPage when the game is over and end the runnables.
      * If the runnables arent ended the quacking noise will continue
-     * while in the WinPage
+     * while in the EndPage
      */
     public void endGame(){
         stopWinHandler = true;
@@ -133,7 +133,7 @@ public class GameManager extends AppCompatActivity{
         hiddenPlatform4.endRunnables();
         hiddenPlatform5.endRunnables();
         hiddenPlatform6.endRunnables();
-        Intent intent = new Intent(this, WinPage.class);
+        Intent intent = new Intent(this, EndPage.class);
         startActivity(intent);
     }
 

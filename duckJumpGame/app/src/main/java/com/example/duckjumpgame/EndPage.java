@@ -5,7 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
-public class WinPage extends AppCompatActivity{
+public class EndPage extends AppCompatActivity{
 
     @Override
     protected void onCreate(Bundle savedInstanceState){

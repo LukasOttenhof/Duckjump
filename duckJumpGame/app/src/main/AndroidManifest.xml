@@ -16,7 +16,7 @@
             android:name=".GameManager"
             android:exported="false" />
         <activity
-            android:name=".WinPage"
+            android:name=".EndPage"
             android:exported="false" />
         <activity
             android:name=".MainActivity"
