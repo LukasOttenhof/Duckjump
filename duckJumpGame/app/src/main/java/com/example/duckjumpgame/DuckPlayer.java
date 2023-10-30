@@ -24,7 +24,7 @@ public class DuckPlayer{
     }
 
     /**
-     * Handles the jumping animation of the DuckPlayer
+     * Handles the jumping animation of the DuckPlayer after the initial jump is done
      */
     public void jump(){
         int originalY = (int)theDuck.getY();
@@ -95,7 +95,9 @@ public class DuckPlayer{
 
 
     /**
-     * Handles the bounce animation of the DuckPlayer on collision.
+     * Handles the initial bounce animation of the DuckPlayer on collision. After the
+     * initial bounce, the jump is handled by the jump() function. Initial bounce is higher
+     * to make it easy to get to the first platform.
      *
      * Animator found at
      * https://stackoverflow.com/questions/11633221/android-properties-that-can-be-animated-with-objectanimator
@@ -111,5 +113,6 @@ public class DuckPlayer{
 
         bounceAnimator.start();
     }
+
 
 }
