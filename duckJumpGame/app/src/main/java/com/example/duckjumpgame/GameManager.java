@@ -20,15 +20,15 @@ public class GameManager extends AppCompatActivity{
     private TextView scoreDisplay;
     int screenWidth;
     int screenHeight;
-    PlatformManager initialPlatform1;
-    PlatformManager initialPlatform2;
-    PlatformManager initialPlatform3;
-    PlatformManager hiddenPlatform1;
-    PlatformManager hiddenPlatform2;
-    PlatformManager hiddenPlatform3;
-    PlatformManager hiddenPlatform4;
-    PlatformManager hiddenPlatform5;
-    PlatformManager hiddenPlatform6;
+    AnimateAndDetectCollision initialPlatform1;
+    AnimateAndDetectCollision initialPlatform2;
+    AnimateAndDetectCollision initialPlatform3;
+    AnimateAndDetectCollision hiddenPlatform1;
+    AnimateAndDetectCollision hiddenPlatform2;
+    AnimateAndDetectCollision hiddenPlatform3;
+    AnimateAndDetectCollision hiddenPlatform4;
+    AnimateAndDetectCollision hiddenPlatform5;
+    AnimateAndDetectCollision hiddenPlatform6;
     public int score = 0; // Need way to implement score
 
 
@@ -105,17 +105,17 @@ public class GameManager extends AppCompatActivity{
 
         // These platforms are the ones that start on the screen. Dont want them to respawn on screen so make delay huge
 
-        initialPlatform1 = new PlatformManager(platform1, screenWidth, screenHeight, duckPlayer, 4000, 100000, this);
-        initialPlatform2 = new PlatformManager(platform2, screenWidth, screenHeight, duckPlayer, 3000, 100000, this);
-        initialPlatform3 = new PlatformManager(platform3, screenWidth, screenHeight, duckPlayer, 2000, 100000, this);
+        initialPlatform1 = new CreatePlatform(platform1, screenWidth, screenHeight, duckPlayer, 4000, 100000, this);
+        initialPlatform2 = new CreatePlatform(platform2, screenWidth, screenHeight, duckPlayer, 3000, 100000, this);
+        initialPlatform3 = new CreatePlatform(platform3, screenWidth, screenHeight, duckPlayer, 2000, 100000, this);
 
         // The rest of the platforms, they will respawn consistalnty throughout the game.
-        hiddenPlatform1 = new PlatformManager(TopPlatform1, screenWidth, screenHeight, duckPlayer, 6000, 6000, this);
-        hiddenPlatform2 = new PlatformManager(TopPlatform2, screenWidth, screenHeight, duckPlayer, 5000, 5000, this);
-        hiddenPlatform3 = new PlatformManager(TopPlatform3, screenWidth, screenHeight, duckPlayer, 5500, 5500, this);
-        hiddenPlatform4 = new PlatformManager(TopPlatform4, screenWidth, screenHeight, duckPlayer, 7000, 7000, this);
-        hiddenPlatform5 = new PlatformManager(TopPlatform5, screenWidth, screenHeight, duckPlayer, 10000, 10000, this);
-        hiddenPlatform6 = new PlatformManager(TopPlatform6, screenWidth, screenHeight, duckPlayer, 6000, 6000, this);
+        hiddenPlatform1 = new CreatePlatform(TopPlatform1, screenWidth, screenHeight, duckPlayer, 6000, 6000, this);
+        hiddenPlatform2 = new CreatePlatform(TopPlatform2, screenWidth, screenHeight, duckPlayer, 5000, 5000, this);
+        hiddenPlatform3 = new CreatePlatform(TopPlatform3, screenWidth, screenHeight, duckPlayer, 5500, 5500, this);
+        hiddenPlatform4 = new CreatePlatform(TopPlatform4, screenWidth, screenHeight, duckPlayer, 7000, 7000, this);
+        hiddenPlatform5 = new CreatePlatform(TopPlatform5, screenWidth, screenHeight, duckPlayer, 10000, 10000, this);
+        hiddenPlatform6 = new CreatePlatform(TopPlatform6, screenWidth, screenHeight, duckPlayer, 6000, 6000, this);
 
 
     }
