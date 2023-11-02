@@ -96,7 +96,7 @@ public class PlatformManager {
                 // If yes run jump and play sound effect
                 soundEffect.playSound(R.raw.quack);
                 duckPlayer.jump();
-                theGame.calculateScore();
+                theGame.calculateAndDisplayScore();
             }
             // Continue the collision check if game hasn't ended
             if(!stopRunnable){
@@ -123,11 +123,12 @@ public class PlatformManager {
         int platformLeft = (int) platform.getX();
         int platformRight = platformLeft + platform.getWidth();
 
-        // If the top or bottom of the duck is between the top and bottom of the platform,
+        // If the top or bottom or middle of the duck is between the top and bottom of the platform,
         // and one of the sides of the duck is within the platforms side's,
         // return true to indicate collision
         return (duckBottomY >= platformTopY && duckBottomY <= platformBottomY ||
-                duckTopY <= platformBottomY && duckTopY >= platformTopY) &&
+                duckTopY <= platformBottomY && duckTopY >= platformTopY ||
+                duckBottomY + (duckPlayer.getDuckHeight()/2) >= platformTopY && duckBottomY + (duckPlayer.getDuckHeight()/2) <= platformBottomY ) &&
                 (duckLeft >= platformLeft && duckLeft <= platformRight ||
                         duckRight <= platformRight && duckRight >= platformRight);
 

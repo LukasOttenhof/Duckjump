@@ -163,7 +163,14 @@ public class GameManager extends AppCompatActivity{
         }
     };
 
-    public void calculateScore(){
+    /**
+     * This method calculates and displays the score by first caluclating the score, this is done
+     * by multiplying the platforms touched by the coins collected, unless coins collected = 0
+     * because we dont want to have a score of 0. It then updates the displayed score by setting
+     * the TextView that displays the score to be the score that was calculated. It is called when
+     * the duck makes collision since score is based off of the score being updated.
+     */
+    public void calculateAndDisplayScore(){
         int score;
         if(duckPlayer.getCoinsCollected() != 0){
             score = duckPlayer.getCoinsCollected() * duckPlayer.getPlatformsTouched();
