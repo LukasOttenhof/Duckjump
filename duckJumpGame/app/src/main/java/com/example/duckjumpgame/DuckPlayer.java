@@ -17,6 +17,8 @@ public class DuckPlayer{
 
     private int screenHeight;
 
+    int coinsCollected = 0;
+    private int platformsTouched = 0;
 
     public DuckPlayer(ImageView theDuck, int screenHeight){
         this.theDuck = theDuck;
@@ -30,7 +32,7 @@ public class DuckPlayer{
         int originalY = (int)theDuck.getY();
         int jumpDuration = 2000;
 
-
+        platformsTouched+=1;
         // Calculate the ending positions for the jump animation, 0 is at the top, 300 is the hight of the jump from where the duck was
         int jumpPeak = originalY - 150;
 
@@ -92,6 +94,13 @@ public class DuckPlayer{
         theDuck.setLayoutParams(params);
     }
 
+    public int getPlatformsTouched(){
+        return platformsTouched;
+    }
+
+    public int getCoinsCollected(){
+        return coinsCollected;
+    }
 
 
     /**

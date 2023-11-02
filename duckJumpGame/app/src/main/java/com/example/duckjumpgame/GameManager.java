@@ -7,6 +7,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -16,6 +17,7 @@ public class GameManager extends AppCompatActivity{
     private DuckPlayer duckPlayer;
     private Handler winHandler = new Handler();
     private boolean stopWinHandler = false;
+    private TextView scoreDisplay;
     int screenWidth;
     int screenHeight;
     PlatformManager initialPlatform1;
@@ -37,7 +39,8 @@ public class GameManager extends AppCompatActivity{
         // Get the player icon
         ImageView theDuck = findViewById(R.id.theDuck);
         ConstraintLayout background = findViewById(R.id.background);
-
+        //getting the TextView for displaying score so we can change it
+        scoreDisplay = findViewById(R.id.scoreNum);
         // Getting screen width so there is a max on how far left and right the player icon can move
         this.screenWidth = getResources().getDisplayMetrics().widthPixels;
         this.screenHeight = getResources().getDisplayMetrics().heightPixels;
@@ -102,17 +105,17 @@ public class GameManager extends AppCompatActivity{
 
         // These platforms are the ones that start on the screen. Dont want them to respawn on screen so make delay huge
 
-        initialPlatform1 = new PlatformManager(platform1, screenWidth, screenHeight, duckPlayer, 4000, 100000);
-        initialPlatform2 = new PlatformManager(platform2, screenWidth, screenHeight, duckPlayer, 3000, 100000);
-        initialPlatform3 = new PlatformManager(platform3, screenWidth, screenHeight, duckPlayer, 2000, 100000);
+        initialPlatform1 = new PlatformManager(platform1, screenWidth, screenHeight, duckPlayer, 4000, 100000, this);
+        initialPlatform2 = new PlatformManager(platform2, screenWidth, screenHeight, duckPlayer, 3000, 100000, this);
+        initialPlatform3 = new PlatformManager(platform3, screenWidth, screenHeight, duckPlayer, 2000, 100000, this);
 
         // The rest of the platforms, they will respawn consistalnty throughout the game.
-        hiddenPlatform1 = new PlatformManager(TopPlatform1, screenWidth, screenHeight, duckPlayer, 6000, 6000);
-        hiddenPlatform2 = new PlatformManager(TopPlatform2, screenWidth, screenHeight, duckPlayer, 5000, 5000);
-        hiddenPlatform3 = new PlatformManager(TopPlatform3, screenWidth, screenHeight, duckPlayer, 5500, 5500);
-        hiddenPlatform4 = new PlatformManager(TopPlatform4, screenWidth, screenHeight, duckPlayer, 7000, 7000);
-        hiddenPlatform5 = new PlatformManager(TopPlatform5, screenWidth, screenHeight, duckPlayer, 10000, 10000);
-        hiddenPlatform6 = new PlatformManager(TopPlatform6, screenWidth, screenHeight, duckPlayer, 6000, 6000);
+        hiddenPlatform1 = new PlatformManager(TopPlatform1, screenWidth, screenHeight, duckPlayer, 6000, 6000, this);
+        hiddenPlatform2 = new PlatformManager(TopPlatform2, screenWidth, screenHeight, duckPlayer, 5000, 5000, this);
+        hiddenPlatform3 = new PlatformManager(TopPlatform3, screenWidth, screenHeight, duckPlayer, 5500, 5500, this);
+        hiddenPlatform4 = new PlatformManager(TopPlatform4, screenWidth, screenHeight, duckPlayer, 7000, 7000, this);
+        hiddenPlatform5 = new PlatformManager(TopPlatform5, screenWidth, screenHeight, duckPlayer, 10000, 10000, this);
+        hiddenPlatform6 = new PlatformManager(TopPlatform6, screenWidth, screenHeight, duckPlayer, 6000, 6000, this);
 
 
     }
@@ -140,7 +143,8 @@ public class GameManager extends AppCompatActivity{
 
     /**
      * Runnable is running every 100 milliseconds checking for game end condition
-     * which is when the DuckPlayer is below the screen bounds
+     * which is when the DuckPlayer is below the screen bounds. It also updates the score
+     * that the user has by setting the score display to the calculated score.
      *
      * Learned how to use runnable and handlers from examples online
      */
@@ -151,6 +155,7 @@ public class GameManager extends AppCompatActivity{
                 endGame();
                 return;
             }
+
             // If the game hasn't ended continue
             if(!stopWinHandler){
                 winHandler.postDelayed(this, 100); //execute again in 100 millis
@@ -158,4 +163,14 @@ public class GameManager extends AppCompatActivity{
         }
     };
 
+    public void calculateScore(){
+        int score;
+        if(duckPlayer.getCoinsCollected() != 0){
+            score = duckPlayer.getCoinsCollected() * duckPlayer.getPlatformsTouched();
+        }
+        else{
+            score = duckPlayer.getPlatformsTouched();
+        }
+        scoreDisplay.setText(String.valueOf(score));
+    }
 }

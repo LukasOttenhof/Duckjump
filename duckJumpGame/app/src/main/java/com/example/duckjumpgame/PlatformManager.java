@@ -19,7 +19,8 @@ public class PlatformManager {
     private Random randomInt = new Random();
     private SoundManager soundEffect;
 
-    public PlatformManager(ImageView platform, int screenWidth, int screenHeight, DuckPlayer duckPlayer, int duration, int respawnDelay){
+    private GameManager theGame;
+    public PlatformManager(ImageView platform, int screenWidth, int screenHeight, DuckPlayer duckPlayer, int duration, int respawnDelay, GameManager theGame){
         this.platform = platform;
         this.screenWidth = screenWidth;
         this.screenHeight = screenHeight;
@@ -27,7 +28,7 @@ public class PlatformManager {
         this.duration = duration;
         this.respawnDelay = respawnDelay;
         this.soundEffect = new SoundManager(platform.getContext());
-
+        this.theGame = theGame;
         startFallAnimation(); // Initial platform animation before the delayed ones
         // Schedule next animations and respawns in a loop
         platformHandler.postDelayed(platformRunnable, respawnDelay);
@@ -95,6 +96,7 @@ public class PlatformManager {
                 // If yes run jump and play sound effect
                 soundEffect.playSound(R.raw.quack);
                 duckPlayer.jump();
+                theGame.calculateScore();
             }
             // Continue the collision check if game hasn't ended
             if(!stopRunnable){
