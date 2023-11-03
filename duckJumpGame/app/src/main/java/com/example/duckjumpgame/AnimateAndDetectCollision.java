@@ -16,7 +16,7 @@ import java.util.Random;
 public class AnimateAndDetectCollision {
     private int screenWidth;
     private int screenHeight;
-    private Boolean stopRunnable = false;
+    protected Boolean stopRunnable = false;
     private ImageView platform;
     private DuckPlayer duckPlayer;
     private int duration;
@@ -24,7 +24,7 @@ public class AnimateAndDetectCollision {
     private Handler platformHandler = new Handler();
     private Random randomInt = new Random();
 
-    public AnimateAndDetectCollision(ImageView platform, int screenWidth, int screenHeight, DuckPlayer duckPlayer, int duration, int respawnDelay, GameManager theGame){
+    public AnimateAndDetectCollision(ImageView platform, int screenWidth, int screenHeight, DuckPlayer duckPlayer, int duration, int respawnDelay){
         this.platform = platform;
         this.screenWidth = screenWidth;
         this.screenHeight = screenHeight;

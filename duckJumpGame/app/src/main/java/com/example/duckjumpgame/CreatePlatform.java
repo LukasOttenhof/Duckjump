@@ -5,8 +5,7 @@ import android.widget.ImageView;
 
 public class CreatePlatform extends AnimateAndDetectCollision {
     private Handler collisionHandler = new Handler();
-    private Boolean stopRunnable = false;
-
+    
     private DuckPlayer duckPlayer;
 
     private SoundManager soundEffect;
@@ -14,7 +13,7 @@ public class CreatePlatform extends AnimateAndDetectCollision {
     private GameManager theGame;
 
     public CreatePlatform(ImageView platform, int screenWidth, int screenHeight, DuckPlayer duckPlayer, int duration, int respawnDelay, GameManager theGame) {
-        super(platform, screenWidth, screenHeight, duckPlayer, duration, respawnDelay, theGame);
+        super(platform, screenWidth, screenHeight, duckPlayer, duration, respawnDelay);
         this.duckPlayer = duckPlayer;
         this.soundEffect = new SoundManager(platform.getContext());
         this.theGame = theGame;
