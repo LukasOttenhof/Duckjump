@@ -22,12 +22,12 @@ public class CreatePlatform extends AnimateAndDetectCollision {
     }
 
     /**
-     * This runnable is checking for collission repeatedly until the game ends.
+     * This runnable is checking for collision repeatedly until the game ends.
      * It uses the checkCollision method for collision, if collision is detected
      * the duck will jump and a the quack sound effect is played. It stops when
      * stopRunnable is set to true which happens when the game ends. The runnable
-     * is set to a 100 milisecond delay so that when the duck goes up through a platform
-     * the delay isnt so short that the duck jumps or quaks a second time
+     * is set to a 100 millisecond delay so that when the duck goes up through a platform
+     * the delay isnt so short that the duck jumps or quacks a second time
      */
     Runnable collisionChecker = new Runnable(){
         public void run(){
