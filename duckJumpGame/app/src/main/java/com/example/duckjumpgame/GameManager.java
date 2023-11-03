@@ -18,6 +18,8 @@ public class GameManager extends AppCompatActivity{
     private Handler winHandler = new Handler();
     private boolean stopWinHandler = false;
     private TextView scoreDisplay;
+
+    private int finalScore;
     int screenWidth;
     int screenHeight;
     AnimateAndDetectCollision initialPlatform1;
@@ -136,7 +138,9 @@ public class GameManager extends AppCompatActivity{
         hiddenPlatform4.endRunnables();
         hiddenPlatform5.endRunnables();
         hiddenPlatform6.endRunnables();
+        finalScore = calculateAndDisplayScore();
         Intent intent = new Intent(this, EndPage.class);
+        intent.putExtra("finalScore", finalScore);
         startActivity(intent);
     }
 
@@ -170,14 +174,15 @@ public class GameManager extends AppCompatActivity{
      * the TextView that displays the score to be the score that was calculated. It is called when
      * the duck makes collision since score is based off of the score being updated.
      */
-    public void calculateAndDisplayScore(){
+    public int calculateAndDisplayScore(){
         int score;
         if(duckPlayer.getCoinsCollected() != 0){
-            score = duckPlayer.getCoinsCollected() * duckPlayer.getPlatformsTouched();
+            score = duckPlayer.getCoinsCollected() * duckPlayer.getPlatformsTouched() + duckPlayer.getScoreDistance();
         }
         else{
-            score = duckPlayer.getPlatformsTouched();
+            score = duckPlayer.getPlatformsTouched() + duckPlayer.getScoreDistance();
         }
         scoreDisplay.setText(String.valueOf(score));
+        return score;
     }
 }

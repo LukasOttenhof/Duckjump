@@ -20,6 +20,8 @@ public class DuckPlayer{
     int coinsCollected = 0;
     private int platformsTouched = 0;
 
+    private int scoreDistance;
+
     public DuckPlayer(ImageView theDuck, int screenHeight){
         this.theDuck = theDuck;
         this.screenHeight = screenHeight;
@@ -31,7 +33,7 @@ public class DuckPlayer{
     public void jump(){
         int originalY = (int)theDuck.getY();
         int jumpDuration = 2000;
-
+        jumpScore();
         platformsTouched+=1;
         // Calculate the ending positions for the jump animation, 0 is at the top, 300 is the hight of the jump from where the duck was
         int jumpPeak = originalY - 150;
@@ -66,6 +68,22 @@ public class DuckPlayer{
         AnimatorSet animatorSet = new AnimatorSet();
         animatorSet.playSequentially(jumpAnimator, fallAnimator);
         animatorSet.start();
+    }
+
+    //Changes Score when jumping
+    public void jumpScore(){
+
+        for(int scoreCount = 10; scoreCount > 0; scoreCount -=1){
+
+            scoreDistance +=1;
+
+        }
+
+
+    }
+    //getter for jumping score
+    public int getScoreDistance() {
+        return scoreDistance;
     }
 
     // Getters are used for detecting collision
@@ -121,6 +139,7 @@ public class DuckPlayer{
         bounceAnimator.setDuration(duration);
 
         bounceAnimator.start();
+        jumpScore();
     }
 
 
