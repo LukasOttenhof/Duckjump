@@ -16,7 +16,7 @@ import java.util.Random;
 public class AnimateAndDetectCollision {
     private int screenWidth;
     private int screenHeight;
-    protected Boolean stopRunnable = false;
+    protected Boolean stopRunnable = false; // Used to stop runnables when game ends
     private ImageView platform;
     private DuckPlayer duckPlayer;
     private int duration;
