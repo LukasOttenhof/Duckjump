@@ -16,7 +16,7 @@ import java.util.Random;
 public class AnimateAndDetectCollision {
     private int screenWidth;
     private int screenHeight;
-    protected Boolean stopRunnable = false; // Used to stop runnables when game ends
+    protected Boolean stopRunnable = false; // Used to stop Runnables when game ends
     private ImageView platform;
     private DuckPlayer duckPlayer;
     private int duration;
@@ -24,15 +24,25 @@ public class AnimateAndDetectCollision {
     private Handler platformHandler = new Handler();
     private Random randomInt = new Random();
 
-    public AnimateAndDetectCollision(ImageView platform, int screenWidth, int screenHeight, DuckPlayer duckPlayer, int duration, int respawnDelay){
+    /**
+     * In the constructor the variables will be set to the values of the parameters and the
+     * platformHandler will be called starting the animation loop.
+     *
+     * @param platform The Imageview of the platform that is being animated.
+     * @param screenWidth Maximum width the platform can respawn at.
+     * @param screenHeight Bottom of the screen, endpoint of the animation.
+     * @param duckPlayer The duckObject that manages the duck.
+     * @param duration Amount of time the platform falling animation will take.
+     * @param respawnDelay Amount of time between animations of the platform falling.
+     */
+    public AnimateAndDetectCollision(ImageView platform, int screenWidth, int screenHeight,
+                                     DuckPlayer duckPlayer, int duration, int respawnDelay){
         this.platform = platform;
         this.screenWidth = screenWidth;
         this.screenHeight = screenHeight;
         this.duckPlayer = duckPlayer;
         this.duration = duration;
         this.respawnDelay = respawnDelay;
-        startFallAnimation(); // Initial platform animation before the delayed ones
-        // Schedule next animations and respawns in a loop
         platformHandler.postDelayed(platformRunnable, respawnDelay);
 
     }
@@ -55,8 +65,8 @@ public class AnimateAndDetectCollision {
      * the platform to a random x coordinate within the screen width.
      */
     public void respawn(){
-        int randomX = randomInt.nextInt(screenWidth - platform.getWidth()); // Random x coordinate minus width so doesn't spawn off screen to left
-        platform.setX(randomX);                                             // And plus width so doesn't spawn off screen to the right
+        int randomX = randomInt.nextInt(screenWidth - platform.getWidth()); // Random x coordinate minus width so doesn't spawn off screen to the right
+        platform.setX(randomX);
 
         // Set y coordinate above the screen, above the screen is negative
         platform.setY(-100);
@@ -113,8 +123,9 @@ public class AnimateAndDetectCollision {
 
     }
     /**
-     * Used to end the runnables. This
-     * method is called in the endGame method in game manager.
+     * Used to end the runnables by setting the stopRunnable variable to true, this will make
+     * the repeat condition in the Runnables false so they will stop running.
+     * This method is called in the endGame method in game manager.
      */
     public void endRunnables(){
         stopRunnable = true;

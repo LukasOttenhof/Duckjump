@@ -18,7 +18,6 @@ public class GameManager extends AppCompatActivity{
     private Handler winHandler = new Handler();
     private boolean stopWinHandler = false;
     private TextView scoreDisplay;
-
     private int finalScore;
     int screenWidth;
     int screenHeight;
@@ -31,9 +30,15 @@ public class GameManager extends AppCompatActivity{
     AnimateAndDetectCollision hiddenPlatform4;
     AnimateAndDetectCollision hiddenPlatform5;
     AnimateAndDetectCollision hiddenPlatform6;
-    public int score = 0; // Need way to implement score
 
 
+    /**
+     * 
+     *
+     * @param savedInstanceState If the activity is being re-initialized after
+     *     previously being shut down then this Bundle contains the data it most
+     *     recently supplied in {@link #onSaveInstanceState}.  <b><i>Note: Otherwise it is null.</i></b>
+     */
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game_manager);
@@ -107,17 +112,17 @@ public class GameManager extends AppCompatActivity{
 
         // These platforms are the ones that start on the screen. Dont want them to respawn on screen so make delay huge
 
-        initialPlatform1 = new CreatePlatform(platform1, screenWidth, screenHeight, duckPlayer, 4000, 100000, this);
-        initialPlatform2 = new CreatePlatform(platform2, screenWidth, screenHeight, duckPlayer, 3000, 100000, this);
-        initialPlatform3 = new CreatePlatform(platform3, screenWidth, screenHeight, duckPlayer, 2000, 100000, this);
+        initialPlatform1 = new CreatePlatform(platform1, screenWidth, screenHeight, duckPlayer, 4000, 100000);
+        initialPlatform2 = new CreatePlatform(platform2, screenWidth, screenHeight, duckPlayer, 3000, 100000);
+        initialPlatform3 = new CreatePlatform(platform3, screenWidth, screenHeight, duckPlayer, 2000, 100000);
 
         // The rest of the platforms, they will respawn consistalnty throughout the game.
-        hiddenPlatform1 = new CreatePlatform(TopPlatform1, screenWidth, screenHeight, duckPlayer, 6000, 6000, this);
-        hiddenPlatform2 = new CreatePlatform(TopPlatform2, screenWidth, screenHeight, duckPlayer, 5000, 5000, this);
-        hiddenPlatform3 = new CreatePlatform(TopPlatform3, screenWidth, screenHeight, duckPlayer, 5500, 5500, this);
-        hiddenPlatform4 = new CreatePlatform(TopPlatform4, screenWidth, screenHeight, duckPlayer, 7000, 7000, this);
-        hiddenPlatform5 = new CreatePlatform(TopPlatform5, screenWidth, screenHeight, duckPlayer, 10000, 10000, this);
-        hiddenPlatform6 = new CreatePlatform(TopPlatform6, screenWidth, screenHeight, duckPlayer, 6000, 6000, this);
+        hiddenPlatform1 = new CreatePlatform(TopPlatform1, screenWidth, screenHeight, duckPlayer, 6000, 6000);
+        hiddenPlatform2 = new CreatePlatform(TopPlatform2, screenWidth, screenHeight, duckPlayer, 5000, 5000);
+        hiddenPlatform3 = new CreatePlatform(TopPlatform3, screenWidth, screenHeight, duckPlayer, 5500, 5500);
+        hiddenPlatform4 = new CreatePlatform(TopPlatform4, screenWidth, screenHeight, duckPlayer, 7000, 7000);
+        hiddenPlatform5 = new CreatePlatform(TopPlatform5, screenWidth, screenHeight, duckPlayer, 10000, 10000);
+        hiddenPlatform6 = new CreatePlatform(TopPlatform6, screenWidth, screenHeight, duckPlayer, 6000, 6000);
 
 
     }
@@ -159,7 +164,7 @@ public class GameManager extends AppCompatActivity{
                 endGame();
                 return;
             }
-
+            calculateAndDisplayScore();
             // If the game hasn't ended continue
             if(!stopWinHandler){
                 winHandler.postDelayed(this, 100); //execute again in 100 millis
