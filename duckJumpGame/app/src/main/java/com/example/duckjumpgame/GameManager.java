@@ -195,12 +195,9 @@ public class GameManager extends AppCompatActivity{
      */
     public int calculateAndDisplayScore(){
         int score;
-        if(duckPlayer.getCoinsCollected() != 0){
-            score = duckPlayer.getCoinsCollected() * duckPlayer.getPlatformsTouched() + duckPlayer.getScoreDistance();
-        }
-        else{
-            score = duckPlayer.getPlatformsTouched() + duckPlayer.getScoreDistance();
-        }
+
+        score = duckPlayer.getCoinsCollected() * (duckPlayer.getPlatformsTouched() + duckPlayer.getScoreDistance());
+
         scoreDisplay.setText(String.valueOf(score));
         return score;
     }
