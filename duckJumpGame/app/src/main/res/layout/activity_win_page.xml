@@ -8,13 +8,14 @@
     tools:context=".MainActivity">
 
     <TextView
+        android:id="@+id/finalScoreTextView"
         android:layout_width="246dp"
         android:layout_height="274dp"
         android:layout_marginStart="82dp"
         android:layout_marginTop="111dp"
         android:background="@color/white"
         android:gravity="center"
-        android:text="You win! Your score: 123"
+        android:text="You win! Your score: 0"
 
         android:textSize="40dp"
         android:textStyle="bold"

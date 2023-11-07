@@ -3,7 +3,6 @@ package com.example.duckjumpgame;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
-import android.media.MediaPlayer;
 import android.view.ViewGroup;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.DecelerateInterpolator;
@@ -14,23 +13,33 @@ import android.widget.ImageView;
 public class DuckPlayer{
 
     private ImageView theDuck;
-
     private int screenHeight;
+    int coinsCollected = 0;
+    private int platformsTouched = 0;
+    private int scoreDistance;
 
-
+    /**
+     *
+     * @param theDuck ImageView of the duck, it is whats being animated in this class.
+     * @param screenHeight This is the bottom of the screen, its what the animation will end at
+     * because the duck is trying to fall off of the screen.
+     */
     public DuckPlayer(ImageView theDuck, int screenHeight){
         this.theDuck = theDuck;
         this.screenHeight = screenHeight;
     }
 
     /**
-     * Handles the jumping animation of the DuckPlayer after the initial jump is done
+     * This method is used for making the duck jump when coming into contact with a platform,
+     * it is called once collision is detected. It works by creating an animation that starts from
+     * where the duck was at the point of collision, up to the jump height, and then brings the
+     * duck back down to the screenHeight.
      */
     public void jump(){
         int originalY = (int)theDuck.getY();
         int jumpDuration = 2000;
-
-
+        jumpScore();
+        platformsTouched+=1;
         // Calculate the ending positions for the jump animation, 0 is at the top, 300 is the hight of the jump from where the duck was
         int jumpPeak = originalY - 150;
 
@@ -66,6 +75,23 @@ public class DuckPlayer{
         animatorSet.start();
     }
 
+    //Changes Score when jumping
+    public void jumpScore(){
+
+        for(int scoreCount = 10; scoreCount > 0; scoreCount -=1){
+
+            scoreDistance +=1;
+
+        }
+
+
+    }
+
+    //getter for jumping score
+    public int getScoreDistance() {
+        return scoreDistance;
+    }
+
     // Getters are used for detecting collision
     public int getDuckX(){
         return (int)theDuck.getX();
@@ -92,12 +118,19 @@ public class DuckPlayer{
         theDuck.setLayoutParams(params);
     }
 
+    public int getPlatformsTouched(){
+        return platformsTouched;
+    }
+
+    public int getCoinsCollected(){
+        return coinsCollected;
+    }
 
 
     /**
      * Handles the initial bounce animation of the DuckPlayer on collision. After the
      * initial bounce, the jump is handled by the jump() function. Initial bounce is higher
-     * to make it easy to get to the first platform.
+     * and slower because the customer wants it to be easy to get to the first platform.
      *
      * Animator found at
      * https://stackoverflow.com/questions/11633221/android-properties-that-can-be-animated-with-objectanimator
@@ -112,6 +145,7 @@ public class DuckPlayer{
         bounceAnimator.setDuration(duration);
 
         bounceAnimator.start();
+        jumpScore();
     }
 
 

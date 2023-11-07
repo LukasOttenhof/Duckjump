@@ -6,32 +6,45 @@ import android.view.animation.AccelerateInterpolator;
 import android.widget.ImageView;
 import java.util.Random;
 
-public class PlatformManager {
+/**
+ * This class is used to create objects that are animated and need to be able to detect collision.
+ * The classes that will extend from it will be the CreateHazard class and CreatePlatform
+ * (possibly a platform with a coin class), both of these classes create objects that have a
+ * vertical falling animation and collision detection, but have different things that happen once
+ * collision is detected.
+ */
+public class AnimateAndDetectCollision {
     private int screenWidth;
     private int screenHeight;
-    private Handler collisionHandler = new Handler();
-    private Boolean stopRunnable = false;
+    protected Boolean stopRunnable = false; // Used to stop Runnables when game ends
     private ImageView platform;
     private DuckPlayer duckPlayer;
     private int duration;
     private int respawnDelay;
     private Handler platformHandler = new Handler();
     private Random randomInt = new Random();
-    private SoundManager soundEffect;
 
-    public PlatformManager(ImageView platform, int screenWidth, int screenHeight, DuckPlayer duckPlayer, int duration, int respawnDelay){
+    /**
+     * In the constructor the variables will be set to the values of the parameters and the
+     * platformHandler will be called starting the animation loop.
+     *
+     * @param platform The Imageview of the platform that is being animated.
+     * @param screenWidth Maximum width the platform can respawn at.
+     * @param screenHeight Bottom of the screen, endpoint of the animation.
+     * @param duckPlayer The duckObject that manages the duck.
+     * @param duration Amount of time the platform falling animation will take.
+     * @param respawnDelay Amount of time between animations of the platform falling.
+     */
+    public AnimateAndDetectCollision(ImageView platform, int screenWidth, int screenHeight,
+                                     DuckPlayer duckPlayer, int duration, int respawnDelay){
         this.platform = platform;
         this.screenWidth = screenWidth;
         this.screenHeight = screenHeight;
         this.duckPlayer = duckPlayer;
         this.duration = duration;
         this.respawnDelay = respawnDelay;
-        this.soundEffect = new SoundManager(platform.getContext());
-
-        startFallAnimation(); // Initial platform animation before the delayed ones
-        // Schedule next animations and respawns in a loop
         platformHandler.postDelayed(platformRunnable, respawnDelay);
-        collisionHandler.postDelayed(collisionChecker, 100);
+
     }
 
     /**
@@ -51,9 +64,9 @@ public class PlatformManager {
      * It works by moving the platform to a coordinate above the screen and then moving
      * the platform to a random x coordinate within the screen width.
      */
-    public void respawn(){ //TODO: still respawning off screen
-        int randomX = randomInt.nextInt(screenWidth - platform.getWidth()); // Random x coordinate minus width so doesn't spawn off screen to left
-        platform.setX(randomX);                                             // And plus width so doesn't spawn off screen to the right
+    public void respawn(){
+        int randomX = randomInt.nextInt(screenWidth - platform.getWidth()); // Random x coordinate minus width so doesn't spawn off screen to the right
+        platform.setX(randomX);
 
         // Set y coordinate above the screen, above the screen is negative
         platform.setY(-100);
@@ -80,28 +93,6 @@ public class PlatformManager {
         }
     };
 
-    /**
-     * This runnable is checking for collission repeatedly until the game ends.
-     * It uses the checkCollision method for collision, if collision is detected
-     * the duck will jump and a the quack sound effect is played. It stops when
-     * stopRunnable is set to true which happens when the game ends. The runnable
-     * is set to a 100 milisecond delay so that when the duck goes up through a platform
-     * the delay isnt so short that the duck jumps or quaks a second time
-     */
-    Runnable collisionChecker = new Runnable(){
-        public void run(){
-            // Check for collision and if duck is too high
-            if (checkCollision() && duckPlayer.getDuckY() > 150){
-                // If yes run jump and play sound effect
-                soundEffect.playSound(R.raw.quack);
-                duckPlayer.jump();
-            }
-            // Continue the collision check if game hasn't ended
-            if(!stopRunnable){
-                collisionHandler.postDelayed(this, 100);
-            }
-        }
-    };
 
 
     /**
@@ -121,18 +112,20 @@ public class PlatformManager {
         int platformLeft = (int) platform.getX();
         int platformRight = platformLeft + platform.getWidth();
 
-        // If the top or bottom of the duck is between the top and bottom of the platform,
+        // If the top or bottom or middle of the duck is between the top and bottom of the platform,
         // and one of the sides of the duck is within the platforms side's,
         // return true to indicate collision
         return (duckBottomY >= platformTopY && duckBottomY <= platformBottomY ||
-                duckTopY <= platformBottomY && duckTopY >= platformTopY) &&
+                duckTopY <= platformBottomY && duckTopY >= platformTopY ||
+                duckBottomY + (duckPlayer.getDuckHeight()/2) >= platformTopY && duckBottomY + (duckPlayer.getDuckHeight()/2) <= platformBottomY ) &&
                 (duckLeft >= platformLeft && duckLeft <= platformRight ||
                         duckRight <= platformRight && duckRight >= platformRight);
 
     }
     /**
-     * Used to end the runables. This
-     * method is called in the endGame method in game manager.
+     * Used to end the runnables by setting the stopRunnable variable to true, this will make
+     * the repeat condition in the Runnables false so they will stop running.
+     * This method is called in the endGame method in game manager.
      */
     public void endRunnables(){
         stopRunnable = true;

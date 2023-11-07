@@ -4,13 +4,21 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.TextView;
 
 public class EndPage extends AppCompatActivity{
-
+    private TextView finalScoreTextView;
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_win_page);
+        finalScoreTextView = findViewById(R.id.finalScoreTextView);
+
+        // Retrieve the final score from the intent
+        int finalScore = getIntent().getIntExtra("finalScore", 0);
+
+        // Update the TextView with the final score
+        finalScoreTextView.setText("You win! Your score: " + finalScore);
 
     }
 

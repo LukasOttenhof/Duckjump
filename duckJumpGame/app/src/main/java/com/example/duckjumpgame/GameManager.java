@@ -7,6 +7,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -16,20 +17,28 @@ public class GameManager extends AppCompatActivity{
     private DuckPlayer duckPlayer;
     private Handler winHandler = new Handler();
     private boolean stopWinHandler = false;
+    private TextView scoreDisplay;
+    private int finalScore;
     int screenWidth;
     int screenHeight;
-    PlatformManager initialPlatform1;
-    PlatformManager initialPlatform2;
-    PlatformManager initialPlatform3;
-    PlatformManager hiddenPlatform1;
-    PlatformManager hiddenPlatform2;
-    PlatformManager hiddenPlatform3;
-    PlatformManager hiddenPlatform4;
-    PlatformManager hiddenPlatform5;
-    PlatformManager hiddenPlatform6;
-    public int score = 0; // Need way to implement score
+    AnimateAndDetectCollision initialPlatform1;
+    AnimateAndDetectCollision initialPlatform2;
+    AnimateAndDetectCollision initialPlatform3;
+    AnimateAndDetectCollision hiddenPlatform1;
+    AnimateAndDetectCollision hiddenPlatform2;
+    AnimateAndDetectCollision hiddenPlatform3;
+    AnimateAndDetectCollision hiddenPlatform4;
+    AnimateAndDetectCollision hiddenPlatform5;
+    AnimateAndDetectCollision hiddenPlatform6;
 
 
+    /**
+     * 
+     *
+     * @param savedInstanceState If the activity is being re-initialized after
+     *     previously being shut down then this Bundle contains the data it most
+     *     recently supplied in {@link #onSaveInstanceState}.  <b><i>Note: Otherwise it is null.</i></b>
+     */
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game_manager);
@@ -37,7 +46,8 @@ public class GameManager extends AppCompatActivity{
         // Get the player icon
         ImageView theDuck = findViewById(R.id.theDuck);
         ConstraintLayout background = findViewById(R.id.background);
-
+        //getting the TextView for displaying score so we can change it
+        scoreDisplay = findViewById(R.id.scoreNum);
         // Getting screen width so there is a max on how far left and right the player icon can move
         this.screenWidth = getResources().getDisplayMetrics().widthPixels;
         this.screenHeight = getResources().getDisplayMetrics().heightPixels;
@@ -102,17 +112,17 @@ public class GameManager extends AppCompatActivity{
 
         // These platforms are the ones that start on the screen. Dont want them to respawn on screen so make delay huge
 
-        initialPlatform1 = new PlatformManager(platform1, screenWidth, screenHeight, duckPlayer, 4000, 100000);
-        initialPlatform2 = new PlatformManager(platform2, screenWidth, screenHeight, duckPlayer, 3000, 100000);
-        initialPlatform3 = new PlatformManager(platform3, screenWidth, screenHeight, duckPlayer, 2000, 100000);
+        initialPlatform1 = new CreatePlatform(platform1, screenWidth, screenHeight, duckPlayer, 4000, 100000);
+        initialPlatform2 = new CreatePlatform(platform2, screenWidth, screenHeight, duckPlayer, 3000, 100000);
+        initialPlatform3 = new CreatePlatform(platform3, screenWidth, screenHeight, duckPlayer, 2000, 100000);
 
         // The rest of the platforms, they will respawn consistalnty throughout the game.
-        hiddenPlatform1 = new PlatformManager(TopPlatform1, screenWidth, screenHeight, duckPlayer, 6000, 6000);
-        hiddenPlatform2 = new PlatformManager(TopPlatform2, screenWidth, screenHeight, duckPlayer, 5000, 5000);
-        hiddenPlatform3 = new PlatformManager(TopPlatform3, screenWidth, screenHeight, duckPlayer, 5500, 5500);
-        hiddenPlatform4 = new PlatformManager(TopPlatform4, screenWidth, screenHeight, duckPlayer, 7000, 7000);
-        hiddenPlatform5 = new PlatformManager(TopPlatform5, screenWidth, screenHeight, duckPlayer, 10000, 10000);
-        hiddenPlatform6 = new PlatformManager(TopPlatform6, screenWidth, screenHeight, duckPlayer, 6000, 6000);
+        hiddenPlatform1 = new CreatePlatform(TopPlatform1, screenWidth, screenHeight, duckPlayer, 6000, 6000);
+        hiddenPlatform2 = new CreatePlatform(TopPlatform2, screenWidth, screenHeight, duckPlayer, 5000, 5000);
+        hiddenPlatform3 = new CreatePlatform(TopPlatform3, screenWidth, screenHeight, duckPlayer, 5500, 5500);
+        hiddenPlatform4 = new CreatePlatform(TopPlatform4, screenWidth, screenHeight, duckPlayer, 7000, 7000);
+        hiddenPlatform5 = new CreatePlatform(TopPlatform5, screenWidth, screenHeight, duckPlayer, 10000, 10000);
+        hiddenPlatform6 = new CreatePlatform(TopPlatform6, screenWidth, screenHeight, duckPlayer, 6000, 6000);
 
 
     }
@@ -133,14 +143,17 @@ public class GameManager extends AppCompatActivity{
         hiddenPlatform4.endRunnables();
         hiddenPlatform5.endRunnables();
         hiddenPlatform6.endRunnables();
+        finalScore = calculateAndDisplayScore();
         Intent intent = new Intent(this, EndPage.class);
+        intent.putExtra("finalScore", finalScore);
         startActivity(intent);
     }
 
 
     /**
      * Runnable is running every 100 milliseconds checking for game end condition
-     * which is when the DuckPlayer is below the screen bounds
+     * which is when the DuckPlayer is below the screen bounds. It also updates the score
+     * that the user has by setting the score display to the calculated score.
      *
      * Learned how to use runnable and handlers from examples online
      */
@@ -151,6 +164,7 @@ public class GameManager extends AppCompatActivity{
                 endGame();
                 return;
             }
+            calculateAndDisplayScore();
             // If the game hasn't ended continue
             if(!stopWinHandler){
                 winHandler.postDelayed(this, 100); //execute again in 100 millis
@@ -158,4 +172,22 @@ public class GameManager extends AppCompatActivity{
         }
     };
 
+    /**
+     * This method calculates and displays the score by first caluclating the score, this is done
+     * by multiplying the platforms touched by the coins collected, unless coins collected = 0
+     * because we dont want to have a score of 0. It then updates the displayed score by setting
+     * the TextView that displays the score to be the score that was calculated. It is called when
+     * the duck makes collision since score is based off of the score being updated.
+     */
+    public int calculateAndDisplayScore(){
+        int score;
+        if(duckPlayer.getCoinsCollected() != 0){
+            score = duckPlayer.getCoinsCollected() * duckPlayer.getPlatformsTouched() + duckPlayer.getScoreDistance();
+        }
+        else{
+            score = duckPlayer.getPlatformsTouched() + duckPlayer.getScoreDistance();
+        }
+        scoreDisplay.setText(String.valueOf(score));
+        return score;
+    }
 }
