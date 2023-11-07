@@ -2,18 +2,20 @@ package com.example.duckjumpgame;
 
 import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity{
-
+    private SoundManager soundEffect;
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        soundEffect = new SoundManager(this);
+        soundEffect.loopSound(R.raw.main_theme);
     }
     // This method will be called when the play button is clicked
 
@@ -27,6 +29,7 @@ public class MainActivity extends AppCompatActivity{
         // Start game when the button is clicked
         Intent intent = new Intent(this, GameManager.class);
         startActivity(intent);
+        soundEffect.stopSound();
     }
 
 
