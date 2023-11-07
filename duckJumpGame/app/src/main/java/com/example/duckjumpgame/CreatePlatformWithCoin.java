@@ -1,13 +1,15 @@
 package com.example.duckjumpgame;
 
 import android.os.Handler;
+import android.view.View;
 import android.widget.ImageView;
 
-public class CreateHazard extends AnimateAndDetectCollision {
+public class CreatePlatformWithCoin extends AnimateAndDetectCollision {
     private Handler collisionHandler = new Handler();
     private DuckPlayer duckPlayer;
-    private GameManager theGame;
-
+    private SoundManager soundEffect;
+    private ImageView theCoin;
+    private boolean coinIsCollected = false;
     /**
      * In the constructor the collision handler is called so that collision
      * will start to be detected.
@@ -18,32 +20,38 @@ public class CreateHazard extends AnimateAndDetectCollision {
      * @param duckPlayer The duckObject that manages the duck.
      * @param duration Amount of time the platform falling animation will take.
      * @param respawnDelay Amount of time between animations of the platform falling.
-     * @param theGame This is the game manager that is running the game, we need access to it here
-     * so that once collision is corrected.
      */
 
-    public CreateHazard(ImageView platform, int screenWidth, int screenHeight,
-                        DuckPlayer duckPlayer, int duration, int respawnDelay, GameManager theGame){
+    public CreatePlatformWithCoin(ImageView platform, int screenWidth, int screenHeight,
+                        DuckPlayer duckPlayer, int duration, int respawnDelay, ImageView theCoin){
+
         super(platform, screenWidth, screenHeight, duckPlayer, duration, respawnDelay);
         this.duckPlayer = duckPlayer;
+        this.soundEffect = new SoundManager(platform.getContext());
         collisionHandler.postDelayed(collisionChecker, 100);
-        this.theGame = theGame;
-        startFallAnimation(); // Initial hazard animation before the delayed ones
-        // Schedule next animations and respawns in a loop
+        this.theCoin = theCoin;
+
     }
 
     /**
      * This runnable is checking for collision repeatedly until the game ends.
      * It uses the checkCollision method for collision, if collision is detected
-     * the endGame function in game manager will be called ending the game.
+     * we set the coin to be invisable, update number of coins collected and make the coin
+     * invisable.
      */
     Runnable collisionChecker = new Runnable(){
         public void run(){
             // Check for collision and if duck is too high
             if (checkCollision() && duckPlayer.getDuckY() > 150){
                 // If yes run jump and play sound effect
-                theGame.endGame();
-
+                soundEffect.playSound(R.raw.quack);
+                duckPlayer.jump();
+                if(!coinIsCollected){
+                    theCoin.setVisibility(View.INVISIBLE);
+                    int newCoinAmount = duckPlayer.getCoinsCollected() + 1;
+                    duckPlayer.setCoinsCollected(newCoinAmount);
+                    coinIsCollected = true;
+                }
             }
             // Continue the collision check if game hasn't ended
             if(!stopRunnable){

@@ -14,7 +14,7 @@ public class DuckPlayer{
 
     private ImageView theDuck;
     private int screenHeight;
-    int coinsCollected = 0;
+    private int coinsCollected = 0;
     private int platformsTouched = 0;
     private int scoreDistance;
 
@@ -109,6 +109,7 @@ public class DuckPlayer{
         return theDuck.getHeight();
     }
 
+
     // Following are used to update duck location during on touch
 
     public ViewGroup.MarginLayoutParams getDuckLayoutParams(){
@@ -126,6 +127,9 @@ public class DuckPlayer{
         return coinsCollected;
     }
 
+    public void setCoinsCollected(int newNumberOfCoins){
+        coinsCollected = newNumberOfCoins;
+    }
 
     /**
      * Handles the initial bounce animation of the DuckPlayer on collision. After the

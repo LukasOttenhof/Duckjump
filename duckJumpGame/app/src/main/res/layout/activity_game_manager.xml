@@ -61,16 +61,26 @@
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@android:drawable/button_onoff_indicator_off" />
 
+    <!-- This is the image view for the coin -->
+    <ImageView
+        android:id="@+id/coin"
+        android:layout_width="78dp"
+        android:layout_height="68dp"
+        android:layout_marginStart="168dp"
+        android:layout_marginTop="-160dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/coin" />
     <ImageView
         android:id="@+id/platformTop2"
         android:layout_width="93dp"
         android:layout_height="71dp"
-        android:layout_marginStart="156dp"
-        android:layout_marginTop="-100dp"
+        android:layout_marginStart="160dp"
+        android:layout_marginTop="-120dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@android:drawable/button_onoff_indicator_off" />
-
+    <!-- This is the image view for the coin -->
     <ImageView
         android:id="@+id/platformTop3"
         android:layout_width="93dp"
@@ -160,5 +170,8 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/bird" />
+
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

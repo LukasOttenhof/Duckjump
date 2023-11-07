@@ -29,8 +29,8 @@ public class GameManager extends AppCompatActivity{
     AnimateAndDetectCollision hiddenPlatform3;
     AnimateAndDetectCollision hiddenPlatform4;
     AnimateAndDetectCollision hiddenPlatform5;
-    AnimateAndDetectCollision hiddenPlatform6;
-
+    CreatePlatformWithCoin coinPlatform;
+    AnimateAndDetectCollision animateCoin;
 
     /**
      * 
@@ -63,6 +63,8 @@ public class GameManager extends AppCompatActivity{
         // Start check for win
         winHandler.postDelayed(winChecker, 100);
 
+        // Start the platform with coin and hazard
+        manageCoinAndHazard();
         // Adding touch listener to move duck
         background.setOnTouchListener(new View.OnTouchListener(){
             @Override
@@ -70,12 +72,6 @@ public class GameManager extends AppCompatActivity{
                 return onTouchEvent(event);
             }
         });
-
-        // Create a hazard by getting the image we want to be a hazard and using it to make a
-        // hazard object.
-        ImageView hazardImage = findViewById(R.id.hazard);
-        initialPlatform1 = new CreateHazard(hazardImage, screenWidth, screenHeight, duckPlayer, 4000, 6000, this);
-
     }
 
 
@@ -110,7 +106,6 @@ public class GameManager extends AppCompatActivity{
         ImageView platform3 = findViewById(R.id.platform3);
 
         ImageView TopPlatform1 = findViewById(R.id.platformTop1);
-        ImageView TopPlatform2 = findViewById(R.id.platformTop2);
         ImageView TopPlatform3 = findViewById(R.id.platformTop3);
         ImageView TopPlatform4 = findViewById(R.id.platformTop4);
         ImageView TopPlatform5 = findViewById(R.id.platformTop5);
@@ -124,13 +119,24 @@ public class GameManager extends AppCompatActivity{
 
         // The rest of the platforms, they will respawn consistalnty throughout the game.
         hiddenPlatform1 = new CreatePlatform(TopPlatform1, screenWidth, screenHeight, duckPlayer, 6000, 6000);
-        hiddenPlatform2 = new CreatePlatform(TopPlatform2, screenWidth, screenHeight, duckPlayer, 5000, 5000);
-        hiddenPlatform3 = new CreatePlatform(TopPlatform3, screenWidth, screenHeight, duckPlayer, 5500, 5500);
-        hiddenPlatform4 = new CreatePlatform(TopPlatform4, screenWidth, screenHeight, duckPlayer, 7000, 7000);
-        hiddenPlatform5 = new CreatePlatform(TopPlatform5, screenWidth, screenHeight, duckPlayer, 10000, 10000);
-        hiddenPlatform6 = new CreatePlatform(TopPlatform6, screenWidth, screenHeight, duckPlayer, 6000, 6000);
+        hiddenPlatform2 = new CreatePlatform(TopPlatform3, screenWidth, screenHeight, duckPlayer, 5500, 5500);
+        hiddenPlatform3 = new CreatePlatform(TopPlatform4, screenWidth, screenHeight, duckPlayer, 7000, 7000);
+        hiddenPlatform4 = new CreatePlatform(TopPlatform5, screenWidth, screenHeight, duckPlayer, 10000, 10000);
+        hiddenPlatform5 = new CreatePlatform(TopPlatform6, screenWidth, screenHeight, duckPlayer, 6000, 6000);
+    }
 
+    private void manageCoinAndHazard(){
+        // Create a hazard by getting the image we want to be a hazard and using it to make a
+        // hazard object.
+        ImageView hazardImage = findViewById(R.id.hazard);
+        // For some reason if you make it its own AnimateAndDetectCollision it crashes
+        initialPlatform1 = new CreateHazard(hazardImage, screenWidth, screenHeight, duckPlayer, 4000, 6000, this);
 
+        // Creating the platform with a coin
+        ImageView TopPlatform2 = findViewById(R.id.platformTop2);
+        ImageView theCoin = findViewById(R.id.coin);
+        coinPlatform = new CreatePlatformWithCoin(TopPlatform2, screenWidth, screenHeight, duckPlayer, 5500, 5500, theCoin);
+        animateCoin = new AnimateAndDetectCollision(theCoin, screenWidth, screenHeight, duckPlayer, 5500, 5500);
     }
 
     /**
@@ -148,7 +154,9 @@ public class GameManager extends AppCompatActivity{
         hiddenPlatform3.endRunnables();
         hiddenPlatform4.endRunnables();
         hiddenPlatform5.endRunnables();
-        hiddenPlatform6.endRunnables();
+        coinPlatform.endRunnables();
+        animateCoin.endRunnables();
+
         finalScore = calculateAndDisplayScore();
         Intent intent = new Intent(this, EndPage.class);
         intent.putExtra("finalScore", finalScore);

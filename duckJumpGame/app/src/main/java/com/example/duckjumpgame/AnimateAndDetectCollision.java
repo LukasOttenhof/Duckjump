@@ -44,7 +44,8 @@ public class AnimateAndDetectCollision {
         this.duration = duration;
         this.respawnDelay = respawnDelay;
         platformHandler.postDelayed(platformRunnable, respawnDelay);
-
+        startFallAnimation(); // Initial animation before the delayed ones
+        // Schedule next animations and respawns in a loop
     }
 
     /**
