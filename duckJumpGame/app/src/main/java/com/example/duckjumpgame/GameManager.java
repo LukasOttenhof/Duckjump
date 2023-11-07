@@ -71,7 +71,8 @@ public class GameManager extends AppCompatActivity{
             }
         });
 
-        // Create a hazard
+        // Create a hazard by getting the image we want to be a hazard and using it to make a
+        // hazard object.
         ImageView hazardImage = findViewById(R.id.hazard);
         initialPlatform1 = new CreateHazard(hazardImage, screenWidth, screenHeight, duckPlayer, 4000, 6000, this);
 

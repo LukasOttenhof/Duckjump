@@ -20,25 +20,25 @@ public class CreateHazard extends AnimateAndDetectCollision {
      * @param duckPlayer The duckObject that manages the duck.
      * @param duration Amount of time the platform falling animation will take.
      * @param respawnDelay Amount of time between animations of the platform falling.
+     * @param theGame This is the game manager that is running the game, we need access to it here
+     * so that once collision is corrected.
      */
 
-    public CreateHazard(ImageView platform, int screenWidth, int screenHeight, DuckPlayer duckPlayer, int duration, int respawnDelay, GameManager theGame){
+    public CreateHazard(ImageView platform, int screenWidth, int screenHeight,
+                        DuckPlayer duckPlayer, int duration, int respawnDelay, GameManager theGame){
         super(platform, screenWidth, screenHeight, duckPlayer, duration, respawnDelay);
         this.duckPlayer = duckPlayer;
         this.soundEffect = new SoundManager(platform.getContext());
         collisionHandler.postDelayed(collisionChecker, 100);
         this.theGame = theGame;
-        startFallAnimation(); // Initial platform animation before the delayed ones
+        startFallAnimation(); // Initial hazard animation before the delayed ones
         // Schedule next animations and respawns in a loop
     }
 
     /**
      * This runnable is checking for collision repeatedly until the game ends.
      * It uses the checkCollision method for collision, if collision is detected
-     * the duck will jump and a the quack sound effect is played. It stops when
-     * stopRunnable is set to true which happens when the game ends. The runnable
-     * is set to a 100 millisecond delay so that when the duck goes up through a platform
-     * the delay isn't so short that the duck jumps or quacks a second time.
+     * the endGame function in game manager will be called ending the game.
      */
     Runnable collisionChecker = new Runnable(){
         public void run(){
