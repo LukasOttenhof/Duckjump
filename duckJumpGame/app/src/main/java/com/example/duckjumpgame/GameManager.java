@@ -21,17 +21,18 @@ public class GameManager extends AppCompatActivity{
     private int finalScore;
     int screenWidth;
     int screenHeight;
-    AnimateAndDetectCollision initialPlatform1;
-    AnimateAndDetectCollision initialPlatform2;
-    AnimateAndDetectCollision initialPlatform3;
-    AnimateAndDetectCollision hiddenPlatform1;
-    AnimateAndDetectCollision hiddenPlatform2;
-    AnimateAndDetectCollision hiddenPlatform3;
-    AnimateAndDetectCollision hiddenPlatform4;
-    AnimateAndDetectCollision hiddenPlatform5;
+    CreatePlatform initialPlatform1;
+    CreatePlatform initialPlatform2;
+    CreatePlatform initialPlatform3;
+    CreatePlatform hiddenPlatform1;
+    CreatePlatform hiddenPlatform2;
+    CreatePlatform hiddenPlatform3;
+    CreatePlatform hiddenPlatform4;
+    CreatePlatform hiddenPlatform5;
     CreatePlatformWithCoin coinPlatform;
     AnimateAndDetectCollision animateCoin;
 
+    CreateHazard hazardObject;
     /**
      * 
      *
@@ -130,7 +131,7 @@ public class GameManager extends AppCompatActivity{
         // hazard object.
         ImageView hazardImage = findViewById(R.id.hazard);
         // For some reason if you make it its own AnimateAndDetectCollision it crashes
-        initialPlatform1 = new CreateHazard(hazardImage, screenWidth, screenHeight, duckPlayer, 4000, 6000, this);
+        hazardObject = new CreateHazard(hazardImage, screenWidth, screenHeight, duckPlayer, 4000, 6000, this);
 
         // Creating the platform with a coin
         ImageView TopPlatform2 = findViewById(R.id.platformTop2);
@@ -156,6 +157,7 @@ public class GameManager extends AppCompatActivity{
         hiddenPlatform5.endRunnables();
         coinPlatform.endRunnables();
         animateCoin.endRunnables();
+        hazardObject.endRunnables();
 
         finalScore = calculateAndDisplayScore();
         Intent intent = new Intent(this, EndPage.class);
@@ -188,16 +190,14 @@ public class GameManager extends AppCompatActivity{
 
     /**
      * This method calculates and displays the score by first caluclating the score, this is done
-     * by multiplying the platforms touched by the coins collected, unless coins collected = 0
-     * because we dont want to have a score of 0. It then updates the displayed score by setting
-     * the TextView that displays the score to be the score that was calculated. It is called when
-     * the duck makes collision since score is based off of the score being updated.
+     * by multiplying the platforms touched by the coins collected.
+     * It then updates the displayed score by setting the TextView that displays the score to be
+     * the score that was calculated. It is called when the duck makes collision since score is
+     * based off of the score being updated.
      */
     public int calculateAndDisplayScore(){
         int score;
-
         score = duckPlayer.getCoinsCollected() * (duckPlayer.getPlatformsTouched() + duckPlayer.getScoreDistance());
-
         scoreDisplay.setText(String.valueOf(score));
         return score;
     }
