@@ -11,7 +11,7 @@ public class EndPage extends AppCompatActivity{
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_win_page);
+        setContentView(R.layout.activity_end_page);
         finalScoreTextView = findViewById(R.id.finalScoreTextView);
 
         // Retrieve the final score from the intent
