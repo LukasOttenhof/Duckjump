@@ -70,6 +70,11 @@ public class GameManager extends AppCompatActivity{
                 return onTouchEvent(event);
             }
         });
+
+        // Create a hazard
+        ImageView hazardImage = findViewById(R.id.hazard);
+        initialPlatform1 = new CreateHazard(hazardImage, screenWidth, screenHeight, duckPlayer, 4000, 6000, this);
+
     }
 
 
