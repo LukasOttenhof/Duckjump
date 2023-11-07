@@ -34,7 +34,7 @@ public class SoundManager {
             mediaPlayer = MediaPlayer.create(currentContext, soundEffect);
         }
         // On completion, stop sound effect and reset mediaPlayer
-        mediaPlayer.setOnCompletionListener(mediaPlayer -> stopQuack());
+        mediaPlayer.setOnCompletionListener(mediaPlayer -> stopSound());
         mediaPlayer.start();
     }
 
@@ -42,11 +42,27 @@ public class SoundManager {
      * Handles the stopping of the quack sound effect and releases the mediaPlayer.
      * Is called by the quack function and OnCompletionListener.
      */
-    protected void stopQuack(){
+    protected void stopSound(){
         if(mediaPlayer != null){
             mediaPlayer.release();
             mediaPlayer = null;
         }
+    }
+
+    /**
+     * Similar to playSound however it is looping and does not end on completion,
+     * instance will have to call stopSound() to stop.
+     *
+     * @param soundEffect - The resource ID for the sound effect. ex. "R.raw.quack"
+     *                      this way we only need the one function to play any sound effect
+     */
+    public void loopSound(int soundEffect){
+        if(mediaPlayer == null){
+            mediaPlayer = MediaPlayer.create(currentContext, soundEffect);
+        }
+        // On completion, stop sound effect and reset mediaPlayer
+        mediaPlayer.start();
+        mediaPlayer.setLooping(true);
     }
 
 }
