@@ -136,6 +136,8 @@ public class GameManager extends AppCompatActivity{
         // Creating the platform with a coin
         ImageView TopPlatform2 = findViewById(R.id.platformTop2);
         ImageView theCoin = findViewById(R.id.coin);
+
+        //MAKE RESPAWN LONGER IN ACTUAL GAME, IT IS FAST NOW FOR TESTING
         coinPlatform = new CreatePlatformWithCoin(TopPlatform2, screenWidth, screenHeight, duckPlayer, 5500, 5500, theCoin);
         animateCoin = new AnimateAndDetectCollision(theCoin, screenWidth, screenHeight, duckPlayer, 5500, 5500);
     }
