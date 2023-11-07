@@ -9,7 +9,8 @@ public class CreatePlatformWithCoin extends AnimateAndDetectCollision {
     private DuckPlayer duckPlayer;
     private SoundManager soundEffect;
     private ImageView theCoin;
-    private boolean coinIsCollected = false;
+    private ImageView platform;
+
     /**
      * In the constructor the collision handler is called so that collision
      * will start to be detected.
@@ -27,6 +28,7 @@ public class CreatePlatformWithCoin extends AnimateAndDetectCollision {
 
         super(platform, screenWidth, screenHeight, duckPlayer, duration, respawnDelay);
         this.duckPlayer = duckPlayer;
+        this.platform = platform;
         this.soundEffect = new SoundManager(platform.getContext());
         collisionHandler.postDelayed(collisionChecker, 100);
         this.theCoin = theCoin;
@@ -41,6 +43,9 @@ public class CreatePlatformWithCoin extends AnimateAndDetectCollision {
      */
     Runnable collisionChecker = new Runnable(){
         public void run(){
+            theCoin.setX(platform.getX() );//setting the coin and platform to the same x
+            //so that even though they respawn randomly they will be put together
+
             // Check for collision and if duck is too high
             if (checkCollision() && duckPlayer.getDuckY() > 150){
                 // If yes run jump and play sound effect
@@ -50,7 +55,7 @@ public class CreatePlatformWithCoin extends AnimateAndDetectCollision {
                     theCoin.setVisibility(View.INVISIBLE);
                     int newCoinAmount = duckPlayer.getCoinsCollected() + 1;
                     duckPlayer.setCoinsCollected(newCoinAmount);
-                    coinIsCollected = true;
+                    coinIsCollected = true; //need a way to turn this false when respawning
                 }
             }
             // Continue the collision check if game hasn't ended

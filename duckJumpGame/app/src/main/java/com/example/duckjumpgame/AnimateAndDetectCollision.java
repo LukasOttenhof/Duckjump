@@ -2,6 +2,7 @@ package com.example.duckjumpgame;
 
 import android.animation.ObjectAnimator;
 import android.os.Handler;
+import android.view.View;
 import android.view.animation.AccelerateInterpolator;
 import android.widget.ImageView;
 import java.util.Random;
@@ -17,27 +18,29 @@ public class AnimateAndDetectCollision {
     private int screenWidth;
     private int screenHeight;
     protected Boolean stopRunnable = false; // Used to stop Runnables when game ends
-    private ImageView platform;
+    private ImageView imageToAnimate;
     private DuckPlayer duckPlayer;
     private int duration;
     private int respawnDelay;
     private Handler platformHandler = new Handler();
     private Random randomInt = new Random();
 
+    protected boolean coinIsCollected = false; // Used if object that is inhereting uses coin
+    //and needs it to be functional once respawned
     /**
      * In the constructor the variables will be set to the values of the parameters and the
      * platformHandler will be called starting the animation loop.
      *
-     * @param platform The Imageview of the platform that is being animated.
+     * @param imageToAnimate The Imageview of the platform that is being animated.
      * @param screenWidth Maximum width the platform can respawn at.
      * @param screenHeight Bottom of the screen, endpoint of the animation.
      * @param duckPlayer The duckObject that manages the duck.
      * @param duration Amount of time the platform falling animation will take.
      * @param respawnDelay Amount of time between animations of the platform falling.
      */
-    public AnimateAndDetectCollision(ImageView platform, int screenWidth, int screenHeight,
+    public AnimateAndDetectCollision(ImageView imageToAnimate, int screenWidth, int screenHeight,
                                      DuckPlayer duckPlayer, int duration, int respawnDelay){
-        this.platform = platform;
+        this.imageToAnimate = imageToAnimate;
         this.screenWidth = screenWidth;
         this.screenHeight = screenHeight;
         this.duckPlayer = duckPlayer;
@@ -53,8 +56,8 @@ public class AnimateAndDetectCollision {
      * platforms y value and makes it move to below the screen height.
      */
     public void startFallAnimation(){
-        int originalY = (int)platform.getY();
-        ObjectAnimator fallAnimator = ObjectAnimator.ofFloat(platform, "translationY", originalY, screenHeight+400);
+        int originalY = (int)imageToAnimate.getY();
+        ObjectAnimator fallAnimator = ObjectAnimator.ofFloat(imageToAnimate, "translationY", originalY, screenHeight+400);
         fallAnimator.setInterpolator(new AccelerateInterpolator()); //Makes the platform accelerate rather than have a constant speed
         fallAnimator.setDuration(duration);
         fallAnimator.start();
@@ -66,11 +69,12 @@ public class AnimateAndDetectCollision {
      * the platform to a random x coordinate within the screen width.
      */
     public void respawn(){
-        int randomX = randomInt.nextInt(screenWidth - platform.getWidth()); // Random x coordinate minus width so doesn't spawn off screen to the right
-        platform.setX(randomX);
+        int randomX = randomInt.nextInt(screenWidth - imageToAnimate.getWidth()); // Random x coordinate minus width so doesn't spawn off screen to the right
+        imageToAnimate.setX(randomX);
+        coinIsCollected = false;// If there was a coin to be collected, make it collectable again
 
         // Set y coordinate above the screen, above the screen is negative
-        platform.setY(-100);
+        imageToAnimate.setY(-100);
 
     }
 
@@ -86,6 +90,7 @@ public class AnimateAndDetectCollision {
         public void run() {
             // Trigger the next fall animation after respawn
             respawn();
+            imageToAnimate.setVisibility(View.VISIBLE);
             startFallAnimation();
             // Repeat the process if game hasn't ended
             if(!stopRunnable) {
@@ -106,12 +111,12 @@ public class AnimateAndDetectCollision {
     public boolean checkCollision(){
         int duckTopY = duckPlayer.getDuckY();
         int duckBottomY = duckPlayer.getDuckY() + duckPlayer.getDuckHeight();
-        int platformTopY = (int)platform.getY();
-        int platformBottomY = (int)platform.getY() + platform.getHeight();
+        int platformTopY = (int)imageToAnimate.getY();
+        int platformBottomY = (int)imageToAnimate.getY() + imageToAnimate.getHeight();
         int duckLeft = duckPlayer.getDuckX();
         int duckRight = duckLeft + duckPlayer.getDuckWidth();
-        int platformLeft = (int) platform.getX();
-        int platformRight = platformLeft + platform.getWidth();
+        int platformLeft = (int) imageToAnimate.getX();
+        int platformRight = platformLeft + imageToAnimate.getWidth();
 
         // If the top or bottom or middle of the duck is between the top and bottom of the platform,
         // and one of the sides of the duck is within the platforms side's,
