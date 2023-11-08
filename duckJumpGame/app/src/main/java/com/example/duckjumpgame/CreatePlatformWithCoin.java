@@ -38,8 +38,8 @@ public class CreatePlatformWithCoin extends AnimateAndDetectCollision {
     /**
      * This runnable is checking for collision repeatedly until the game ends.
      * It uses the checkCollision method for collision, if collision is detected
-     * we set the coin to be invisable, update number of coins collected and make the coin
-     * invisable.
+     * we set the coin to be invisible, update number of coins collected and it so the coin cant
+     * be collected again until after the coin has respawned.
      */
     Runnable collisionChecker = new Runnable(){
         public void run(){
@@ -51,16 +51,16 @@ public class CreatePlatformWithCoin extends AnimateAndDetectCollision {
                 // If yes run jump and play sound effect
                 soundEffect.playSound(R.raw.quack);
                 duckPlayer.jump();
-                if(!coinIsCollected){
+                // If coin is visible it hasn't been collected yet.
+                if(theCoin.getVisibility() == View.VISIBLE){
                     theCoin.setVisibility(View.INVISIBLE);
                     int newCoinAmount = duckPlayer.getCoinsCollected() + 1;
                     duckPlayer.setCoinsCollected(newCoinAmount);
-                    coinIsCollected = true; //need a way to turn this false when respawning
                 }
             }
             // Continue the collision check if game hasn't ended
             if(!stopRunnable){
-                collisionHandler.postDelayed(this, 100);
+                collisionHandler.postDelayed(this, 50);
             }
         }
     };

@@ -25,8 +25,6 @@ public class AnimateAndDetectCollision {
     private Handler platformHandler = new Handler();
     private Random randomInt = new Random();
 
-    protected boolean coinIsCollected = false; // Used if object that is inhereting uses coin
-    //and needs it to be functional once respawned
     /**
      * In the constructor the variables will be set to the values of the parameters and the
      * platformHandler will be called starting the animation loop.
@@ -71,7 +69,6 @@ public class AnimateAndDetectCollision {
     public void respawn(){
         int randomX = randomInt.nextInt(screenWidth - imageToAnimate.getWidth()); // Random x coordinate minus width so doesn't spawn off screen to the right
         imageToAnimate.setX(randomX);
-        coinIsCollected = false;// If there was a coin to be collected, make it collectable again
 
         // Set y coordinate above the screen, above the screen is negative
         imageToAnimate.setY(-100);
