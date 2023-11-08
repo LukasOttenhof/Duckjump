@@ -115,15 +115,16 @@ public class AnimateAndDetectCollision {
         int platformLeft = (int) imageToAnimate.getX();
         int platformRight = platformLeft + imageToAnimate.getWidth();
 
-        // If the top or bottom or middle of the duck is between the top and bottom of the platform,
-        // and one of the sides of the duck is within the platforms side's,
-        // return true to indicate collision
+        // The first part is checking if the top or bottom or middle of the duck is between the top
+        // and bottom of the platform, and the second is checking ig one of the sides of the duck is
+        // within the platforms side's, return true to indicate collision
         return (duckBottomY >= platformTopY && duckBottomY <= platformBottomY ||
                 duckTopY <= platformBottomY && duckTopY >= platformTopY ||
-                duckBottomY + (duckPlayer.getDuckHeight()/2) >= platformTopY && duckBottomY + (duckPlayer.getDuckHeight()/2) <= platformBottomY ) &&
+                duckBottomY + (duckPlayer.getDuckHeight()/2) >= platformTopY && duckBottomY +
+                        (duckPlayer.getDuckHeight()/2) <= platformBottomY ) &&
+
                 (duckLeft >= platformLeft && duckLeft <= platformRight ||
                         duckRight <= platformRight && duckRight >= platformRight);
-
     }
     /**
      * Used to end the runnables by setting the stopRunnable variable to true, this will make
