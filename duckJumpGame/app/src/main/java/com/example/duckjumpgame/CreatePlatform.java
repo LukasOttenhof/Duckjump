@@ -49,7 +49,7 @@ public class CreatePlatform extends AnimateAndDetectCollision {
             }
             // Continue the collision check if game hasn't ended
             if(!stopRunnable){
-                collisionHandler.postDelayed(this, 100);
+                collisionHandler.postDelayed(this, 25);
             }
         }
     };

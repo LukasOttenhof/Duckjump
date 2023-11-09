@@ -25,8 +25,6 @@ public class AnimateAndDetectCollision {
     private Handler platformHandler = new Handler();
     private Random randomInt = new Random();
 
-    protected boolean coinIsCollected = false; // Used if object that is inhereting uses coin
-    //and needs it to be functional once respawned
     /**
      * In the constructor the variables will be set to the values of the parameters and the
      * platformHandler will be called starting the animation loop.
@@ -71,7 +69,6 @@ public class AnimateAndDetectCollision {
     public void respawn(){
         int randomX = randomInt.nextInt(screenWidth - imageToAnimate.getWidth()); // Random x coordinate minus width so doesn't spawn off screen to the right
         imageToAnimate.setX(randomX);
-        coinIsCollected = false;// If there was a coin to be collected, make it collectable again
 
         // Set y coordinate above the screen, above the screen is negative
         imageToAnimate.setY(-100);
@@ -118,15 +115,16 @@ public class AnimateAndDetectCollision {
         int platformLeft = (int) imageToAnimate.getX();
         int platformRight = platformLeft + imageToAnimate.getWidth();
 
-        // If the top or bottom or middle of the duck is between the top and bottom of the platform,
-        // and one of the sides of the duck is within the platforms side's,
-        // return true to indicate collision
+        // The first part is checking if the top or bottom or middle of the duck is between the top
+        // and bottom of the platform, and the second is checking ig one of the sides of the duck is
+        // within the platforms side's, return true to indicate collision
         return (duckBottomY >= platformTopY && duckBottomY <= platformBottomY ||
                 duckTopY <= platformBottomY && duckTopY >= platformTopY ||
-                duckBottomY + (duckPlayer.getDuckHeight()/2) >= platformTopY && duckBottomY + (duckPlayer.getDuckHeight()/2) <= platformBottomY ) &&
+                duckBottomY + (duckPlayer.getDuckHeight()/2) >= platformTopY && duckBottomY +
+                        (duckPlayer.getDuckHeight()/2) <= platformBottomY ) &&
+
                 (duckLeft >= platformLeft && duckLeft <= platformRight ||
                         duckRight <= platformRight && duckRight >= platformRight);
-
     }
     /**
      * Used to end the runnables by setting the stopRunnable variable to true, this will make
