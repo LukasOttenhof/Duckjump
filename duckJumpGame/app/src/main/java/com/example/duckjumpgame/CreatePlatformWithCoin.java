@@ -43,11 +43,12 @@ public class CreatePlatformWithCoin extends AnimateAndDetectCollision {
      */
     Runnable collisionChecker = new Runnable(){
         public void run(){
+            int maxHeight = 150; // We wont let the duck jump if it is higher than this
             theCoin.setX(platform.getX() );//setting the coin and platform to the same x
             //so that even though they respawn randomly they will be put together
 
             // Check for collision and if duck is too high
-            if (checkCollision() && duckPlayer.getDuckY() > 150){
+            if (checkCollision() && duckPlayer.getDuckY() > maxHeight){
                 // If yes run jump and play sound effect
                 soundEffect.playSound(R.raw.quack);
                 duckPlayer.jump();

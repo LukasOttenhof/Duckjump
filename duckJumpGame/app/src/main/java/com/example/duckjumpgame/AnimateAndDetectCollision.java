@@ -115,16 +115,21 @@ public class AnimateAndDetectCollision {
         int platformLeft = (int) imageToAnimate.getX();
         int platformRight = platformLeft + imageToAnimate.getWidth();
 
-        // The first part is checking if the top or bottom or middle of the duck is between the top
-        // and bottom of the platform, and the second is checking ig one of the sides of the duck is
-        // within the platforms side's, return true to indicate collision
-        return (duckBottomY >= platformTopY && duckBottomY <= platformBottomY ||
-                duckTopY <= platformBottomY && duckTopY >= platformTopY ||
-                duckBottomY + (duckPlayer.getDuckHeight()/2) >= platformTopY && duckBottomY +
-                        (duckPlayer.getDuckHeight()/2) <= platformBottomY ) &&
+        // First create booleans that eveluate to true if there is vertical overlap
+        boolean topCollision = duckTopY <= platformBottomY && duckTopY >= platformTopY;
+        boolean bottomCollision = duckBottomY >= platformTopY && duckBottomY <= platformBottomY;
+        boolean middleCollision = (duckBottomY + duckPlayer.getDuckHeight()/2) >= platformTopY && (duckBottomY +
+                (duckPlayer.getDuckHeight()/2) <= platformBottomY);
 
-                (duckLeft >= platformLeft && duckLeft <= platformRight ||
-                        duckRight <= platformRight && duckRight >= platformRight);
+        // Next create booleans that evaluate to true if there is horizontal overlap
+        boolean leftCollision = duckLeft >= platformLeft && duckLeft <= platformRight;
+        boolean rightCollision = duckRight >= platformLeft && duckRight <= platformRight;
+
+        // Return true if there is vertical overlap and horizontal overlap to indicate collision
+        return (topCollision || bottomCollision || middleCollision) && (leftCollision || rightCollision);
+
+
+
     }
     /**
      * Used to end the runnables by setting the stopRunnable variable to true, this will make
