@@ -15,7 +15,7 @@ public class MainActivity extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         soundEffect = new SoundManager(this);
-        soundEffect.loopSound(R.raw.main_theme);
+        soundEffect.loopSound(R.raw.main_theme_2);
     }
     // This method will be called when the play button is clicked
 
