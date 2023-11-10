@@ -3,6 +3,7 @@ package com.example.duckjumpgame;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
+import android.view.MotionEvent;
 import android.view.ViewGroup;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.DecelerateInterpolator;
@@ -14,6 +15,7 @@ public class DuckPlayer{
 
     private ImageView theDuck;
     private int screenHeight;
+    private int screenWidth;
     private int coinsCollected = 1; // 1 By default so score wont be set back to 0
     private int platformsTouched = 0;
     private int scoreDistance;
@@ -22,11 +24,15 @@ public class DuckPlayer{
      *
      * @param theDuck ImageView of the duck, it is whats being animated in this class.
      * @param screenHeight This is the bottom of the screen, its what the animation will end at
-     * because the duck is trying to fall off of the screen.
+     *                     because the duck is trying to fall off of the screen.
+     * @param screenWidth This is used so that when moving the duck the limit of how far right the
+     *                    duck can go without falling off the screen is known.
      */
-    public DuckPlayer(ImageView theDuck, int screenHeight){
+    public DuckPlayer(ImageView theDuck, int screenHeight, int screenWidth){
         this.theDuck = theDuck;
         this.screenHeight = screenHeight;
+        this.screenWidth = screenWidth;
+        startBounceAnimation();
     }
 
     /**
@@ -152,5 +158,24 @@ public class DuckPlayer{
         jumpScore();
     }
 
-
+    /**
+     * This method is used to update the position of the duck, it is used when GameManager detects
+     * the player touching the background. It gets the x value where the player touched, if it is
+     * within the screen width, it will set the duck to this new x position.
+     * @param event
+     * @return true to the touch event to indicate that the event has finished
+     */
+    public boolean onTouchEvent(MotionEvent event) {
+        // Subtract to center duck on pointer
+        int newX = (int) event.getRawX() - getDuckWidth()/2;
+        // Getting duck params so we can change them
+        ViewGroup.MarginLayoutParams params = getDuckLayoutParams();
+        // Adding the change
+        // as long as the new location will be within the screen make the change
+        if (newX >= 0 && newX + getDuckWidth() <= screenWidth) {
+            params.leftMargin = newX;
+            setDuckLayoutParams(params);
+        }
+        return true;
+    }
 }

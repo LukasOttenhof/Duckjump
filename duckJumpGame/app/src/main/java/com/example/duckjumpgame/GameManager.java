@@ -17,10 +17,10 @@ public class GameManager extends AppCompatActivity{
     private DuckPlayer duckPlayer;
     private Handler winHandler = new Handler();
     private boolean stopWinHandler = false;
-    private TextView scoreDisplay;
+    private TextView scoreDisplay = findViewById(R.id.scoreNum);
     private int finalScore;
-    int screenWidth;
-    int screenHeight;
+    int screenWidth = getResources().getDisplayMetrics().widthPixels;
+    int screenHeight = getResources().getDisplayMetrics().heightPixels;
     CreatePlatform initialPlatform1;
     CreatePlatform initialPlatform2;
     CreatePlatform initialPlatform3;
@@ -31,10 +31,8 @@ public class GameManager extends AppCompatActivity{
     CreatePlatform hiddenPlatform5;
     CreatePlatformWithCoin coinPlatform;
     AnimateAndDetectCollision animateCoin;
-
     CreateHazard hazardObject;
     /**
-     * 
      *
      * @param savedInstanceState If the activity is being re-initialized after
      *     previously being shut down then this Bundle contains the data it most
@@ -47,17 +45,9 @@ public class GameManager extends AppCompatActivity{
         // Get the player icon
         ImageView theDuck = findViewById(R.id.theDuck);
         ConstraintLayout background = findViewById(R.id.background);
-        //getting the TextView for displaying score so we can change it
-        scoreDisplay = findViewById(R.id.scoreNum);
-        // Getting screen width so there is a max on how far left and right the player icon can move
-        this.screenWidth = getResources().getDisplayMetrics().widthPixels;
-        this.screenHeight = getResources().getDisplayMetrics().heightPixels;
 
         // Set up the DuckPlayer instance
-        duckPlayer = new DuckPlayer(theDuck, screenHeight);
-
-        // Start the bounce animation for the duck player
-        duckPlayer.startBounceAnimation();
+        duckPlayer = new DuckPlayer(theDuck, screenHeight, screenWidth);
 
         // Start the platform animation
         managePlatforms();
@@ -66,11 +56,13 @@ public class GameManager extends AppCompatActivity{
 
         // Start the platform with coin and hazard
         manageCoinAndHazard();
-        // Adding touch listener to move duck
+
+        // Setting up a touch listener for the background, when touch is detected, send this info
+        // to the backend, calling the onTouchEvent in duckPlayer
         background.setOnTouchListener(new View.OnTouchListener(){
             @Override
             public boolean onTouch(View v, MotionEvent event){
-                return onTouchEvent(event);
+                return duckPlayer.onTouchEvent(event);
             }
         });
     }
