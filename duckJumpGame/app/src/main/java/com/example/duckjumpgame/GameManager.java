@@ -16,11 +16,11 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 public class GameManager extends AppCompatActivity{
     private DuckPlayer duckPlayer;
     private Handler winHandler = new Handler();
-    private boolean stopWinHandler = false;
-    private TextView scoreDisplay = findViewById(R.id.scoreNum);
+    public boolean stopWinHandler = false;
+    private TextView scoreDisplay;
     private int finalScore;
-    int screenWidth = getResources().getDisplayMetrics().widthPixels;
-    int screenHeight = getResources().getDisplayMetrics().heightPixels;
+    private int screenWidth;
+    private int screenHeight;
     CreatePlatform initialPlatform1;
     CreatePlatform initialPlatform2;
     CreatePlatform initialPlatform3;
@@ -46,6 +46,9 @@ public class GameManager extends AppCompatActivity{
         ImageView theDuck = findViewById(R.id.theDuck);
         ConstraintLayout background = findViewById(R.id.background);
 
+        scoreDisplay = findViewById(R.id.scoreNum);
+        screenWidth = getResources().getDisplayMetrics().widthPixels;
+        screenHeight = getResources().getDisplayMetrics().heightPixels;
         // Set up the DuckPlayer instance
         duckPlayer = new DuckPlayer(theDuck, screenHeight, screenWidth);
 
