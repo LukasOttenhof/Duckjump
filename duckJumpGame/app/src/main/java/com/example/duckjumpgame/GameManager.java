@@ -18,6 +18,7 @@ public class GameManager extends AppCompatActivity{
     private Handler winHandler = new Handler();
     public boolean stopWinHandler = false;
     private TextView scoreDisplay;
+    private TextView coinDisplay;
     private int finalScore;
     private int screenWidth;
     private int screenHeight;
@@ -47,6 +48,7 @@ public class GameManager extends AppCompatActivity{
         ConstraintLayout background = findViewById(R.id.background);
 
         scoreDisplay = findViewById(R.id.scoreNum);
+        coinDisplay = findViewById(R.id.coinNum);
         screenWidth = getResources().getDisplayMetrics().widthPixels;
         screenHeight = getResources().getDisplayMetrics().heightPixels;
         // Set up the DuckPlayer instance
@@ -196,6 +198,7 @@ public class GameManager extends AppCompatActivity{
         int score;
         score = duckPlayer.getCoinsCollected() * (duckPlayer.getPlatformsTouched() + duckPlayer.getScoreDistance());
         scoreDisplay.setText(String.valueOf(score));
+        coinDisplay.setText(String.valueOf(duckPlayer.getCoinsCollected()-1));
         return score;
     }
 }
