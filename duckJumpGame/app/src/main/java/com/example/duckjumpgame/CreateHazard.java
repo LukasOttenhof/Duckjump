@@ -41,7 +41,7 @@ public class CreateHazard extends AnimateAndDetectCollision {
         public void run(){
             // Check for collision and if duck is too high
             if (checkCollision() && duckPlayer.getDuckY() > 150){
-                // If yes run jump and play sound effect
+                // If yes end game
                 theGame.endGame();
 
             }

@@ -152,7 +152,7 @@ public class AnimateAndDetectCollision {
 
     /**
      * This method is used to detect collision by comparing coordinates of the
-     * duck to coordinates of platforms. It is called continusly in the
+     * duck to coordinates of platforms. It is called continuously in the
      * collisionChecker runnable
      *
      * @return return true if the duck is on a platform
@@ -167,7 +167,7 @@ public class AnimateAndDetectCollision {
         int platformLeft = (int) imageToAnimate.getX();
         int platformRight = platformLeft + imageToAnimate.getWidth();
 
-        // First create booleans that eveluate to true if there is vertical overlap
+        // First create booleans that evaluate to true if there is vertical overlap
         boolean topCollision = duckTopY <= platformBottomY && duckTopY >= platformTopY;
         boolean bottomCollision = duckBottomY >= platformTopY && duckBottomY <= platformBottomY;
         boolean middleCollision = (duckBottomY + duckPlayer.getDuckHeight()/2) >= platformTopY && (duckBottomY +
@@ -190,7 +190,6 @@ public class AnimateAndDetectCollision {
      */
     public void endRunnables(){
         stopRunnable = true;
-
     }
 
 }

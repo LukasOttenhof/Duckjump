@@ -19,7 +19,6 @@ public class EndPage extends AppCompatActivity{
 
         // Update the TextView with the final score
         finalScoreTextView.setText("You win! Your score: " + finalScore);
-
     }
 
     public void enterMainMenu(View view){

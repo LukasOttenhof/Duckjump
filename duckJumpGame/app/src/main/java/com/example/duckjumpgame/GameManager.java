@@ -25,6 +25,7 @@ public class GameManager extends AppCompatActivity{
     private int finalScore;
     private int screenWidth;
     private int screenHeight;
+    private SoundManager soundEffect;
     CreatePlatform initialPlatform1;
     CreatePlatform initialPlatform2;
     CreatePlatform initialPlatform3;
@@ -45,6 +46,9 @@ public class GameManager extends AppCompatActivity{
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game_manager);
+
+        // Initialize the sound effect object to current context
+        soundEffect = new SoundManager(this);
 
         // Get the player icon
         ImageView theDuck = findViewById(R.id.theDuck);
@@ -203,6 +207,7 @@ public class GameManager extends AppCompatActivity{
      * while in the EndPage
      */
     public void endGame(){
+        soundEffect.playSound(R.raw.damage_sound);
         stopWinHandler = true;
         initialPlatform1.endRunnables();
         initialPlatform2.endRunnables();
