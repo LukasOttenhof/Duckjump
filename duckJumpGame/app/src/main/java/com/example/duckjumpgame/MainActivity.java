@@ -10,11 +10,14 @@ import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity{
     private SoundManager soundEffect;
+    private SoundManager buttonSoundEffect;
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         soundEffect = new SoundManager(this);
+        buttonSoundEffect = new SoundManager(this);
+
         soundEffect.loopSound(R.raw.main_theme_2);
     }
     // This method will be called when the play button is clicked
@@ -26,6 +29,7 @@ public class MainActivity extends AppCompatActivity{
      * @param view - Current View
      */
     public void startGame(View view){
+        buttonSoundEffect.playSound(R.raw.button_sound);
         // Start game when the button is clicked
         Intent intent = new Intent(this, GameManager.class);
         startActivity(intent);
@@ -43,6 +47,7 @@ public class MainActivity extends AppCompatActivity{
      * @param myView - Current View
      */
     public void openCredits(View myView){
+        buttonSoundEffect.playSound(R.raw.button_sound);
         TextView mainText = findViewById(R.id.mainText);
         Button playButton = findViewById(R.id.playButton);
         Button creditButton = findViewById(R.id.creditButton);
@@ -66,6 +71,7 @@ public class MainActivity extends AppCompatActivity{
      * @param myView - Current View
      */
     public void backToMain(View myView){
+        buttonSoundEffect.playSound(R.raw.button_sound);
         TextView mainText = findViewById(R.id.mainText);
         Button playButton = findViewById(R.id.playButton);
         Button creditButton = findViewById(R.id.creditButton);

@@ -34,6 +34,7 @@
         android:layout_marginTop="437dp"
         android:background="#d8863b"
         android:onClick="startGame"
+        android:soundEffectsEnabled="false"
         android:text="Play"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -46,6 +47,7 @@
         android:layout_marginTop="536dp"
         android:background="#d8863b"
         android:onClick="openCredits"
+        android:soundEffectsEnabled="false"
         android:text="Credits"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
