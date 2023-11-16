@@ -1,5 +1,6 @@
 package com.example.duckjumpgame;
 
+import android.animation.Animator;
 import android.animation.ObjectAnimator;
 import android.os.Handler;
 import android.view.View;
@@ -17,6 +18,9 @@ import java.util.Random;
 public class AnimateAndDetectCollision {
     private int screenWidth;
     private int screenHeight;
+
+    private Boolean isGamePaused = false;
+    private ObjectAnimator fallAnimator;
     protected Boolean stopRunnable = false; // Used to stop Runnables when game ends
     private ImageView imageToAnimate;
     private DuckPlayer duckPlayer;
@@ -53,15 +57,63 @@ public class AnimateAndDetectCollision {
      * Used to animate the platform ImageView. It starts the animation from the
      * platforms y value and makes it move to below the screen height.
      */
-    public void startFallAnimation(){
-        int originalY = (int)imageToAnimate.getY();
-        ObjectAnimator fallAnimator = ObjectAnimator.ofFloat(imageToAnimate, "translationY", originalY, screenHeight+400);
-        fallAnimator.setInterpolator(new AccelerateInterpolator()); //Makes the platform accelerate rather than have a constant speed
+    public void startFallAnimation() {
+        int originalY = (int) imageToAnimate.getY();
+        fallAnimator = ObjectAnimator.ofFloat(imageToAnimate, "translationY", originalY, screenHeight + 400);
+        fallAnimator.setInterpolator(new AccelerateInterpolator()); // Makes the platform accelerate rather than have a constant speed
         fallAnimator.setDuration(duration);
-        fallAnimator.start();
+
+        fallAnimator.addListener(new Animator.AnimatorListener() {
+            @Override
+            public void onAnimationStart(Animator animation) {
+                // Animation started
+            }
+
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                if (!stopRunnable && !isGamePaused) {
+                    startFallAnimation(); // Start a new animation loop
+                }
+            }
+
+            @Override
+            public void onAnimationCancel(Animator animation) {
+                // Animation canceled
+            }
+
+            @Override
+            public void onAnimationRepeat(Animator animation) {
+                // Animation repeated
+            }
+        });
+
+        if (!isGamePaused) {
+            fallAnimator.start();
+        }
+    }
+
+
+    //Pauses the Animation
+    public void pauseAnimation() {
+        isGamePaused = true;
+        if (fallAnimator != null && fallAnimator.isRunning()) {
+            fallAnimator.pause();
+        }
+        // Additional logic for pausing any ongoing animations or transitions
+    }
+
+    //Resumes the animation
+    public void resumeAnimation() {
+        isGamePaused = false;
+        if (fallAnimator != null && fallAnimator.isPaused()) {
+            fallAnimator.resume();
+        } else {
+            startFallAnimation(); // Adjust this method or add other animations as needed
+        }
     }
 
     /**
+     *
      * This method is used to reset the location of the platform after the animation.
      * It works by moving the platform to a coordinate above the screen and then moving
      * the platform to a random x coordinate within the screen width.

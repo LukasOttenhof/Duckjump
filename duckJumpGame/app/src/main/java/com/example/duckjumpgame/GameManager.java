@@ -6,6 +6,7 @@ import android.os.Handler;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -16,6 +17,8 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 public class GameManager extends AppCompatActivity{
     private DuckPlayer duckPlayer;
     private Handler winHandler = new Handler();
+
+    private boolean isGamePaused = false;
     public boolean stopWinHandler = false;
     private TextView scoreDisplay;
     private TextView coinDisplay;
@@ -53,7 +56,16 @@ public class GameManager extends AppCompatActivity{
         screenHeight = getResources().getDisplayMetrics().heightPixels;
         // Set up the DuckPlayer instance
         duckPlayer = new DuckPlayer(theDuck, screenHeight, screenWidth);
-
+        Button pauseButton = findViewById(R.id.pauseButton);
+        pauseButton.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if (event.getAction() == MotionEvent.ACTION_UP) {
+                    togglePause(v);
+                }
+                return true;
+            }
+        });
         // Start the platform animation
         managePlatforms();
         // Start check for win
@@ -72,17 +84,63 @@ public class GameManager extends AppCompatActivity{
         });
     }
 
+    public void togglePause(View view) {
+        if (isGamePaused) {
+            resumeGame();
+        } else {
+            pauseGame();
+        }
+    }
+
+    private void pauseGame() {
+        isGamePaused = true;
+
+        // Stop any ongoing animations or game logic here
+        // For example, stop the platform animations
+        duckPlayer.pauseAnimation();
+        initialPlatform1.pauseAnimation();
+        initialPlatform2.pauseAnimation();
+        initialPlatform3.pauseAnimation();
+        hiddenPlatform1.pauseAnimation();
+        hiddenPlatform2.pauseAnimation();
+        hiddenPlatform3.pauseAnimation();
+        hiddenPlatform4.pauseAnimation();
+        hiddenPlatform5.pauseAnimation();
+        coinPlatform.pauseAnimation();
+        animateCoin.pauseAnimation();
+        hazardObject.pauseAnimation();
+    }
+
+    private void resumeGame() {
+        isGamePaused = false;
+        // Resume any animations or game logic here
+        duckPlayer.resumeAnimation();
+        initialPlatform1.resumeAnimation();
+        initialPlatform2.resumeAnimation();
+        initialPlatform3.resumeAnimation();
+        hiddenPlatform1.resumeAnimation();
+        hiddenPlatform2.resumeAnimation();
+        hiddenPlatform3.resumeAnimation();
+        hiddenPlatform4.resumeAnimation();
+        hiddenPlatform5.resumeAnimation();
+        coinPlatform.resumeAnimation();
+        animateCoin.resumeAnimation();
+        hazardObject.resumeAnimation();
+    }
+
 
     public boolean onTouchEvent(MotionEvent event) {
-        // Subtract to center duck on pointer
-        int newX = (int) event.getRawX() - duckPlayer.getDuckWidth()/2;
-        // Getting duck params so we can change them
-        ViewGroup.MarginLayoutParams params = duckPlayer.getDuckLayoutParams();
-        // Adding the change
-        // as long as the new location will be within the screen make the change
-        if (newX >= 0 && newX + duckPlayer.getDuckWidth() <= screenWidth) {
-            params.leftMargin = newX;
-            duckPlayer.setDuckLayoutParams(params);
+        if (!isGamePaused) {
+            // Subtract to center duck on pointer
+            int newX = (int) event.getRawX() - duckPlayer.getDuckWidth() / 2;
+            // Getting duck params so we can change them
+            ViewGroup.MarginLayoutParams params = duckPlayer.getDuckLayoutParams();
+            // Adding the change
+            // as long as the new location will be within the screen make the change
+            if (newX >= 0 && newX + duckPlayer.getDuckWidth() <= screenWidth) {
+                params.leftMargin = newX;
+                duckPlayer.setDuckLayoutParams(params);
+            }
         }
         return true;
     }
@@ -172,20 +230,24 @@ public class GameManager extends AppCompatActivity{
      *
      * Learned how to use runnable and handlers from examples online
      */
-    Runnable winChecker = new Runnable(){
-        public void run(){
-            // Check for if duck is too low
-            if (duckPlayer.getDuckY() >= screenHeight){
-                endGame();
-                return;
+    Runnable winChecker = new Runnable() {
+        public void run() {
+            // Check if the game is not paused
+            if (!isGamePaused) {
+                // Check for if duck is too low
+                if (duckPlayer.getDuckY() >= screenHeight) {
+                    endGame();
+                    return;
+                }
+                calculateAndDisplayScore();
             }
-            calculateAndDisplayScore();
-            // If the game hasn't ended continue
-            if(!stopWinHandler){
-                winHandler.postDelayed(this, 100); //execute again in 100 millis
+            // If the game hasn't ended and is not paused, continue
+            if (!stopWinHandler) {
+                winHandler.postDelayed(this, 100); // execute again in 100 millis
             }
         }
     };
+
 
     /**
      * This method calculates and displays the score by first caluclating the score, this is done
