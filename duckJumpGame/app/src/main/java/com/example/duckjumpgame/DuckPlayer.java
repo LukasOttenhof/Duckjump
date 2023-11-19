@@ -13,14 +13,9 @@ import android.widget.ImageView;
 
 
 public class DuckPlayer{
-
     private ImageView theDuck;
     private int screenHeight;
 
-    private ValueAnimator jumpAnimator;
-
-    private ObjectAnimator bounceAnimator;
-    private boolean isGamePaused = false;
     private int screenWidth;
     private int coinsCollected = 1; // 1 By default so score wont be set back to 0
     private int platformsTouched = 0;
@@ -56,7 +51,7 @@ public class DuckPlayer{
         int jumpPeak = originalY - 150;
 
         // Create a ValueAnimator for jump and fall animation
-        jumpAnimator = ValueAnimator.ofFloat(originalY, jumpPeak);
+        ValueAnimator jumpAnimator = ValueAnimator.ofFloat(originalY, jumpPeak);
         jumpAnimator.setInterpolator(new DecelerateInterpolator()); // Start the duck speed fast and slow at top
         jumpAnimator.setDuration(jumpDuration/2);
         ValueAnimator fallAnimator = ValueAnimator.ofFloat(jumpPeak, screenHeight);
@@ -84,9 +79,9 @@ public class DuckPlayer{
         // animator set found at https://stackoverflow.com/questions/64744445/animatorset-stopping-when-playing-sequentially
         AnimatorSet animatorSet = new AnimatorSet();
         animatorSet.playSequentially(jumpAnimator, fallAnimator);
-        if (!isGamePaused) {
-            animatorSet.start();
-        }
+
+        animatorSet.start();
+
     }
 
 
@@ -147,23 +142,6 @@ public class DuckPlayer{
         coinsCollected = newNumberOfCoins;
     }
 
-
-    public void pauseAnimation() {
-        isGamePaused = true;
-        if (bounceAnimator != null && bounceAnimator.isRunning()) {
-            bounceAnimator.pause();
-        }
-        // Additional logic for pausing any ongoing animations or transitions
-    }
-
-    public void resumeAnimation() {
-        isGamePaused = false;
-        if (bounceAnimator != null && bounceAnimator.isPaused()) {
-            bounceAnimator.resume();
-        } else {
-            startBounceAnimation(); // Adjust this method or add other animations as needed
-        }
-    }
     /**
      * Handles the initial bounce animation of the DuckPlayer on collision. After the
      * initial bounce, the jump is handled by the jump() function. Initial bounce is higher
@@ -178,38 +156,12 @@ public class DuckPlayer{
         int originalY = (int) theDuck.getY();
         int initialJumpHeight = 800;
         int duration = 4000;
-
-        bounceAnimator = ObjectAnimator.ofFloat(theDuck, "translationY", originalY, originalY - initialJumpHeight, screenHeight);
+        ObjectAnimator bounceAnimator = ObjectAnimator.ofFloat(theDuck, "translationY", originalY, originalY - initialJumpHeight, screenHeight);
         bounceAnimator.setInterpolator(new LinearInterpolator());
         bounceAnimator.setDuration(duration);
 
-        bounceAnimator.addListener(new Animator.AnimatorListener() {
-            @Override
-            public void onAnimationStart(Animator animation) {
-                // Animation started
-            }
+        bounceAnimator.start();
 
-            @Override
-            public void onAnimationEnd(Animator animation) {
-                if (!isGamePaused) {
-                    startBounceAnimation(); // Start a new animation loop
-                }
-            }
-
-            @Override
-            public void onAnimationCancel(Animator animation) {
-                // Animation canceled
-            }
-
-            @Override
-            public void onAnimationRepeat(Animator animation) {
-                // Animation repeated
-            }
-        });
-
-        if (!isGamePaused) {
-            bounceAnimator.start();
-        }
         jumpScore();
     }
     /**
@@ -221,7 +173,7 @@ public class DuckPlayer{
      */
     public boolean onTouchEvent(MotionEvent event) {
         // Check if the game is not paused
-        if (!isGamePaused) {
+
             // Subtract to center duck on pointer
             int newX = (int) event.getRawX() - getDuckWidth() / 2;
             // Getting duck params so we can change them
@@ -232,7 +184,7 @@ public class DuckPlayer{
                 params.leftMargin = newX;
                 setDuckLayoutParams(params);
             }
-        }
+
         return true;
     }
 }
