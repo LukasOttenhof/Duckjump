@@ -9,7 +9,17 @@
     tools:context=".GameManager">
 
 
-
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="300dp"
+        android:layout_marginTop="16dp"
+        android:fontFamily="@font/alfa_slab_one"
+        android:text="Time:"
+        android:textSize="24sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
         android:id="@+id/platform2"
@@ -161,6 +171,18 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="100dp"
+        android:layout_marginTop="16dp"
+        android:fontFamily="@font/alfa_slab_one"
+        android:text="0"
+        android:textSize="24sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/timeNum"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="380dp"
         android:layout_marginTop="16dp"
         android:fontFamily="@font/alfa_slab_one"
         android:text="0"

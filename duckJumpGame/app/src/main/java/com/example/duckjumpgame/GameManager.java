@@ -3,23 +3,32 @@ package com.example.duckjumpgame;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
+
+import org.w3c.dom.Text;
 
 public class GameManager extends AppCompatActivity{
     private DuckPlayer duckPlayer;
     private Handler winHandler = new Handler();
     public boolean stopWinHandler = false;
     private TextView scoreDisplay;
-    private TextView coinDisplay;
+
+    private TextView timeDisplay;
     private int finalScore;
+
+    private boolean wasGameWon;
+    private int timePlayed = 0;
     private int screenWidth;
     private int screenHeight;
-    private SoundManager soundEffect;
     CreatePlatform initialPlatform1;
     CreatePlatform initialPlatform2;
     CreatePlatform initialPlatform3;
@@ -41,15 +50,12 @@ public class GameManager extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game_manager);
 
-        // Initialize the sound effect object to current context
-        soundEffect = new SoundManager(this);
-
         // Get the player icon
         ImageView theDuck = findViewById(R.id.theDuck);
         ConstraintLayout background = findViewById(R.id.background);
 
         scoreDisplay = findViewById(R.id.scoreNum);
-        coinDisplay = findViewById(R.id.coinNum);
+        timeDisplay = findViewById(R.id.timeNum);
         screenWidth = getResources().getDisplayMetrics().widthPixels;
         screenHeight = getResources().getDisplayMetrics().heightPixels;
         // Set up the DuckPlayer instance
@@ -59,6 +65,7 @@ public class GameManager extends AppCompatActivity{
         managePlatforms();
         // Start check for win
         winHandler.postDelayed(winChecker, 100);
+        winHandler.postDelayed((timeUpdater),100);
 
         // Start the platform with coin and hazard
         manageCoinAndHazard();
@@ -71,8 +78,27 @@ public class GameManager extends AppCompatActivity{
                 return duckPlayer.onTouchEvent(event);
             }
         });
+
+
+        // Run the while loop in a separate thread to avoid blocking the main UI thread
+        //This loop runs every second to add to the time played
+
     }
 
+
+    public boolean onTouchEvent(MotionEvent event) {
+        // Subtract to center duck on pointer
+        int newX = (int) event.getRawX() - duckPlayer.getDuckWidth()/2;
+        // Getting duck params so we can change them
+        ViewGroup.MarginLayoutParams params = duckPlayer.getDuckLayoutParams();
+        // Adding the change
+        // as long as the new location will be within the screen make the change
+        if (newX >= 0 && newX + duckPlayer.getDuckWidth() <= screenWidth) {
+            params.leftMargin = newX;
+            duckPlayer.setDuckLayoutParams(params);
+        }
+        return true;
+    }
 
 
     /**
@@ -131,8 +157,7 @@ public class GameManager extends AppCompatActivity{
      * If the runnables arent ended the quacking noise will continue
      * while in the EndPage
      */
-    public void endGame(){
-        soundEffect.playSound(R.raw.damage_sound);
+    public boolean endGame(boolean outCome){
         stopWinHandler = true;
         initialPlatform1.endRunnables();
         initialPlatform2.endRunnables();
@@ -145,11 +170,14 @@ public class GameManager extends AppCompatActivity{
         coinPlatform.endRunnables();
         animateCoin.endRunnables();
         hazardObject.endRunnables();
-
+        wasGameWon = outCome;
         finalScore = calculateAndDisplayScore();
         Intent intent = new Intent(this, EndPage.class);
         intent.putExtra("finalScore", finalScore);
+        intent.putExtra("wasGameWon", wasGameWon);
         startActivity(intent);
+
+        return wasGameWon;
     }
 
 
@@ -160,21 +188,42 @@ public class GameManager extends AppCompatActivity{
      *
      * Learned how to use runnable and handlers from examples online
      */
-    Runnable winChecker = new Runnable() {
-        public void run() {
-                // Check for if duck is too low
-                if (duckPlayer.getDuckY() >= screenHeight) {
-                    endGame();
-                    return;
-                }
-                calculateAndDisplayScore();
-
-            // If the game hasn't ended and is not paused, continue
-            if (!stopWinHandler) {
-                winHandler.postDelayed(this, 100); // execute again in 100 millis
+    Runnable winChecker = new Runnable(){
+        public void run(){
+            // Check for if duck is too low
+            if(timePlayed >= 180){
+                boolean winOutCome = true;
+                endGame(winOutCome);
+            }
+            else if (duckPlayer.getDuckY() >= screenHeight){
+                boolean winOutCome = false;
+                endGame(winOutCome);
+                return;
+            }
+            calculateAndDisplayScore();
+            // If the game hasn't ended continue
+            if(!stopWinHandler){
+                winHandler.postDelayed(this, 100); //execute again in 100 millis
             }
         }
     };
+
+    Runnable timeUpdater = new Runnable(){
+
+        public void run() {
+            // Your loop logic goes here
+            timePlayed +=1;
+            calculateAndDisplayTime();
+
+
+            // Schedule the Runnable to run again after 1 second
+            winHandler.postDelayed(this, 1000);
+        }
+    };
+
+
+
+
 
 
     /**
@@ -188,7 +237,14 @@ public class GameManager extends AppCompatActivity{
         int score;
         score = duckPlayer.getCoinsCollected() * (duckPlayer.getPlatformsTouched() + duckPlayer.getScoreDistance());
         scoreDisplay.setText(String.valueOf(score));
-        coinDisplay.setText(String.valueOf(duckPlayer.getCoinsCollected()-1));
         return score;
+    }
+
+    public void calculateAndDisplayTime(){
+        timeDisplay.setText(String.valueOf(timePlayed));
+
+
+
+
     }
 }

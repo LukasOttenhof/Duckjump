@@ -9,6 +9,8 @@ import android.widget.TextView;
 public class EndPage extends AppCompatActivity{
     private TextView finalScoreTextView;
     private SoundManager buttonSoundEffect;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
@@ -19,10 +21,16 @@ public class EndPage extends AppCompatActivity{
 
         // Retrieve the final score from the intent
         int finalScore = getIntent().getIntExtra("finalScore", 0);
+        boolean wasGameWon = getIntent().getBooleanExtra("wasGameWon",false);
 
-        // Update the TextView with the final score
-        finalScoreTextView.setText("You win! Your score: " + finalScore);
+        if (wasGameWon) {
+            finalScoreTextView.setText(" You Win!        Your Score:" + finalScore);
+        } else {
+            finalScoreTextView.setText(" You Lose.        Your Score:" + finalScore);
+        }
+
     }
+
 
     public void enterMainMenu(View view){
         buttonSoundEffect.playSound(R.raw.button_sound);
