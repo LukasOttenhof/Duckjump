@@ -20,12 +20,11 @@ public class GameManager extends AppCompatActivity{
     private DuckPlayer duckPlayer;
     private SoundManager soundEffect;
     private Handler winHandler = new Handler();
-    public boolean stopWinHandler = false;
+    public boolean stopRunnables = false;
     private TextView scoreDisplay;
-
     private TextView timeDisplay;
+    private TextView coinDisplay;
     private int finalScore;
-
     private boolean wasGameWon;
     private int timePlayed = 0;
     private int screenWidth;
@@ -59,6 +58,7 @@ public class GameManager extends AppCompatActivity{
 
         scoreDisplay = findViewById(R.id.scoreNum);
         timeDisplay = findViewById(R.id.timeNum);
+        coinDisplay = findViewById(R.id.coinNum);
         screenWidth = getResources().getDisplayMetrics().widthPixels;
         screenHeight = getResources().getDisplayMetrics().heightPixels;
         // Set up the DuckPlayer instance
@@ -82,25 +82,6 @@ public class GameManager extends AppCompatActivity{
             }
         });
 
-
-        // Run the while loop in a separate thread to avoid blocking the main UI thread
-        //This loop runs every second to add to the time played
-
-    }
-
-
-    public boolean onTouchEvent(MotionEvent event) {
-        // Subtract to center duck on pointer
-        int newX = (int) event.getRawX() - duckPlayer.getDuckWidth()/2;
-        // Getting duck params so we can change them
-        ViewGroup.MarginLayoutParams params = duckPlayer.getDuckLayoutParams();
-        // Adding the change
-        // as long as the new location will be within the screen make the change
-        if (newX >= 0 && newX + duckPlayer.getDuckWidth() <= screenWidth) {
-            params.leftMargin = newX;
-            duckPlayer.setDuckLayoutParams(params);
-        }
-        return true;
     }
 
 
@@ -139,6 +120,10 @@ public class GameManager extends AppCompatActivity{
         hiddenPlatform5 = new CreatePlatform(TopPlatform6, screenWidth, screenHeight, duckPlayer, 6000, 6000);
     }
 
+    /**
+     * This class initialized the hazard object and coin so that they
+     * will become animated and begin detecting collision.
+     */
     private void manageCoinAndHazard(){
         // Create a hazard by getting the image we want to be a hazard and using it to make a
         // hazard object.
@@ -159,10 +144,12 @@ public class GameManager extends AppCompatActivity{
      * Open the winPage when the game is over and end the runnables.
      * If the runnables arent ended the quacking noise will continue
      * while in the EndPage
+     *
+     * @return return if the game was won
      */
     public boolean endGame(boolean outCome){
         soundEffect.playSound(R.raw.damage_sound);
-        stopWinHandler = true;
+        stopRunnables = true;
         initialPlatform1.endRunnables();
         initialPlatform2.endRunnables();
         initialPlatform3.endRunnables();
@@ -188,7 +175,7 @@ public class GameManager extends AppCompatActivity{
     /**
      * Runnable is running every 100 milliseconds checking for game end condition
      * which is when the DuckPlayer is below the screen bounds. It also updates the score
-     * that the user has by setting the score display to the calculated score.
+     * and coins that the user has by calling calculateAndDisplayScore().
      *
      * Learned how to use runnable and handlers from examples online
      */
@@ -206,7 +193,7 @@ public class GameManager extends AppCompatActivity{
             }
             calculateAndDisplayScore();
             // If the game hasn't ended continue
-            if(!stopWinHandler){
+            if(!stopRunnables){
                 winHandler.postDelayed(this, 100); //execute again in 100 millis
             }
         }
@@ -219,36 +206,32 @@ public class GameManager extends AppCompatActivity{
             timePlayed +=1;
             calculateAndDisplayTime();
 
-
             // Schedule the Runnable to run again after 1 second
-            winHandler.postDelayed(this, 1000);
+            // Unless game has ended
+            if(!stopRunnables) {
+                winHandler.postDelayed(this, 1000);
+            }
         }
     };
-
-
-
-
 
 
     /**
      * This method calculates and displays the score by first caluclating the score, this is done
      * by multiplying the platforms touched by the coins collected.
      * It then updates the displayed score by setting the TextView that displays the score to be
-     * the score that was calculated. It is called when the duck makes collision since score is
+     * the score that was calculated. It also displays the number of coins collected
+     * by using getCoinsCollected. It is called when the duck makes collision since score is
      * based off of the score being updated.
      */
     public int calculateAndDisplayScore(){
         int score;
         score = duckPlayer.getCoinsCollected() * (duckPlayer.getPlatformsTouched() + duckPlayer.getScoreDistance());
         scoreDisplay.setText(String.valueOf(score));
+        coinDisplay.setText(String.valueOf(duckPlayer.getCoinsCollected() - 1));
         return score;
     }
 
     public void calculateAndDisplayTime(){
         timeDisplay.setText(String.valueOf(timePlayed));
-
-
-
-
     }
 }

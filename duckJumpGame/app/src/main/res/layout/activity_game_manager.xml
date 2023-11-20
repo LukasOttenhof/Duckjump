@@ -13,7 +13,7 @@
         android:id="@+id/textView3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="300dp"
+        android:layout_marginStart="276dp"
         android:layout_marginTop="16dp"
         android:fontFamily="@font/alfa_slab_one"
         android:text="Time:"
@@ -73,6 +73,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/coin" />
+
     <ImageView
         android:id="@+id/platformTop2"
         android:layout_width="93dp"
@@ -182,7 +183,7 @@
         android:id="@+id/timeNum"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="380dp"
+        android:layout_marginStart="356dp"
         android:layout_marginTop="16dp"
         android:fontFamily="@font/alfa_slab_one"
         android:text="0"
@@ -212,8 +213,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/bird" />
-
-
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

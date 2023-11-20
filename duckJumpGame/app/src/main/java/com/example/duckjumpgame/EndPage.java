@@ -24,9 +24,9 @@ public class EndPage extends AppCompatActivity{
         boolean wasGameWon = getIntent().getBooleanExtra("wasGameWon",false);
 
         if (wasGameWon) {
-            finalScoreTextView.setText(" You Win!        Your Score:" + finalScore);
+            finalScoreTextView.setText(" You Win!        Your Score: " + finalScore);
         } else {
-            finalScoreTextView.setText(" You Lose.        Your Score:" + finalScore);
+            finalScoreTextView.setText(" You Lose.        Your Score: " + finalScore);
         }
 
     }

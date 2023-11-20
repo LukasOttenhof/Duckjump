@@ -15,7 +15,6 @@ import android.widget.ImageView;
 public class DuckPlayer{
     private ImageView theDuck;
     private int screenHeight;
-
     private int screenWidth;
     private int coinsCollected = 1; // 1 By default so score wont be set back to 0
     private int platformsTouched = 0;
