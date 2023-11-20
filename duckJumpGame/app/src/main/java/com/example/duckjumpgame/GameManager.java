@@ -18,6 +18,7 @@ import org.w3c.dom.Text;
 
 public class GameManager extends AppCompatActivity{
     private DuckPlayer duckPlayer;
+    private SoundManager soundEffect;
     private Handler winHandler = new Handler();
     public boolean stopWinHandler = false;
     private TextView scoreDisplay;
@@ -49,6 +50,8 @@ public class GameManager extends AppCompatActivity{
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game_manager);
+
+        soundEffect = new SoundManager(this);
 
         // Get the player icon
         ImageView theDuck = findViewById(R.id.theDuck);
@@ -158,6 +161,7 @@ public class GameManager extends AppCompatActivity{
      * while in the EndPage
      */
     public boolean endGame(boolean outCome){
+        soundEffect.playSound(R.raw.damage_sound);
         stopWinHandler = true;
         initialPlatform1.endRunnables();
         initialPlatform2.endRunnables();
