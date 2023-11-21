@@ -29,9 +29,7 @@ public class CreatePlatform extends AnimateAndDetectCollision {
         this.settings = new Settings(platform.getContext());
         collisionHandler.postDelayed(collisionChecker, 100);
 
-        if(settings.getIsMuted()){
-            soundEffect.isMuted = true;
-        }
+        settings.checkMute(soundEffect);
 
         startFallAnimation(); // Initial platform animation before the delayed ones
         // Schedule next animations and respawns in a loop

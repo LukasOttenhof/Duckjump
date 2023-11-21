@@ -61,9 +61,7 @@ public class GameManager extends AppCompatActivity{
 
         settings.loadMuteStatus();
 
-        if(settings.getIsMuted()){
-            soundEffect.isMuted = true;
-        }
+        settings.checkMute(soundEffect);
 
         // Get the player icon
         ImageView theDuck = findViewById(R.id.theDuck);

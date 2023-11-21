@@ -36,9 +36,7 @@ public class CreatePlatformWithCoin extends AnimateAndDetectCollision {
         collisionHandler.postDelayed(collisionChecker, 100);
         this.theCoin = theCoin;
 
-        if(settings.getIsMuted()){
-            soundEffect.isMuted = true;
-        }
+        settings.checkMute(soundEffect);
     }
 
     /**
