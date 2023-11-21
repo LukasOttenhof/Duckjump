@@ -18,7 +18,7 @@ public class AnimateAndDetectCollision {
     private int screenWidth;
     private int screenHeight;
     protected Boolean stopRunnable = false; // Used to stop Runnables when game ends
-    private ImageView imageToAnimate;
+    public ImageView imageToAnimate; // Made public for testing
     private DuckPlayer duckPlayer;
     private int duration;
     private int respawnDelay;
@@ -75,6 +75,10 @@ public class AnimateAndDetectCollision {
 
     }
 
+    public int getY(){
+        return (int)imageToAnimate.getY();
+    }
+
     /**
      * This runnable is used to animate the platforms in a cycle, first reseting the
      * platform since startFallAnimation was called in constructor, then calling
@@ -127,8 +131,6 @@ public class AnimateAndDetectCollision {
 
         // Return true if there is vertical overlap and horizontal overlap to indicate collision
         return (topCollision || bottomCollision || middleCollision) && (leftCollision || rightCollision);
-
-
 
     }
     /**
