@@ -1,6 +1,8 @@
 package com.example.duckjumpgame;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -19,11 +21,15 @@ import org.w3c.dom.Text;
 public class GameManager extends AppCompatActivity{
     private DuckPlayer duckPlayer;
     private SoundManager soundEffect;
+    private Settings settings;
     private Handler winHandler = new Handler();
     public boolean stopRunnables = false;
     private TextView scoreDisplay;
     private TextView timeDisplay;
     private TextView coinDisplay;
+    private static final String PREFERENCES = "prefsFile";
+    private static final String IS_MUTED_KEY = "isMuted";
+    private boolean isMuted;
     private int finalScore;
     private boolean wasGameWon;
     private int timePlayed = 0;
@@ -51,6 +57,13 @@ public class GameManager extends AppCompatActivity{
         setContentView(R.layout.activity_game_manager);
 
         soundEffect = new SoundManager(this);
+        settings = new Settings(this);
+
+        settings.loadMuteStatus();
+
+        if(settings.getIsMuted()){
+            soundEffect.isMuted = true;
+        }
 
         // Get the player icon
         ImageView theDuck = findViewById(R.id.theDuck);

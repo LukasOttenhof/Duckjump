@@ -7,6 +7,7 @@ public class CreatePlatform extends AnimateAndDetectCollision {
     private Handler collisionHandler = new Handler();
     private DuckPlayer duckPlayer;
     private SoundManager soundEffect;
+    private Settings settings;
 
     /**
      * In the constructor startFallAnimation is called right away because we want the animations to
@@ -25,7 +26,13 @@ public class CreatePlatform extends AnimateAndDetectCollision {
         super(platform, screenWidth, screenHeight, duckPlayer, duration, respawnDelay);
         this.duckPlayer = duckPlayer;
         this.soundEffect = new SoundManager(platform.getContext());
+        this.settings = new Settings(platform.getContext());
         collisionHandler.postDelayed(collisionChecker, 100);
+
+        if(settings.getIsMuted()){
+            soundEffect.isMuted = true;
+        }
+
         startFallAnimation(); // Initial platform animation before the delayed ones
         // Schedule next animations and respawns in a loop
     }

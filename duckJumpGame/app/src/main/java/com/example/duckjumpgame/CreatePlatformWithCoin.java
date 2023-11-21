@@ -8,6 +8,7 @@ public class CreatePlatformWithCoin extends AnimateAndDetectCollision {
     private Handler collisionHandler = new Handler();
     private DuckPlayer duckPlayer;
     private SoundManager soundEffect;
+    private Settings settings;
     private ImageView theCoin;
     private ImageView platform;
 
@@ -30,9 +31,14 @@ public class CreatePlatformWithCoin extends AnimateAndDetectCollision {
         this.duckPlayer = duckPlayer;
         this.platform = platform;
         this.soundEffect = new SoundManager(platform.getContext());
+        this.settings = new Settings(platform.getContext());
+        settings.loadMuteStatus();
         collisionHandler.postDelayed(collisionChecker, 100);
         this.theCoin = theCoin;
 
+        if(settings.getIsMuted()){
+            soundEffect.isMuted = true;
+        }
     }
 
     /**
