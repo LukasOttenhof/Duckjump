@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -19,6 +20,7 @@ import org.w3c.dom.Text;
 public class GameManager extends AppCompatActivity{
     private DuckPlayer duckPlayer;
     private SoundManager soundEffect;
+
     private Handler winHandler = new Handler();
     public boolean stopRunnables = false;
     private TextView scoreDisplay;
@@ -55,6 +57,7 @@ public class GameManager extends AppCompatActivity{
         // Get the player icon
         ImageView theDuck = findViewById(R.id.theDuck);
         ConstraintLayout background = findViewById(R.id.background);
+
 
         scoreDisplay = findViewById(R.id.scoreNum);
         timeDisplay = findViewById(R.id.timeNum);
@@ -231,7 +234,43 @@ public class GameManager extends AppCompatActivity{
         return score;
     }
 
+    public void pauseGame(View myView){
+        stopRunnables = true;
+        initialPlatform1.pauseAnimation();
+        initialPlatform2.pauseAnimation();
+        initialPlatform3.pauseAnimation();
+        hiddenPlatform1.pauseAnimation();
+        hiddenPlatform2.pauseAnimation();
+        hiddenPlatform3.pauseAnimation();
+        hiddenPlatform4.pauseAnimation();
+        hiddenPlatform5.pauseAnimation();
+        coinPlatform.pauseAnimation();
+        animateCoin.pauseAnimation();
+        hazardObject.pauseAnimation();
+        Button pauseButton = findViewById(R.id.pauseButton);
+        pauseButton.setOnClickListener(this::resumeGame);
+    }
+    public void resumeGame(View myView){
+        stopRunnables = false;
+        initialPlatform1.pauseAnimation();
+        initialPlatform2.pauseAnimation();
+        initialPlatform3.pauseAnimation();
+        hiddenPlatform1.pauseAnimation();
+        hiddenPlatform2.pauseAnimation();
+        hiddenPlatform3.pauseAnimation();
+        hiddenPlatform4.pauseAnimation();
+        hiddenPlatform5.pauseAnimation();
+        coinPlatform.pauseAnimation();
+        animateCoin.pauseAnimation();
+        hazardObject.pauseAnimation();
+        Button pauseButton = findViewById(R.id.pauseButton);
+        winHandler.postDelayed(winChecker, 100);
+        winHandler.postDelayed((timeUpdater),100);
+        pauseButton.setOnClickListener(this::pauseGame);
+    }
+
     public void calculateAndDisplayTime(){
         timeDisplay.setText(String.valueOf(timePlayed));
     }
 }
+

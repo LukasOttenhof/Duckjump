@@ -19,6 +19,8 @@ public class AnimateAndDetectCollision {
     private int screenHeight;
     protected Boolean stopRunnable = false; // Used to stop Runnables when game ends
     public ImageView imageToAnimate; // Made public for testing
+    private boolean isGamePaused = false;
+    private ObjectAnimator fallAnimator;
     private DuckPlayer duckPlayer;
     private int duration;
     private int respawnDelay;
@@ -55,10 +57,11 @@ public class AnimateAndDetectCollision {
      */
     public void startFallAnimation(){
         int originalY = (int)imageToAnimate.getY();
-        ObjectAnimator fallAnimator = ObjectAnimator.ofFloat(imageToAnimate, "translationY", originalY, screenHeight+400);
+        fallAnimator = ObjectAnimator.ofFloat(imageToAnimate, "translationY", originalY, screenHeight+400);
         fallAnimator.setInterpolator(new AccelerateInterpolator()); //Makes the platform accelerate rather than have a constant speed
         fallAnimator.setDuration(duration);
         fallAnimator.start();
+
     }
 
     /**
@@ -90,11 +93,13 @@ public class AnimateAndDetectCollision {
     Runnable platformRunnable = new Runnable() {
         public void run() {
             // Trigger the next fall animation after respawn
-            respawn();
+            if(!isGamePaused) {
+                respawn();
+            }
             imageToAnimate.setVisibility(View.VISIBLE);
             startFallAnimation();
             // Repeat the process if game hasn't ended
-            if(!stopRunnable) {
+            if(!stopRunnable ) {
                 platformHandler.postDelayed(this, respawnDelay);
             }
         }
@@ -133,6 +138,9 @@ public class AnimateAndDetectCollision {
         return (topCollision || bottomCollision || middleCollision) && (leftCollision || rightCollision);
 
     }
+
+
+
     /**
      * Used to end the runnables by setting the stopRunnable variable to true, this will make
      * the repeat condition in the Runnables false so they will stop running.
@@ -142,5 +150,28 @@ public class AnimateAndDetectCollision {
         stopRunnable = true;
 
     }
+
+    //========================================
+    public void pauseAnimation() {
+        isGamePaused = true;
+        stopRunnable = true;
+        if (fallAnimator != null && fallAnimator.isRunning()) {
+            fallAnimator.pause();
+        }
+        // Additional logic for pausing any ongoing animations or transitions
+    }
+
+
+    //Resumes the animation
+    public void resumeAnimation() {
+        isGamePaused = false;
+        stopRunnable = false;
+        if (fallAnimator != null && fallAnimator.isPaused()) {
+            fallAnimator.resume();
+        } else {
+            startFallAnimation(); // Adjust this method or add other animations as needed
+        }
+    }
+
 
 }
