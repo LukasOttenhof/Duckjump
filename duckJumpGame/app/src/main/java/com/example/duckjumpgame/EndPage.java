@@ -9,6 +9,7 @@ import android.widget.TextView;
 public class EndPage extends AppCompatActivity{
     private TextView finalScoreTextView;
     private SoundManager buttonSoundEffect;
+    private Settings settings;
 
 
     @Override
@@ -17,7 +18,11 @@ public class EndPage extends AppCompatActivity{
         setContentView(R.layout.activity_end_page);
         finalScoreTextView = findViewById(R.id.finalScoreTextView);
 
+        settings = new Settings(this);
+        settings.loadMuteStatus();
+
         buttonSoundEffect = new SoundManager(this);
+        settings.checkMute(buttonSoundEffect);
 
         // Retrieve the final score from the intent
         int finalScore = getIntent().getIntExtra("finalScore", 0);

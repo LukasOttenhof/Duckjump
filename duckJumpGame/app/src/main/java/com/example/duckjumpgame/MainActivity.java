@@ -15,24 +15,24 @@ import android.widget.TextView;
 public class MainActivity extends AppCompatActivity{
     private SoundManager soundEffect;
     private SoundManager buttonSoundEffect;
-    private static final String PREFERENCES = "prefsFile";
-    private static final String IS_MUTED_KEY = "isMuted";
-    private boolean isMuted;
+    private Settings settings;
     
     
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        settings = new Settings(this);
         
-        loadMuteStatus();
+        settings.loadMuteStatus();
 
         soundEffect = new SoundManager(this);
         buttonSoundEffect = new SoundManager(this);
         Button muteButton = findViewById(R.id.muteButton);
 
         // Handles the startup of sound and whether or not user last muted.
-        if(isMuted){
+        if(settings.getIsMuted()){
             soundEffect.isMuted = true;
             buttonSoundEffect.isMuted = true;
             muteButton.setBackgroundResource(R.drawable.mutebutton);
@@ -117,43 +117,27 @@ public class MainActivity extends AppCompatActivity{
     public void muteSound(View myView){
         Button muteButton = findViewById(R.id.muteButton);
 
-        if(isMuted){
+        if(settings.getIsMuted()){
             // If muted when button is pressed, unmute
             soundEffect.isMuted = false;
             soundEffect.loopSound(R.raw.main_theme_2);
+
             buttonSoundEffect.isMuted = false;
             muteButton.setBackgroundResource(R.drawable.volume);
-            isMuted = false;
-            saveMuteStatus();
+
+            settings.setIsMuted(false);
+            settings.saveMuteStatus();
         } else{
             // Mute sounds
             soundEffect.isMuted = true;
             soundEffect.stopSound();
+
             buttonSoundEffect.isMuted = true;
+
             muteButton.setBackgroundResource(R.drawable.mutebutton);
-            isMuted = true;
-            saveMuteStatus();
+            settings.setIsMuted(true);
+            settings.saveMuteStatus();
         }
-    }
-
-    /**
-     * This function handles the saving of user preferences via a key-value pair.
-     * The preferences save on app closure so settings will stay.
-     */
-    public void saveMuteStatus(){
-        SharedPreferences preferences = getSharedPreferences(PREFERENCES, Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = preferences.edit();
-        editor.putBoolean(IS_MUTED_KEY, isMuted);
-        editor.apply();
-    }
-
-    /**
-     * This function handles the loading of the user preferences and is called on startup.
-     * It recalls the last instance of the isMuted variable to ensure that sound is off if intended.
-     */
-    public void loadMuteStatus(){
-        SharedPreferences soundSetting = getSharedPreferences(PREFERENCES, Context.MODE_PRIVATE);
-        isMuted = soundSetting.getBoolean(IS_MUTED_KEY, false);
     }
 
 }
