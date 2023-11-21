@@ -9,16 +9,6 @@
     tools:context=".GameManager">
 
 
-    <Button
-        android:id="@+id/pauseButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:onClick="togglePause"
-        android:text="Pause"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:layout_editor_absoluteX="320dp" />
-
     <TextView
         android:id="@+id/textView3"
         android:layout_width="wrap_content"

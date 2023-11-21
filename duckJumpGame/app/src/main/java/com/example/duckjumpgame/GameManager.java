@@ -7,7 +7,6 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -25,8 +24,6 @@ public class GameManager extends AppCompatActivity{
     private TextView scoreDisplay;
     private TextView timeDisplay;
     private TextView coinDisplay;
-
-    private boolean isGamePaused = false;
     private int finalScore;
     private boolean wasGameWon;
     private int timePlayed = 0;
@@ -85,28 +82,9 @@ public class GameManager extends AppCompatActivity{
             }
         });
 
-
-        Button pauseButton = findViewById(R.id.pauseButton);
-        pauseButton.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                if (event.getAction() == MotionEvent.ACTION_UP) {
-                    togglePause(v);
-                }
-                return true;
-            }
-        });
     }
 
 
-
-    public void togglePause(View view) {
-        if (isGamePaused) {
-            resumeGame();
-        } else {
-            pauseGame();
-        }
-    }
     /**
      * Manages the platforms that are created by this function.
      *
@@ -160,43 +138,6 @@ public class GameManager extends AppCompatActivity{
         //MAKE RESPAWN LONGER IN ACTUAL GAME, IT IS FAST NOW FOR TESTING
         coinPlatform = new CreatePlatformWithCoin(TopPlatform2, screenWidth, screenHeight, duckPlayer, 5500, 5500, theCoin);
         animateCoin = new AnimateAndDetectCollision(theCoin, screenWidth, screenHeight, duckPlayer, 5500, 5500);
-    }
-
-
-    private void pauseGame() {
-        isGamePaused = true;
-
-        // Stop any ongoing animations or game logic here
-        // For example, stop the platform animations
-        duckPlayer.pauseAnimation();
-        initialPlatform1.pauseAnimation();
-        initialPlatform2.pauseAnimation();
-        initialPlatform3.pauseAnimation();
-        hiddenPlatform1.pauseAnimation();
-        hiddenPlatform2.pauseAnimation();
-        hiddenPlatform3.pauseAnimation();
-        hiddenPlatform4.pauseAnimation();
-        hiddenPlatform5.pauseAnimation();
-        coinPlatform.pauseAnimation();
-        animateCoin.pauseAnimation();
-        hazardObject.pauseAnimation();
-    }
-
-    private void resumeGame() {
-        isGamePaused = false;
-        // Resume any animations or game logic here
-        duckPlayer.resumeAnimation();
-        initialPlatform1.resumeAnimation();
-        initialPlatform2.resumeAnimation();
-        initialPlatform3.resumeAnimation();
-        hiddenPlatform1.resumeAnimation();
-        hiddenPlatform2.resumeAnimation();
-        hiddenPlatform3.resumeAnimation();
-        hiddenPlatform4.resumeAnimation();
-        hiddenPlatform5.resumeAnimation();
-        coinPlatform.resumeAnimation();
-        animateCoin.resumeAnimation();
-        hazardObject.resumeAnimation();
     }
 
     /**
