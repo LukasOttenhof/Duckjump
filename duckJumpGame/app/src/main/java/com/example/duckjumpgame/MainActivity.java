@@ -2,6 +2,7 @@ package com.example.duckjumpgame;
 
 import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
+import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.View;
@@ -82,6 +83,30 @@ public class MainActivity extends AppCompatActivity{
         creditButton.setText("Credits");
         playButton.setVisibility(View.VISIBLE);
         playButton.setEnabled(true);
+    }
+
+    /**
+     * Responsible for muting sounds on button press for main menu.
+     * Works by setting a property in SoundManager and stopping or starting sound.
+     * Also changes the icon to display whether or not the sound is muted.
+     * @param myView
+     */
+    public void muteSound(View myView){
+        Button muteButton = findViewById(R.id.muteButton);
+
+        if(soundEffect.isMuted){
+            // If muted when button is pressed, unmute
+            soundEffect.isMuted = false;
+            soundEffect.loopSound(R.raw.main_theme_2);
+            buttonSoundEffect.isMuted = false;
+            muteButton.setBackgroundResource(R.drawable.volume);
+        } else{
+            // Mute sounds
+            soundEffect.isMuted = true;
+            soundEffect.stopSound();
+            buttonSoundEffect.isMuted = true;
+            muteButton.setBackgroundResource(R.drawable.mutebutton);
+        }
     }
 
 }

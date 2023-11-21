@@ -12,8 +12,9 @@ import android.media.MediaPlayer;
  */
 
 public class SoundManager {
-    MediaPlayer mediaPlayer;
-    Context currentContext;
+    private MediaPlayer mediaPlayer;
+    private final Context currentContext;
+    public boolean isMuted = false;
 
     public SoundManager(Context currentContext){
         this.currentContext = currentContext; // Set current context since we need it as a param
@@ -32,6 +33,9 @@ public class SoundManager {
     public void playSound(int soundEffect){
         if(mediaPlayer == null){
             mediaPlayer = MediaPlayer.create(currentContext, soundEffect);
+        }
+        if(isMuted){
+            mediaPlayer.setVolume(0, 0);
         }
         // On completion, stop sound effect and reset mediaPlayer
         mediaPlayer.setOnCompletionListener(mediaPlayer -> stopSound());
