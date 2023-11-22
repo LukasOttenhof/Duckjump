@@ -8,22 +8,18 @@ import android.widget.ImageView;
 import java.util.Random;
 
 /**
- * This class is used to create objects that are animated and need to be able to detect collision.
- * The classes that will extend from it will be the CreateHazard class and CreatePlatform
- * (possibly a platform with a coin class), both of these classes create objects that have a
- * vertical falling animation and collision detection, but have different things that happen once
- * collision is detected.
+ * This class is used to create objects that are animated vertically using y coordinates.
+ * This class is extended by AnimateImageViewAndDectectCollision for ImageViews that need to
+ * detect collision.
  */
 public class AnimateImageView {
     private int screenWidth;
     private int screenHeight;
-    protected Boolean stopRunnable = false; // Used to stop Runnables when game ends
+    protected Boolean stopAnimation = false; // Used to stop Runnables when game ends
     public ImageView imageToAnimate; // Made public for testing
     private boolean isGamePaused = false;
     private ObjectAnimator fallAnimator;
-    private DuckPlayer duckPlayer;
     private int duration;
-    private int respawnDelay;
     private Random randomInt = new Random();
 
     /**
@@ -33,47 +29,48 @@ public class AnimateImageView {
      * @param imageToAnimate The Imageview of the platform that is being animated.
      * @param screenWidth Maximum width the platform can respawn at.
      * @param screenHeight Bottom of the screen, endpoint of the animation.
-     * @param duckPlayer The duckObject that manages the duck.
      * @param duration Amount of time the platform falling animation will take.
      */
     public AnimateImageView(ImageView imageToAnimate, int screenWidth, int screenHeight,
-                            DuckPlayer duckPlayer, int duration){
+                             int duration){
         this.imageToAnimate = imageToAnimate;
         this.screenWidth = screenWidth;
         this.screenHeight = screenHeight;
-        this.duckPlayer = duckPlayer;
+
         this.duration = duration;
-        this.respawnDelay = respawnDelay;
-       // platformHandler.postDelayed(platformRunnable, respawnDelay);
-        startFallAnimation(); // Initial animation before the delayed ones
-        // Schedule next animations and respawns in a loop
+
+        startFallAnimation(); // Start the animation
     }
 
     /**
      * Used to animate the platform ImageView. It starts the animation from the
-     * platforms y value and makes it move to below the screen height.
+     * platforms y value and makes it move to below the screen height. It uses the private
+     * ObjectAnimator fallAnimator.
      */
     public void startFallAnimation(){
-        int originalY = (int)imageToAnimate.getY();
+        int originalY = (int)imageToAnimate.getY(); // Getting starting point for the animation
+
+        // Setting up the animator
         fallAnimator = ObjectAnimator.ofFloat(imageToAnimate, "translationY", originalY, screenHeight+400);
         fallAnimator.setInterpolator(new AccelerateInterpolator()); //Makes the platform accelerate rather than have a constant speed
         fallAnimator.setDuration(duration);
         fallAnimator.start();
 
 
+        // Setting up animators for the animator
         fallAnimator.addListener(new Animator.AnimatorListener() {
             @Override
             public void onAnimationStart(Animator animation) {
                 // Animation started
             }
 
-
+            // When that animation ends reset the imageview and call the animator again
             @Override
             public void onAnimationEnd(Animator animation) {
-                if (!stopRunnable && !isGamePaused && screenWidth != 0) {
+                if (!stopAnimation && !isGamePaused && screenWidth != 0) {
                     respawn();
                     imageToAnimate.setVisibility(View.VISIBLE);
-                    startFallAnimation(); // Start a new animation loop
+                    fallAnimator.start();
                 }
             }
 
@@ -108,16 +105,19 @@ public class AnimateImageView {
     }
 
     /**
-     * Used to end the runnables by setting the stopRunnable variable to true, this will make
-     * the repeat condition in the Runnables false so they will stop running.
-     * This method is called in the endGame method in game manager.
+     * Used to end the vertical animation when the game ends. It works by setting the stopAmination
+     * variable to true so that the animation will not repeat once the animation ends.
      */
     public void endRunnables(){
-        stopRunnable = true;
+        stopAnimation = true;
 
     }
 
-    // Pauses the animation
+    /**
+     * This method is called in game manager to pause the ImageView being animated.
+     * It works by setting isGamePaused to true and using the .pause() function from the
+     * ObjectAnimator library.
+     */
     public void pauseAnimation() {
         isGamePaused = true;
         if (fallAnimator != null && fallAnimator.isRunning()) {
@@ -127,7 +127,11 @@ public class AnimateImageView {
     }
 
 
-    //Resumes the animation
+    /**
+     * This method is called in game manager to resume the ImageView being animated.
+     * It works by setting isGamePaused to false and using the .resume() function from the
+     * ObjectAnimator library.
+     */
     public void resumeAnimation() {
         isGamePaused = false;
         if (fallAnimator != null && fallAnimator.isPaused()) {

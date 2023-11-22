@@ -4,6 +4,12 @@ import android.os.Handler;
 import android.view.View;
 import android.widget.ImageView;
 
+/**
+ * This class extends AnimateImageView because it is for Imageviews that need to be animated with
+ * the additional functionality of being able to detect collison. This class is used for all
+ * Imageviews that need collision detection with the duck, this includes the platforms, hazards, and
+ * the platform wiht a coin.
+ */
 public class AnimateImageViewAndDetectCollision extends AnimateImageView {
     private Handler collisionHandler = new Handler();
     private DuckPlayer duckPlayer;
@@ -29,7 +35,7 @@ public class AnimateImageViewAndDetectCollision extends AnimateImageView {
                                               DuckPlayer duckPlayer, int duration, ImageView theCoin
             , GameManager theGame, String typeOfObject){
 
-        super(platform, screenWidth, screenHeight, duckPlayer, duration);
+        super(platform, screenWidth, screenHeight, duration);
         this.duckPlayer = duckPlayer;
         this.typeOfObject = typeOfObject;
         this.platform = platform;
@@ -46,44 +52,46 @@ public class AnimateImageViewAndDetectCollision extends AnimateImageView {
     /**
      * This runnable is checking for collision repeatedly until the game ends.
      * It uses the checkCollision method for collision, if collision is detected
-     * jump will be called, and a quack sound will play. If the coin != null there is
-     * a coin so update number of coins collected and it so the coin cant
-     * be collected again until after the coin has respawned. If theCoin == platform this is a
-     * signal that the imageview being animated is a hazard, if collision is detected end game.
+     * the function will find out what needs to happen by comparing to the typeOfObject String.
+     * If the collision was for a platform the duck will jump and quack, if the collision was for
+     * a hazard the game will end, and if the collision was for the platform with a coin and the
+     * coin hadnt been collected quack, jump, increase coins collected, and hide the coin.
      */
     Runnable collisionChecker = new Runnable(){
         public void run(){
             int maxHeight = 150; // We wont let the duck jump if it is higher than this
-            if(theCoin != null) { // If there is a coin
+
+            if(typeOfObject.equals("withCoin")) { // If there is a coin
                 theCoin.setX(platform.getX());//setting the coin and platform to the same x
                 //so that even though they respawn randomly they will be put together
             }
             // Check for collision and if duck is too high
             if (checkCollision() && duckPlayer.getDuckY() > maxHeight){
-                // If yes run jump and play sound effect
+
                 if(typeOfObject.equals("platform")) {
                     soundEffect.playSound(R.raw.quack);
                     duckPlayer.jump();
                 }
-                // If the platform == the coin there was a collision so end game
+
                 else if(typeOfObject.equals("hazard")) {
                     boolean gameOutcome = false;
                     theGame.endGame(gameOutcome);
                 }
-                // If there is a coin and it is visible it hasn't been collected yet.
+
                 else if(typeOfObject.equals("withCoin")) {
                     soundEffect.playSound(R.raw.quack);
                     duckPlayer.jump();
-                    if (theCoin.getVisibility() == View.VISIBLE) {
-                        theCoin.setVisibility(View.INVISIBLE);
-                        int newCoinAmount = duckPlayer.getCoinsCollected() + 1;
+                    if (theCoin.getVisibility() == View.VISIBLE) {// if the coin is isnt collected
+                        theCoin.setVisibility(View.INVISIBLE); // yet, hide it and increase coins
+                        int newCoinAmount = duckPlayer.getCoinsCollected() + 1; // collected
                         duckPlayer.setCoinsCollected(newCoinAmount);
                     }
                 }
 
             }
-            // Continue the collision check if game hasn't ended
-            if(!stopRunnable){
+            // Continue the collision check if game hasn't ended. Uses the same stopping boolean
+            // As the animation in AnimateImageView
+            if(!stopAnimation){
                 collisionHandler.postDelayed(this, 50);
             }
         }

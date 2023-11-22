@@ -12,7 +12,11 @@ import android.view.animation.DecelerateInterpolator;
 import android.view.animation.LinearInterpolator;
 import android.widget.ImageView;
 
-
+/**
+ * This class contains all methods related to the duck. This class can make the duck jump,
+ * pause, resume, and keeps track of the number of coins that have been collected. This class
+ * also contains the onTouchEvent that is called to move the duck when a user touches the screen.
+ */
 public class DuckPlayer {
     private ImageView theDuck;
     private int screenHeight;
@@ -36,7 +40,7 @@ public class DuckPlayer {
         this.theDuck = theDuck;
         this.screenHeight = screenHeight;
         this.screenWidth = screenWidth;
-        startBounceAnimation();
+        startBounceAnimation(); // Begin animation
     }
 
     /**
@@ -169,6 +173,7 @@ public class DuckPlayer {
         int originalY = (int) theDuck.getY();
         int initialJumpHeight = 800;
         int duration = 4000;
+        // Create animator
         bounceAnimator = ObjectAnimator.ofFloat(theDuck, "translationY", originalY, originalY - initialJumpHeight, screenHeight);
         bounceAnimator.setInterpolator(new LinearInterpolator());
         bounceAnimator.setDuration(duration);
@@ -188,13 +193,10 @@ public class DuckPlayer {
      * @return true to the touch event to indicate that the event has finished
      */
     public boolean onTouchEvent(MotionEvent event) {
-        // Check if the game is not paused
-
         // Subtract to center duck on pointer
         int newX = (int) event.getRawX() - getDuckWidth() / 2;
         // Getting duck params so we can change them
         ViewGroup.MarginLayoutParams params = getDuckLayoutParams();
-        // Adding the change
         // as long as the new location will be within the screen make the change
         if (newX >= 0 && newX + getDuckWidth() <= screenWidth && !isGamePaused) {
             params.leftMargin = newX;
@@ -204,7 +206,12 @@ public class DuckPlayer {
         return true;
     }
 
-
+    /**
+     * This method is used to make the duck pause, it is called in game manager when the game is
+     * paused, it works by checking each of the animators, when finding the one that is running
+     * use the .pause() function from the ObjectAnimator/ValueAnimator Library to pause the
+     * ducks animation.
+     */
     public void pauseAnimation() {
         isGamePaused = true;
         if (jumpAnimator != null && jumpAnimator.isRunning()) {
@@ -217,6 +224,12 @@ public class DuckPlayer {
             bounceAnimator.pause();
         }
     }
+
+    /**
+     * This method is used to make the duck resume after pressing resume. Rather than using
+     * .resume() we use jump so that if the user was falling when they had to jump up for water or
+     * something similar when they come back they arent going to die.
+     */
     public void resumeAnimation() {
         isGamePaused = false;
         jump();
