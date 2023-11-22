@@ -22,6 +22,7 @@ import org.w3c.dom.Text;
 public class GameManager extends AppCompatActivity{
     private DuckPlayer duckPlayer;
     private SoundManager soundEffect;
+    private boolean isPaused = false;
     private Settings settings;
     private Handler winHandler = new Handler();
     public boolean stopRunnables = false;
@@ -148,7 +149,7 @@ public class GameManager extends AppCompatActivity{
         ImageView TopPlatform2 = findViewById(R.id.platformTop2);
         ImageView theCoin = findViewById(R.id.coin);
 
-        //MAKE RESPAWN LONGER IN ACTUAL GAME, IT IS FAST NOW FOR TESTING
+
         coinPlatform = new CreatePlatformWithCoin(TopPlatform2, screenWidth, screenHeight, duckPlayer, 5500, 5500, theCoin);
         animateCoin = new AnimateAndDetectCollision(theCoin, screenWidth, screenHeight, duckPlayer, 5500, 5500);
     }
@@ -245,7 +246,7 @@ public class GameManager extends AppCompatActivity{
     }
 
     public void pauseGame(View myView){
-        stopRunnables = true;
+        isPaused = true;
         duckPlayer.pauseAnimation();
         initialPlatform1.pauseAnimation();
         initialPlatform2.pauseAnimation();
@@ -262,7 +263,7 @@ public class GameManager extends AppCompatActivity{
         pauseButton.setOnClickListener(this::resumeGame);
     }
     public void resumeGame(View myView){
-        stopRunnables = false;
+        isPaused = false;
         duckPlayer.resumeAnimation();
         initialPlatform1.resumeAnimation();
         initialPlatform2.resumeAnimation();

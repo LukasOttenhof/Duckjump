@@ -186,7 +186,7 @@ public class DuckPlayer {
         ViewGroup.MarginLayoutParams params = getDuckLayoutParams();
         // Adding the change
         // as long as the new location will be within the screen make the change
-        if (newX >= 0 && newX + getDuckWidth() <= screenWidth) {
+        if (newX >= 0 && newX + getDuckWidth() <= screenWidth && !isGamePaused) {
             params.leftMargin = newX;
             setDuckLayoutParams(params);
         }
@@ -209,14 +209,14 @@ public class DuckPlayer {
     }
     public void resumeAnimation() {
         isGamePaused = false;
-        if (jumpAnimator.isPaused()) {
-            jumpAnimator.resume();
+        if (jumpAnimator != null && jumpAnimator.isPaused()) {
+            jump();
         }
-        if (fallAnimator.isPaused()) {
-            fallAnimator.resume();
+        if (fallAnimator != null && fallAnimator.isPaused()) {
+            jump();
         }
-        if (bounceAnimator.isPaused()) {
-            bounceAnimator.resume();
+        if (bounceAnimator != null && bounceAnimator.isPaused()) {
+            jump();
         }
     }
 }

@@ -1,5 +1,6 @@
 package com.example.duckjumpgame;
 
+import android.animation.Animator;
 import android.animation.ObjectAnimator;
 import android.os.Handler;
 import android.view.View;
@@ -24,7 +25,6 @@ public class AnimateAndDetectCollision {
     private DuckPlayer duckPlayer;
     private int duration;
     private int respawnDelay;
-    private Handler platformHandler = new Handler();
     private Random randomInt = new Random();
 
     /**
@@ -46,7 +46,7 @@ public class AnimateAndDetectCollision {
         this.duckPlayer = duckPlayer;
         this.duration = duration;
         this.respawnDelay = respawnDelay;
-        platformHandler.postDelayed(platformRunnable, respawnDelay);
+       // platformHandler.postDelayed(platformRunnable, respawnDelay);
         startFallAnimation(); // Initial animation before the delayed ones
         // Schedule next animations and respawns in a loop
     }
@@ -62,6 +62,35 @@ public class AnimateAndDetectCollision {
         fallAnimator.setDuration(duration);
         fallAnimator.start();
 
+
+        fallAnimator.addListener(new Animator.AnimatorListener() {
+            @Override
+            public void onAnimationStart(Animator animation) {
+                // Animation started
+            }
+
+
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                if (!stopRunnable && !isGamePaused && respawnDelay != 100000) {
+                    respawn();
+                    imageToAnimate.setVisibility(View.VISIBLE);
+                    startFallAnimation(); // Start a new animation loop
+                }
+            }
+
+
+            @Override
+            public void onAnimationCancel(Animator animation) {
+                // Animation canceled
+            }
+
+
+            @Override
+            public void onAnimationRepeat(Animator animation) {
+                // Animation repeated
+            }
+        });
 
 
     }
@@ -80,29 +109,6 @@ public class AnimateAndDetectCollision {
 
     }
 
-
-    /**
-     * This runnable is used to animate the platforms in a cycle, first reseting the
-     * platform since startFallAnimation was called in constructor, then calling
-     * startFallAnimation again. The handeler runs every respawnDelay milliseconds
-     * because that is the amount of time needed to run the startFallAnimation method.
-     * It will stop running when stopRunnable is true, stopRunnable is set to true when
-     * the game ends.
-     */
-    Runnable platformRunnable = new Runnable() {
-        public void run() {
-            // Trigger the next fall animation after respawn
-            if(!isGamePaused) {
-                respawn();
-            }
-            imageToAnimate.setVisibility(View.VISIBLE);
-            startFallAnimation();
-            // Repeat the process if game hasn't ended
-            if(!stopRunnable ) {
-                platformHandler.postDelayed(this, respawnDelay);
-            }
-        }
-    };
 
 
 
@@ -153,7 +159,6 @@ public class AnimateAndDetectCollision {
     //========================================
     public void pauseAnimation() {
         isGamePaused = true;
-        stopRunnable = true;
         if (fallAnimator != null && fallAnimator.isRunning()) {
             fallAnimator.pause();
         }
@@ -164,12 +169,10 @@ public class AnimateAndDetectCollision {
     //Resumes the animation
     public void resumeAnimation() {
         isGamePaused = false;
-        stopRunnable = false;
         if (fallAnimator != null && fallAnimator.isPaused()) {
             fallAnimator.resume();
-        } else {
-            startFallAnimation(); // Adjust this method or add other animations as needed
         }
+
     }
 
 
