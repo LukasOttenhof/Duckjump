@@ -35,10 +35,9 @@ public class AnimateImageView {
      * @param screenHeight Bottom of the screen, endpoint of the animation.
      * @param duckPlayer The duckObject that manages the duck.
      * @param duration Amount of time the platform falling animation will take.
-     * @param respawnDelay Amount of time between animations of the platform falling.
      */
     public AnimateImageView(ImageView imageToAnimate, int screenWidth, int screenHeight,
-                            DuckPlayer duckPlayer, int duration, int respawnDelay){
+                            DuckPlayer duckPlayer, int duration){
         this.imageToAnimate = imageToAnimate;
         this.screenWidth = screenWidth;
         this.screenHeight = screenHeight;
@@ -71,7 +70,7 @@ public class AnimateImageView {
 
             @Override
             public void onAnimationEnd(Animator animation) {
-                if (!stopRunnable && !isGamePaused && respawnDelay != 100000) {
+                if (!stopRunnable && !isGamePaused && screenWidth != 0) {
                     respawn();
                     imageToAnimate.setVisibility(View.VISIBLE);
                     startFallAnimation(); // Start a new animation loop

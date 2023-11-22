@@ -12,6 +12,7 @@ public class AnimateImageViewAndDetectCollision extends AnimateImageView {
     private ImageView theCoin;
     private ImageView platform;
     private GameManager theGame;
+    private String typeOfObject;
 
     /**
      * In the constructor the collision handler is called so that collision
@@ -26,11 +27,12 @@ public class AnimateImageViewAndDetectCollision extends AnimateImageView {
      */
 
     public AnimateImageViewAndDetectCollision(ImageView platform, int screenWidth, int screenHeight,
-                                              DuckPlayer duckPlayer, int duration, int respawnDelay, ImageView theCoin
-            , GameManager theGame){
+                                              DuckPlayer duckPlayer, int duration, ImageView theCoin
+            , GameManager theGame, String typeOfObject){
 
-        super(platform, screenWidth, screenHeight, duckPlayer, duration, respawnDelay);
+        super(platform, screenWidth, screenHeight, duckPlayer, duration);
         this.duckPlayer = duckPlayer;
+        this.typeOfObject = typeOfObject;
         this.platform = platform;
         this.soundEffect = new SoundManager(platform.getContext());
         this.settings = new Settings(platform.getContext());
@@ -60,17 +62,17 @@ public class AnimateImageViewAndDetectCollision extends AnimateImageView {
             // Check for collision and if duck is too high
             if (checkCollision() && duckPlayer.getDuckY() > maxHeight){
                 // If yes run jump and play sound effect
-                if(theCoin == null) {
+                if(typeOfObject.equals("platform")) {
                     soundEffect.playSound(R.raw.quack);
                     duckPlayer.jump();
                 }
                 // If the platform == the coin there was a collision so end game
-                else if(theCoin != null && platform == theCoin) {
+                else if(typeOfObject.equals("hazard")) {
                     boolean gameOutcome = false;
                     theGame.endGame(gameOutcome);
                 }
                 // If there is a coin and it is visible it hasn't been collected yet.
-                else if(theCoin != null) {
+                else if(typeOfObject.equals("withCoin")) {
                     soundEffect.playSound(R.raw.quack);
                     duckPlayer.jump();
                     if (theCoin.getVisibility() == View.VISIBLE) {

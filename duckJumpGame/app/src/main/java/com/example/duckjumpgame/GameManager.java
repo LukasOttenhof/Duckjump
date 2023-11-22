@@ -117,16 +117,16 @@ public class GameManager extends AppCompatActivity{
 
         // These platforms are the ones that start on the screen. Dont want them to respawn on screen so make delay huge
 
-        initialPlatform1 = new AnimateImageViewAndDetectCollision(platform1, screenWidth, screenHeight, duckPlayer, 4000, 100000, null, this);
-        initialPlatform2 = new AnimateImageViewAndDetectCollision(platform2, screenWidth, screenHeight, duckPlayer, 3000, 100000, null, this);
-        initialPlatform3 = new AnimateImageViewAndDetectCollision(platform3, screenWidth, screenHeight, duckPlayer, 2000, 100000, null, this);
+        initialPlatform1 = new AnimateImageViewAndDetectCollision(platform1, 0, screenHeight, duckPlayer, 4000,  null, this, "platform");
+        initialPlatform2 = new AnimateImageViewAndDetectCollision(platform2, 0, screenHeight, duckPlayer, 3000, null, this, "platform");
+        initialPlatform3 = new AnimateImageViewAndDetectCollision(platform3, 0, screenHeight, duckPlayer, 2000, null, this, "platform");
 
         // The rest of the platforms, they will respawn consistalnty throughout the game.
-        hiddenPlatform1 = new AnimateImageViewAndDetectCollision(TopPlatform1, screenWidth, screenHeight, duckPlayer, 6000, 6000, null, this);
-        hiddenPlatform2 = new AnimateImageViewAndDetectCollision(TopPlatform3, screenWidth, screenHeight, duckPlayer, 5500, 5500, null, this);
-        hiddenPlatform3 = new AnimateImageViewAndDetectCollision(TopPlatform4, screenWidth, screenHeight, duckPlayer, 7000, 7000, null, this);
-        hiddenPlatform4 = new AnimateImageViewAndDetectCollision(TopPlatform5, screenWidth, screenHeight, duckPlayer, 10000, 10000, null, this);
-        hiddenPlatform5 = new AnimateImageViewAndDetectCollision(TopPlatform6, screenWidth, screenHeight, duckPlayer, 6000, 6000, null, this);
+        hiddenPlatform1 = new AnimateImageViewAndDetectCollision(TopPlatform1, screenWidth, screenHeight, duckPlayer, 6000, null, this, "platform");
+        hiddenPlatform2 = new AnimateImageViewAndDetectCollision(TopPlatform3, screenWidth, screenHeight, duckPlayer, 5500, null, this, "platform");
+        hiddenPlatform3 = new AnimateImageViewAndDetectCollision(TopPlatform4, screenWidth, screenHeight, duckPlayer, 7000, null, this, "platform");
+        hiddenPlatform4 = new AnimateImageViewAndDetectCollision(TopPlatform5, screenWidth, screenHeight, duckPlayer, 10000,null, this, "platform");
+        hiddenPlatform5 = new AnimateImageViewAndDetectCollision(TopPlatform6, screenWidth, screenHeight, duckPlayer, 6000, null, this, "platform");
     }
 
     /**
@@ -139,15 +139,15 @@ public class GameManager extends AppCompatActivity{
         ImageView hazardImage = findViewById(R.id.hazard);
 
         // For some reason if you make it its own AnimateAndDetectCollision it crashes
-        hazardObject = new AnimateImageViewAndDetectCollision(hazardImage, screenWidth, screenHeight, duckPlayer, 4000, 6000, hazardImage, this);
+        hazardObject = new AnimateImageViewAndDetectCollision(hazardImage, screenWidth, screenHeight, duckPlayer, 4000, null, this, "hazard");
 
         // Creating the platform with a coin
         ImageView TopPlatform2 = findViewById(R.id.platformTop2);
         ImageView theCoin = findViewById(R.id.coin);
 
 
-        coinPlatform = new AnimateImageViewAndDetectCollision(TopPlatform2, screenWidth, screenHeight, duckPlayer, 5500, 5500, theCoin, this);
-        animateCoin = new AnimateImageView(theCoin, screenWidth, screenHeight, duckPlayer, 5500, 5500);
+        coinPlatform = new AnimateImageViewAndDetectCollision(TopPlatform2, screenWidth, screenHeight, duckPlayer, 5500, theCoin, this, "withCoin");
+        animateCoin = new AnimateImageView(theCoin, screenWidth, screenHeight, duckPlayer, 5500);
     }
 
     /**
