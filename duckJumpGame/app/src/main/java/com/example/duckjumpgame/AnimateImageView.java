@@ -2,7 +2,6 @@ package com.example.duckjumpgame;
 
 import android.animation.Animator;
 import android.animation.ObjectAnimator;
-import android.os.Handler;
 import android.view.View;
 import android.view.animation.AccelerateInterpolator;
 import android.widget.ImageView;
@@ -15,7 +14,7 @@ import java.util.Random;
  * vertical falling animation and collision detection, but have different things that happen once
  * collision is detected.
  */
-public class AnimateAndDetectCollision {
+public class AnimateImageView {
     private int screenWidth;
     private int screenHeight;
     protected Boolean stopRunnable = false; // Used to stop Runnables when game ends
@@ -38,8 +37,8 @@ public class AnimateAndDetectCollision {
      * @param duration Amount of time the platform falling animation will take.
      * @param respawnDelay Amount of time between animations of the platform falling.
      */
-    public AnimateAndDetectCollision(ImageView imageToAnimate, int screenWidth, int screenHeight,
-                                     DuckPlayer duckPlayer, int duration, int respawnDelay){
+    public AnimateImageView(ImageView imageToAnimate, int screenWidth, int screenHeight,
+                            DuckPlayer duckPlayer, int duration, int respawnDelay){
         this.imageToAnimate = imageToAnimate;
         this.screenWidth = screenWidth;
         this.screenHeight = screenHeight;
@@ -108,43 +107,6 @@ public class AnimateAndDetectCollision {
         imageToAnimate.setY(-100);
 
     }
-
-
-
-
-    /**
-     * This method is used to detect collision by comparing coordinates of the
-     * duck to coordinates of platforms. It is called continusly in the
-     * collisionChecker runnable
-     *
-     * @return return true if the duck is on a platform
-     */
-    public boolean checkCollision(){
-        int duckTopY = duckPlayer.getDuckY();
-        int duckBottomY = duckPlayer.getDuckY() + duckPlayer.getDuckHeight();
-        int platformTopY = (int)imageToAnimate.getY();
-        int platformBottomY = (int)imageToAnimate.getY() + imageToAnimate.getHeight();
-        int duckLeft = duckPlayer.getDuckX();
-        int duckRight = duckLeft + duckPlayer.getDuckWidth();
-        int platformLeft = (int) imageToAnimate.getX();
-        int platformRight = platformLeft + imageToAnimate.getWidth();
-
-        // First create booleans that eveluate to true if there is vertical overlap
-        boolean topCollision = duckTopY <= platformBottomY && duckTopY >= platformTopY;
-        boolean bottomCollision = duckBottomY >= platformTopY && duckBottomY <= platformBottomY;
-        boolean middleCollision = (duckBottomY + duckPlayer.getDuckHeight()/2) >= platformTopY && (duckBottomY +
-                (duckPlayer.getDuckHeight()/2) <= platformBottomY);
-
-        // Next create booleans that evaluate to true if there is horizontal overlap
-        boolean leftCollision = duckLeft >= platformLeft && duckLeft <= platformRight;
-        boolean rightCollision = duckRight >= platformLeft && duckRight <= platformRight;
-
-        // Return true if there is vertical overlap and horizontal overlap to indicate collision
-        return (topCollision || bottomCollision || middleCollision) && (leftCollision || rightCollision);
-
-    }
-
-
 
     /**
      * Used to end the runnables by setting the stopRunnable variable to true, this will make

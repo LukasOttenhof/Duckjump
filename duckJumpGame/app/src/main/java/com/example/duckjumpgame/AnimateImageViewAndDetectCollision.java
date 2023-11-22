@@ -4,13 +4,14 @@ import android.os.Handler;
 import android.view.View;
 import android.widget.ImageView;
 
-public class CreatePlatform extends AnimateAndDetectCollision {
+public class AnimateImageViewAndDetectCollision extends AnimateImageView {
     private Handler collisionHandler = new Handler();
     private DuckPlayer duckPlayer;
     private SoundManager soundEffect;
     private Settings settings;
     private ImageView theCoin;
     private ImageView platform;
+    private GameManager theGame;
 
     /**
      * In the constructor the collision handler is called so that collision
@@ -24,14 +25,16 @@ public class CreatePlatform extends AnimateAndDetectCollision {
      * @param respawnDelay Amount of time between animations of the platform falling.
      */
 
-    public CreatePlatform(ImageView platform, int screenWidth, int screenHeight,
-                          DuckPlayer duckPlayer, int duration, int respawnDelay, ImageView theCoin){
+    public AnimateImageViewAndDetectCollision(ImageView platform, int screenWidth, int screenHeight,
+                                              DuckPlayer duckPlayer, int duration, int respawnDelay, ImageView theCoin
+            , GameManager theGame){
 
         super(platform, screenWidth, screenHeight, duckPlayer, duration, respawnDelay);
         this.duckPlayer = duckPlayer;
         this.platform = platform;
         this.soundEffect = new SoundManager(platform.getContext());
         this.settings = new Settings(platform.getContext());
+        this.theGame = theGame;
         settings.loadMuteStatus();
         collisionHandler.postDelayed(collisionChecker, 100);
         this.theCoin = theCoin;
@@ -44,7 +47,8 @@ public class CreatePlatform extends AnimateAndDetectCollision {
      * It uses the checkCollision method for collision, if collision is detected
      * jump will be called, and a quack sound will play. If the coin != null there is
      * a coin so update number of coins collected and it so the coin cant
-     * be collected again until after the coin has respawned.
+     * be collected again until after the coin has respawned. If theCoin == platform this is a
+     * signal that the imageview being animated is a hazard, if collision is detected end game.
      */
     Runnable collisionChecker = new Runnable(){
         public void run(){
@@ -56,17 +60,26 @@ public class CreatePlatform extends AnimateAndDetectCollision {
             // Check for collision and if duck is too high
             if (checkCollision() && duckPlayer.getDuckY() > maxHeight){
                 // If yes run jump and play sound effect
-                soundEffect.playSound(R.raw.quack);
-                duckPlayer.jump();
-
+                if(theCoin == null) {
+                    soundEffect.playSound(R.raw.quack);
+                    duckPlayer.jump();
+                }
                 // If there is a coin and it is visible it hasn't been collected yet.
                 if(theCoin != null) {
+                    soundEffect.playSound(R.raw.quack);
+                    duckPlayer.jump();
                     if (theCoin.getVisibility() == View.VISIBLE) {
                         theCoin.setVisibility(View.INVISIBLE);
                         int newCoinAmount = duckPlayer.getCoinsCollected() + 1;
                         duckPlayer.setCoinsCollected(newCoinAmount);
                     }
                 }
+                // If the platform == the coin there was a collision so end game
+                if(theCoin != null && platform == theCoin) {
+                    boolean gameOutcome = false;
+                    theGame.endGame(gameOutcome);
+                }
+
             }
             // Continue the collision check if game hasn't ended
             if(!stopRunnable){
@@ -74,5 +87,37 @@ public class CreatePlatform extends AnimateAndDetectCollision {
             }
         }
     };
+
+    /**
+     * This method is used to detect collision by comparing coordinates of the
+     * duck to coordinates of platforms. It is called constantly in the
+     * collisionChecker runnable
+     *
+     * @return return true if the duck is on a platform
+     */
+    public boolean checkCollision(){
+        int duckTopY = duckPlayer.getDuckY();
+        int duckBottomY = duckPlayer.getDuckY() + duckPlayer.getDuckHeight();
+        int platformTopY = (int)imageToAnimate.getY();
+        int platformBottomY = (int)imageToAnimate.getY() + imageToAnimate.getHeight();
+        int duckLeft = duckPlayer.getDuckX();
+        int duckRight = duckLeft + duckPlayer.getDuckWidth();
+        int platformLeft = (int) imageToAnimate.getX();
+        int platformRight = platformLeft + imageToAnimate.getWidth();
+
+        // First create booleans that eveluate to true if there is vertical overlap
+        boolean topCollision = duckTopY <= platformBottomY && duckTopY >= platformTopY;
+        boolean bottomCollision = duckBottomY >= platformTopY && duckBottomY <= platformBottomY;
+        boolean middleCollision = (duckBottomY + duckPlayer.getDuckHeight()/2) >= platformTopY && (duckBottomY +
+                (duckPlayer.getDuckHeight()/2) <= platformBottomY);
+
+        // Next create booleans that evaluate to true if there is horizontal overlap
+        boolean leftCollision = duckLeft >= platformLeft && duckLeft <= platformRight;
+        boolean rightCollision = duckRight >= platformLeft && duckRight <= platformRight;
+
+        // Return true if there is vertical overlap and horizontal overlap to indicate collision
+        return (topCollision || bottomCollision || middleCollision) && (leftCollision || rightCollision);
+
+    }
 
 }

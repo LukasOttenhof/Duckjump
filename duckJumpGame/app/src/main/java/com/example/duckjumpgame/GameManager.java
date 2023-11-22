@@ -31,17 +31,17 @@ public class GameManager extends AppCompatActivity{
     private int timePlayed = 0;
     private int screenWidth;
     private int screenHeight;
-    CreatePlatform initialPlatform1;
-    CreatePlatform initialPlatform2;
-    CreatePlatform initialPlatform3;
-    CreatePlatform hiddenPlatform1;
-    CreatePlatform hiddenPlatform2;
-    CreatePlatform hiddenPlatform3;
-    CreatePlatform hiddenPlatform4;
-    CreatePlatform hiddenPlatform5;
-    CreatePlatform coinPlatform;
-    AnimateAndDetectCollision animateCoin;
-    CreateHazard hazardObject;
+    AnimateImageViewAndDetectCollision initialPlatform1;
+    AnimateImageViewAndDetectCollision initialPlatform2;
+    AnimateImageViewAndDetectCollision initialPlatform3;
+    AnimateImageViewAndDetectCollision hiddenPlatform1;
+    AnimateImageViewAndDetectCollision hiddenPlatform2;
+    AnimateImageViewAndDetectCollision hiddenPlatform3;
+    AnimateImageViewAndDetectCollision hiddenPlatform4;
+    AnimateImageViewAndDetectCollision hiddenPlatform5;
+    AnimateImageViewAndDetectCollision coinPlatform;
+    AnimateImageView animateCoin;
+    AnimateImageViewAndDetectCollision hazardObject;
     /**
      *
      * @param savedInstanceState If the activity is being re-initialized after
@@ -117,16 +117,16 @@ public class GameManager extends AppCompatActivity{
 
         // These platforms are the ones that start on the screen. Dont want them to respawn on screen so make delay huge
 
-        initialPlatform1 = new CreatePlatform(platform1, screenWidth, screenHeight, duckPlayer, 4000, 100000, null);
-        initialPlatform2 = new CreatePlatform(platform2, screenWidth, screenHeight, duckPlayer, 3000, 100000, null);
-        initialPlatform3 = new CreatePlatform(platform3, screenWidth, screenHeight, duckPlayer, 2000, 100000, null);
+        initialPlatform1 = new AnimateImageViewAndDetectCollision(platform1, screenWidth, screenHeight, duckPlayer, 4000, 100000, null, this);
+        initialPlatform2 = new AnimateImageViewAndDetectCollision(platform2, screenWidth, screenHeight, duckPlayer, 3000, 100000, null, this);
+        initialPlatform3 = new AnimateImageViewAndDetectCollision(platform3, screenWidth, screenHeight, duckPlayer, 2000, 100000, null, this);
 
         // The rest of the platforms, they will respawn consistalnty throughout the game.
-        hiddenPlatform1 = new CreatePlatform(TopPlatform1, screenWidth, screenHeight, duckPlayer, 6000, 6000, null);
-        hiddenPlatform2 = new CreatePlatform(TopPlatform3, screenWidth, screenHeight, duckPlayer, 5500, 5500, null);
-        hiddenPlatform3 = new CreatePlatform(TopPlatform4, screenWidth, screenHeight, duckPlayer, 7000, 7000, null);
-        hiddenPlatform4 = new CreatePlatform(TopPlatform5, screenWidth, screenHeight, duckPlayer, 10000, 10000, null);
-        hiddenPlatform5 = new CreatePlatform(TopPlatform6, screenWidth, screenHeight, duckPlayer, 6000, 6000, null);
+        hiddenPlatform1 = new AnimateImageViewAndDetectCollision(TopPlatform1, screenWidth, screenHeight, duckPlayer, 6000, 6000, null, this);
+        hiddenPlatform2 = new AnimateImageViewAndDetectCollision(TopPlatform3, screenWidth, screenHeight, duckPlayer, 5500, 5500, null, this);
+        hiddenPlatform3 = new AnimateImageViewAndDetectCollision(TopPlatform4, screenWidth, screenHeight, duckPlayer, 7000, 7000, null, this);
+        hiddenPlatform4 = new AnimateImageViewAndDetectCollision(TopPlatform5, screenWidth, screenHeight, duckPlayer, 10000, 10000, null, this);
+        hiddenPlatform5 = new AnimateImageViewAndDetectCollision(TopPlatform6, screenWidth, screenHeight, duckPlayer, 6000, 6000, null, this);
     }
 
     /**
@@ -137,16 +137,17 @@ public class GameManager extends AppCompatActivity{
         // Create a hazard by getting the image we want to be a hazard and using it to make a
         // hazard object.
         ImageView hazardImage = findViewById(R.id.hazard);
+
         // For some reason if you make it its own AnimateAndDetectCollision it crashes
-        hazardObject = new CreateHazard(hazardImage, screenWidth, screenHeight, duckPlayer, 4000, 6000, this);
+        hazardObject = new AnimateImageViewAndDetectCollision(hazardImage, screenWidth, screenHeight, duckPlayer, 4000, 6000, hazardImage, this);
 
         // Creating the platform with a coin
         ImageView TopPlatform2 = findViewById(R.id.platformTop2);
         ImageView theCoin = findViewById(R.id.coin);
 
 
-        coinPlatform = new CreatePlatform(TopPlatform2, screenWidth, screenHeight, duckPlayer, 5500, 5500, theCoin);
-        animateCoin = new AnimateAndDetectCollision(theCoin, screenWidth, screenHeight, duckPlayer, 5500, 5500);
+        coinPlatform = new AnimateImageViewAndDetectCollision(TopPlatform2, screenWidth, screenHeight, duckPlayer, 5500, 5500, theCoin, this);
+        animateCoin = new AnimateImageView(theCoin, screenWidth, screenHeight, duckPlayer, 5500, 5500);
     }
 
     /**
