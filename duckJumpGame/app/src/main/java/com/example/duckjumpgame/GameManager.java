@@ -202,7 +202,7 @@ public class GameManager extends AppCompatActivity{
             }
             calculateAndDisplayScore();
             // If the game hasn't ended continue
-            if(!stopRunnables){
+            if(!stopRunnables && !isPaused){
                 winHandler.postDelayed(this, 100); //execute again in 100 millis
             }
         }
@@ -217,7 +217,7 @@ public class GameManager extends AppCompatActivity{
 
             // Schedule the Runnable to run again after 1 second
             // Unless game has ended
-            if(!stopRunnables) {
+            if(!stopRunnables && !isPaused) {
                 winHandler.postDelayed(this, 1000);
             }
         }
@@ -256,9 +256,12 @@ public class GameManager extends AppCompatActivity{
         hazardObject.pauseAnimation();
         Button pauseButton = findViewById(R.id.pauseButton);
         pauseButton.setOnClickListener(this::resumeGame);
+        pauseButton.setText("Resume");
     }
     public void resumeGame(View myView){
         isPaused = false;
+
+        winHandler.postDelayed((timeUpdater),100);
         duckPlayer.resumeAnimation();
         initialPlatform1.resumeAnimation();
         initialPlatform2.resumeAnimation();
@@ -275,6 +278,7 @@ public class GameManager extends AppCompatActivity{
         winHandler.postDelayed(winChecker, 100);
         winHandler.postDelayed((timeUpdater),100);
         pauseButton.setOnClickListener(this::pauseGame);
+        pauseButton.setText("Pause");
     }
 
     public void calculateAndDisplayTime(){

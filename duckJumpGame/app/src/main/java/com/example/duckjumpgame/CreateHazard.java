@@ -40,7 +40,7 @@ public class CreateHazard extends AnimateAndDetectCollision {
     Runnable collisionChecker = new Runnable(){
         public void run(){
             // Check for collision and if duck is too high
-            if (checkCollision() && duckPlayer.getDuckY() > 150){
+            if (checkCollision()){
                 // If yes end game
                 boolean gameOutcome = false;
                 theGame.endGame(gameOutcome);
