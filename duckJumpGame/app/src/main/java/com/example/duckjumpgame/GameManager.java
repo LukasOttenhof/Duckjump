@@ -246,6 +246,7 @@ public class GameManager extends AppCompatActivity{
 
     public void pauseGame(View myView){
         stopRunnables = true;
+        duckPlayer.pauseAnimation();
         initialPlatform1.pauseAnimation();
         initialPlatform2.pauseAnimation();
         initialPlatform3.pauseAnimation();
@@ -262,17 +263,18 @@ public class GameManager extends AppCompatActivity{
     }
     public void resumeGame(View myView){
         stopRunnables = false;
-        initialPlatform1.pauseAnimation();
-        initialPlatform2.pauseAnimation();
-        initialPlatform3.pauseAnimation();
-        hiddenPlatform1.pauseAnimation();
-        hiddenPlatform2.pauseAnimation();
-        hiddenPlatform3.pauseAnimation();
-        hiddenPlatform4.pauseAnimation();
-        hiddenPlatform5.pauseAnimation();
-        coinPlatform.pauseAnimation();
-        animateCoin.pauseAnimation();
-        hazardObject.pauseAnimation();
+        duckPlayer.resumeAnimation();
+        initialPlatform1.resumeAnimation();
+        initialPlatform2.resumeAnimation();
+        initialPlatform3.resumeAnimation();
+        hiddenPlatform1.resumeAnimation();
+        hiddenPlatform2.resumeAnimation();
+        hiddenPlatform3.resumeAnimation();
+        hiddenPlatform4.resumeAnimation();
+        hiddenPlatform5.resumeAnimation();
+        coinPlatform.resumeAnimation();
+        animateCoin.resumeAnimation();
+        hazardObject.resumeAnimation();
         Button pauseButton = findViewById(R.id.pauseButton);
         winHandler.postDelayed(winChecker, 100);
         winHandler.postDelayed((timeUpdater),100);

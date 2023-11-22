@@ -62,6 +62,8 @@ public class AnimateAndDetectCollision {
         fallAnimator.setDuration(duration);
         fallAnimator.start();
 
+
+
     }
 
     /**
@@ -78,9 +80,6 @@ public class AnimateAndDetectCollision {
 
     }
 
-    public int getY(){
-        return (int)imageToAnimate.getY();
-    }
 
     /**
      * This runnable is used to animate the platforms in a cycle, first reseting the
