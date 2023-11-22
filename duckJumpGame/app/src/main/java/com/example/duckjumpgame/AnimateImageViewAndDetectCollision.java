@@ -64,8 +64,13 @@ public class AnimateImageViewAndDetectCollision extends AnimateImageView {
                     soundEffect.playSound(R.raw.quack);
                     duckPlayer.jump();
                 }
+                // If the platform == the coin there was a collision so end game
+                else if(theCoin != null && platform == theCoin) {
+                    boolean gameOutcome = false;
+                    theGame.endGame(gameOutcome);
+                }
                 // If there is a coin and it is visible it hasn't been collected yet.
-                if(theCoin != null) {
+                else if(theCoin != null) {
                     soundEffect.playSound(R.raw.quack);
                     duckPlayer.jump();
                     if (theCoin.getVisibility() == View.VISIBLE) {
@@ -73,11 +78,6 @@ public class AnimateImageViewAndDetectCollision extends AnimateImageView {
                         int newCoinAmount = duckPlayer.getCoinsCollected() + 1;
                         duckPlayer.setCoinsCollected(newCoinAmount);
                     }
-                }
-                // If the platform == the coin there was a collision so end game
-                if(theCoin != null && platform == theCoin) {
-                    boolean gameOutcome = false;
-                    theGame.endGame(gameOutcome);
                 }
 
             }
