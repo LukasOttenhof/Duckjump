@@ -63,7 +63,6 @@ public class GameManager extends AppCompatActivity{
         ImageView theDuck = findViewById(R.id.theDuck);
         ConstraintLayout background = findViewById(R.id.background);
 
-
         scoreDisplay = findViewById(R.id.scoreNum);
         timeDisplay = findViewById(R.id.timeNum);
         coinDisplay = findViewById(R.id.coinNum);
@@ -116,6 +115,8 @@ public class GameManager extends AppCompatActivity{
         ImageView TopPlatform6 = findViewById(R.id.platformTop6);
 
         // These platforms are the ones that start on the screen. Dont want them to respawn on screen so make delay huge
+        // The screen with is set to 0 because these platforms should not respawn so it doesnt need
+        // screenwidth and we can instead use it to indicate they should not respawn
 
         initialPlatform1 = new AnimateImageViewAndDetectCollision(platform1, 0, screenHeight, duckPlayer, 4000,  null, this, "platform");
         initialPlatform2 = new AnimateImageViewAndDetectCollision(platform2, 0, screenHeight, duckPlayer, 3000, null, this, "platform");
@@ -261,7 +262,6 @@ public class GameManager extends AppCompatActivity{
     }
     public void resumeGame(View myView){
         isPaused = false;
-
         winHandler.postDelayed((timeUpdater),100);
         duckPlayer.resumeAnimation();
         initialPlatform1.resumeAnimation();

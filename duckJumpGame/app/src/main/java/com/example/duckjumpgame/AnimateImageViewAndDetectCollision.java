@@ -23,7 +23,6 @@ public class AnimateImageViewAndDetectCollision extends AnimateImageView {
      * @param screenHeight Bottom of the screen, endpoint of the animation.
      * @param duckPlayer The duckObject that manages the duck.
      * @param duration Amount of time the platform falling animation will take.
-     * @param respawnDelay Amount of time between animations of the platform falling.
      */
 
     public AnimateImageViewAndDetectCollision(ImageView platform, int screenWidth, int screenHeight,

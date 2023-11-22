@@ -6,6 +6,7 @@ import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
 import android.view.MotionEvent;
 import android.view.ViewGroup;
+import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.DecelerateInterpolator;
 import android.view.animation.LinearInterpolator;
@@ -20,9 +21,9 @@ public class DuckPlayer {
     private int coinsCollected = 1; // 1 By default so score wont be set back to 0
     private int platformsTouched = 0;
     private int scoreDistance;
-    private ValueAnimator jumpAnimator;
-    private ValueAnimator fallAnimator;
-    private ObjectAnimator bounceAnimator;
+    public ValueAnimator jumpAnimator;
+    public ValueAnimator fallAnimator;
+    public ObjectAnimator bounceAnimator;
 
     /**
      * @param theDuck      ImageView of the duck, it is whats being animated in this class.
@@ -60,22 +61,35 @@ public class DuckPlayer {
         fallAnimator.setInterpolator(new AccelerateInterpolator()); // Start slow and speed up as fall progresses
         fallAnimator.setDuration(jumpDuration - 500);
 
-        // Set up an update listener to handle the animation values, i found this online, i did not
-        // know about update listeners before
+
+        // Set up an update listener to handle the animation values, found how to set up listener
+        // Online
+
         jumpAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
             public void onAnimationUpdate(ValueAnimator animation) {
-                float animatedValue = (float) animation.getAnimatedValue();
-                theDuck.setY(animatedValue);
+                if(isGamePaused){
+
+                }
+                else{
+                    float animatedValue = (float) animation.getAnimatedValue();
+                    theDuck.setY(animatedValue);
+                }
             }
         });
+
         fallAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
             public void onAnimationUpdate(ValueAnimator animation) {
-                float animatedValue = (float) animation.getAnimatedValue();
-                theDuck.setY(animatedValue);
+                if(isGamePaused) {
+
+                }
+                else{
+                    float animatedValue = (float) animation.getAnimatedValue();
+                    theDuck.setY(animatedValue);                }
             }
         });
+
 
 
 
@@ -91,14 +105,9 @@ public class DuckPlayer {
 
     //Changes Score when jumping
     public void jumpScore() {
-
         for (int scoreCount = 10; scoreCount > 0; scoreCount -= 1) {
-
             scoreDistance += 1;
-
         }
-
-
     }
 
     //getter for jumping score
@@ -167,6 +176,7 @@ public class DuckPlayer {
         bounceAnimator.start();
 
         jumpScore();
+
     }
 
     /**
@@ -200,23 +210,15 @@ public class DuckPlayer {
         if (jumpAnimator != null && jumpAnimator.isRunning()) {
             jumpAnimator.pause();
         }
-        else if (fallAnimator != null && fallAnimator.isRunning()) {
+        if (fallAnimator != null && fallAnimator.isRunning()) {
             fallAnimator.pause();
         }
-        else if (bounceAnimator != null && bounceAnimator.isRunning()) {
+        if (bounceAnimator != null && bounceAnimator.isRunning()) {
             bounceAnimator.pause();
         }
     }
     public void resumeAnimation() {
         isGamePaused = false;
-        if (jumpAnimator != null && jumpAnimator.isPaused()) {
-            jumpAnimator.resume();
-        }
-        if (fallAnimator != null && fallAnimator.isPaused()) {
-            fallAnimator.resume();
-        }
-        if (bounceAnimator != null && bounceAnimator.isPaused()) {
-            bounceAnimator.resume();
-        }
+        jump();
     }
 }

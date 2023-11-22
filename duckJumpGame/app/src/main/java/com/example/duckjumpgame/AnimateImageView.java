@@ -117,15 +117,13 @@ public class AnimateImageView {
 
     }
 
-    //========================================
+    // Pauses the animation
     public void pauseAnimation() {
         isGamePaused = true;
         if (fallAnimator != null && fallAnimator.isRunning()) {
-            int ypos = (int)imageToAnimate.getY();
             fallAnimator.pause();
-            imageToAnimate.setY(ypos);
         }
-        // Additional logic for pausing any ongoing animations or transitions
+
     }
 
 
@@ -137,6 +135,5 @@ public class AnimateImageView {
         }
 
     }
-
 
 }
