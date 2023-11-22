@@ -200,23 +200,23 @@ public class DuckPlayer {
         if (jumpAnimator != null && jumpAnimator.isRunning()) {
             jumpAnimator.pause();
         }
-        if (fallAnimator != null && fallAnimator.isRunning()) {
+        else if (fallAnimator != null && fallAnimator.isRunning()) {
             fallAnimator.pause();
         }
-        if (bounceAnimator != null && bounceAnimator.isRunning()) {
+        else if (bounceAnimator != null && bounceAnimator.isRunning()) {
             bounceAnimator.pause();
         }
     }
     public void resumeAnimation() {
         isGamePaused = false;
         if (jumpAnimator != null && jumpAnimator.isPaused()) {
-            jump();
+            jumpAnimator.resume();
         }
         if (fallAnimator != null && fallAnimator.isPaused()) {
-            jump();
+            fallAnimator.resume();
         }
         if (bounceAnimator != null && bounceAnimator.isPaused()) {
-            jump();
+            bounceAnimator.resume();
         }
     }
 }

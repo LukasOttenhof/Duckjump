@@ -1,14 +1,10 @@
 package com.example.duckjumpgame;
 
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -16,8 +12,6 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
-
-import org.w3c.dom.Text;
 
 public class GameManager extends AppCompatActivity{
     private DuckPlayer duckPlayer;
@@ -45,7 +39,7 @@ public class GameManager extends AppCompatActivity{
     CreatePlatform hiddenPlatform3;
     CreatePlatform hiddenPlatform4;
     CreatePlatform hiddenPlatform5;
-    CreatePlatformWithCoin coinPlatform;
+    CreatePlatform coinPlatform;
     AnimateAndDetectCollision animateCoin;
     CreateHazard hazardObject;
     /**
@@ -103,7 +97,8 @@ public class GameManager extends AppCompatActivity{
      * Manages the platforms that are created by this function.
      *
      * Each platform is created with bounds for screen width and height
-     * to prevent from spawning outside of play area, as well as a duration, and a respawn delay
+     * to prevent from spawning outside of play area, as well as a duration, and a respawn delay,
+     * the coin parameter is set to null because these platforms don't have coins.
      *
      * Initial platforms are spawned at the start of the game and are in the
      * same location each time while hidden platforms respawn after falling off
@@ -122,16 +117,16 @@ public class GameManager extends AppCompatActivity{
 
         // These platforms are the ones that start on the screen. Dont want them to respawn on screen so make delay huge
 
-        initialPlatform1 = new CreatePlatform(platform1, screenWidth, screenHeight, duckPlayer, 4000, 100000);
-        initialPlatform2 = new CreatePlatform(platform2, screenWidth, screenHeight, duckPlayer, 3000, 100000);
-        initialPlatform3 = new CreatePlatform(platform3, screenWidth, screenHeight, duckPlayer, 2000, 100000);
+        initialPlatform1 = new CreatePlatform(platform1, screenWidth, screenHeight, duckPlayer, 4000, 100000, null);
+        initialPlatform2 = new CreatePlatform(platform2, screenWidth, screenHeight, duckPlayer, 3000, 100000, null);
+        initialPlatform3 = new CreatePlatform(platform3, screenWidth, screenHeight, duckPlayer, 2000, 100000, null);
 
         // The rest of the platforms, they will respawn consistalnty throughout the game.
-        hiddenPlatform1 = new CreatePlatform(TopPlatform1, screenWidth, screenHeight, duckPlayer, 6000, 6000);
-        hiddenPlatform2 = new CreatePlatform(TopPlatform3, screenWidth, screenHeight, duckPlayer, 5500, 5500);
-        hiddenPlatform3 = new CreatePlatform(TopPlatform4, screenWidth, screenHeight, duckPlayer, 7000, 7000);
-        hiddenPlatform4 = new CreatePlatform(TopPlatform5, screenWidth, screenHeight, duckPlayer, 10000, 10000);
-        hiddenPlatform5 = new CreatePlatform(TopPlatform6, screenWidth, screenHeight, duckPlayer, 6000, 6000);
+        hiddenPlatform1 = new CreatePlatform(TopPlatform1, screenWidth, screenHeight, duckPlayer, 6000, 6000, null);
+        hiddenPlatform2 = new CreatePlatform(TopPlatform3, screenWidth, screenHeight, duckPlayer, 5500, 5500, null);
+        hiddenPlatform3 = new CreatePlatform(TopPlatform4, screenWidth, screenHeight, duckPlayer, 7000, 7000, null);
+        hiddenPlatform4 = new CreatePlatform(TopPlatform5, screenWidth, screenHeight, duckPlayer, 10000, 10000, null);
+        hiddenPlatform5 = new CreatePlatform(TopPlatform6, screenWidth, screenHeight, duckPlayer, 6000, 6000, null);
     }
 
     /**
@@ -150,7 +145,7 @@ public class GameManager extends AppCompatActivity{
         ImageView theCoin = findViewById(R.id.coin);
 
 
-        coinPlatform = new CreatePlatformWithCoin(TopPlatform2, screenWidth, screenHeight, duckPlayer, 5500, 5500, theCoin);
+        coinPlatform = new CreatePlatform(TopPlatform2, screenWidth, screenHeight, duckPlayer, 5500, 5500, theCoin);
         animateCoin = new AnimateAndDetectCollision(theCoin, screenWidth, screenHeight, duckPlayer, 5500, 5500);
     }
 

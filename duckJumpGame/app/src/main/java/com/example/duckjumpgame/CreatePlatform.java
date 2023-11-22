@@ -1,6 +1,7 @@
 package com.example.duckjumpgame;
 
 import android.os.Handler;
+import android.view.View;
 import android.widget.ImageView;
 
 public class CreatePlatform extends AnimateAndDetectCollision {
@@ -8,10 +9,11 @@ public class CreatePlatform extends AnimateAndDetectCollision {
     private DuckPlayer duckPlayer;
     private SoundManager soundEffect;
     private Settings settings;
+    private ImageView theCoin;
+    private ImageView platform;
 
     /**
-     * In the constructor startFallAnimation is called right away because we want the animations to
-     * begin when the user opens the game, the collision handler is also called so that collision
+     * In the constructor the collision handler is called so that collision
      * will start to be detected.
      *
      * @param platform The Imageview of the platform that is being animated.
@@ -22,39 +24,53 @@ public class CreatePlatform extends AnimateAndDetectCollision {
      * @param respawnDelay Amount of time between animations of the platform falling.
      */
 
-    public CreatePlatform(ImageView platform, int screenWidth, int screenHeight, DuckPlayer duckPlayer, int duration, int respawnDelay){
+    public CreatePlatform(ImageView platform, int screenWidth, int screenHeight,
+                          DuckPlayer duckPlayer, int duration, int respawnDelay, ImageView theCoin){
+
         super(platform, screenWidth, screenHeight, duckPlayer, duration, respawnDelay);
         this.duckPlayer = duckPlayer;
+        this.platform = platform;
         this.soundEffect = new SoundManager(platform.getContext());
         this.settings = new Settings(platform.getContext());
+        settings.loadMuteStatus();
         collisionHandler.postDelayed(collisionChecker, 100);
+        this.theCoin = theCoin;
 
         settings.checkMute(soundEffect);
-
-        startFallAnimation(); // Initial platform animation before the delayed ones
-        // Schedule next animations and respawns in a loop
     }
 
     /**
      * This runnable is checking for collision repeatedly until the game ends.
      * It uses the checkCollision method for collision, if collision is detected
-     * the duck will jump and a the quack sound effect is played. It stops when
-     * stopRunnable is set to true which happens when the game ends. The runnable
-     * is set to a 100 millisecond delay so that when the duck goes up through a platform
-     * the delay isn't so short that the duck jumps or quacks a second time.
+     * jump will be called, and a quack sound will play. If the coin != null there is
+     * a coin so update number of coins collected and it so the coin cant
+     * be collected again until after the coin has respawned.
      */
     Runnable collisionChecker = new Runnable(){
         public void run(){
+            int maxHeight = 150; // We wont let the duck jump if it is higher than this
+            if(theCoin != null) { // If there is a coin
+                theCoin.setX(platform.getX());//setting the coin and platform to the same x
+                //so that even though they respawn randomly they will be put together
+            }
             // Check for collision and if duck is too high
-            if (checkCollision() && duckPlayer.getDuckY() > 150){
+            if (checkCollision() && duckPlayer.getDuckY() > maxHeight){
                 // If yes run jump and play sound effect
                 soundEffect.playSound(R.raw.quack);
                 duckPlayer.jump();
 
+                // If there is a coin and it is visible it hasn't been collected yet.
+                if(theCoin != null) {
+                    if (theCoin.getVisibility() == View.VISIBLE) {
+                        theCoin.setVisibility(View.INVISIBLE);
+                        int newCoinAmount = duckPlayer.getCoinsCollected() + 1;
+                        duckPlayer.setCoinsCollected(newCoinAmount);
+                    }
+                }
             }
             // Continue the collision check if game hasn't ended
             if(!stopRunnable){
-                collisionHandler.postDelayed(this, 25);
+                collisionHandler.postDelayed(this, 50);
             }
         }
     };
