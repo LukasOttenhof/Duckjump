@@ -17,7 +17,7 @@
         android:background="@color/white"
         android:gravity="center"
         android:text="Duck Jump"
-        android:textSize="50sp"
+        android:textSize="50dp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
