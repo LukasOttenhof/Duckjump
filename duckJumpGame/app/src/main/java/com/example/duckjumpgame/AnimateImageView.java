@@ -110,7 +110,6 @@ public class AnimateImageView {
      */
     public void endRunnables(){
         stopAnimation = true;
-
     }
 
     /**

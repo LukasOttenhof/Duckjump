@@ -152,7 +152,7 @@ public class GameManager extends AppCompatActivity{
     }
 
     /**
-     * Open the winPage when the game is over and end the runnables.
+     * Open the winPage when the game is over and end the runnqables.
      * If the runnables arent ended the quacking noise will continue
      * while in the EndPage
      *

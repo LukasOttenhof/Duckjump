@@ -75,8 +75,8 @@ public class MainActivity extends AppCompatActivity{
         TextView mainText = findViewById(R.id.mainText);
         Button playButton = findViewById(R.id.playButton);
         Button creditButton = findViewById(R.id.creditButton);
-        mainText.setText("Created by: Cole, Edan, and Lukas");
-        mainText.setTextSize(30);
+        mainText.setText("Created by: Cole, Edan, and Lukas. Duck icon created by Freepik, https://www.flaticon.com/free-icons/duck");
+        mainText.setTextSize(20);
         creditButton.setOnClickListener(this::backToMain);
 
         creditButton.setText("Back To Menu");
