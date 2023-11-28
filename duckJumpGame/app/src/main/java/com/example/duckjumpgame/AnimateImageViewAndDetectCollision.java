@@ -104,29 +104,23 @@ public class AnimateImageViewAndDetectCollision extends AnimateImageView {
      *
      * @return return true if the duck is on a platform
      */
-    public boolean checkCollision(){
+    public boolean checkCollision() {
         int duckTopY = duckPlayer.getDuckY();
         int duckBottomY = duckPlayer.getDuckY() + duckPlayer.getDuckHeight();
-        int platformTopY = (int)imageToAnimate.getY();
-        int platformBottomY = (int)imageToAnimate.getY() + imageToAnimate.getHeight();
+        int platformTopY = (int) imageToAnimate.getY();
+        int platformBottomY = (int) imageToAnimate.getY() + imageToAnimate.getHeight();
         int duckLeft = duckPlayer.getDuckX();
         int duckRight = duckLeft + duckPlayer.getDuckWidth();
+        int duckHalf = duckPlayer.getDuckHeight() / 2;
         int platformLeft = (int) imageToAnimate.getX();
         int platformRight = platformLeft + imageToAnimate.getWidth();
 
-        // First create booleans that eveluate to true if there is vertical overlap
-        boolean topCollision = duckTopY <= platformBottomY && duckTopY >= platformTopY;
-        boolean bottomCollision = duckBottomY >= platformTopY && duckBottomY <= platformBottomY;
-        boolean middleCollision = (duckBottomY + duckPlayer.getDuckHeight()/2) >= platformTopY && (duckBottomY +
-                (duckPlayer.getDuckHeight()/2) <= platformBottomY);
+        CollisionChecker collisionChecker = new CollisionChecker(
+                duckTopY, duckBottomY, platformTopY, platformBottomY,
+                duckLeft, duckRight, duckHalf, platformLeft, platformRight
+        );
 
-        // Next create booleans that evaluate to true if there is horizontal overlap
-        boolean leftCollision = duckLeft >= platformLeft && duckLeft <= platformRight;
-        boolean rightCollision = duckRight >= platformLeft && duckRight <= platformRight;
-
-        // Return true if there is vertical overlap and horizontal overlap to indicate collision
-        return (topCollision || bottomCollision || middleCollision) && (leftCollision || rightCollision);
-
+        return collisionChecker.checkCollision();
     }
 
 }
