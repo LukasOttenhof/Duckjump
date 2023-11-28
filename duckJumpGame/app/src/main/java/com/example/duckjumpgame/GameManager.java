@@ -23,9 +23,6 @@ public class GameManager extends AppCompatActivity{
     private TextView scoreDisplay;
     private TextView timeDisplay;
     private TextView coinDisplay;
-    private static final String PREFERENCES = "prefsFile";
-    private static final String IS_MUTED_KEY = "isMuted";
-    private boolean isMuted;
     private int finalScore;
     private boolean wasGameWon;
     private int timePlayed = 0;
