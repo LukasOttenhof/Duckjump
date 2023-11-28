@@ -135,16 +135,6 @@
         app:srcCompat="@drawable/theduck" />
 
     <TextView
-        android:id="@+id/textView"
-        android:layout_width="410dp"
-        android:layout_height="43dp"
-        android:layout_marginTop="730dp"
-        android:background="@color/green"
-        android:text=""
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
         android:id="@+id/textView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
