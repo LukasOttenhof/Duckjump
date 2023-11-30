@@ -16,7 +16,6 @@ public class AnimateImageViewAndDetectCollision extends AnimateImageView {
     private SoundManager soundEffect;
     private Settings settings;
     private ImageView theCoin;
-    private ImageView platform;
     private GameManager theGame;
     private String typeOfObject;
 
@@ -24,23 +23,21 @@ public class AnimateImageViewAndDetectCollision extends AnimateImageView {
      * In the constructor the collision handler is called so that collision
      * will start to be detected.
      *
-     * @param platform The Imageview of the platform that is being animated.
      * @param screenWidth Maximum width the platform can respawn at.
      * @param screenHeight Bottom of the screen, endpoint of the animation.
      * @param duckPlayer The duckObject that manages the duck.
      * @param duration Amount of time the platform falling animation will take.
      */
 
-    public AnimateImageViewAndDetectCollision(ImageView platform, int screenWidth, int screenHeight,
+    public AnimateImageViewAndDetectCollision(ImageView imageToAnimate, int screenWidth, int screenHeight,
                                               DuckPlayer duckPlayer, int duration, ImageView theCoin
             , GameManager theGame, String typeOfObject){
 
-        super(platform, screenWidth, screenHeight, duration);
+        super(imageToAnimate, screenWidth, screenHeight, duration);
         this.duckPlayer = duckPlayer;
         this.typeOfObject = typeOfObject;
-        this.platform = platform;
-        this.soundEffect = new SoundManager(platform.getContext());
-        this.settings = new Settings(platform.getContext());
+        this.soundEffect = new SoundManager(imageToAnimate.getContext());
+        this.settings = new Settings(imageToAnimate.getContext());
         this.theGame = theGame;
         settings.loadMuteStatus();
         collisionHandler.postDelayed(collisionChecker, 100);
@@ -62,7 +59,7 @@ public class AnimateImageViewAndDetectCollision extends AnimateImageView {
             int maxHeight = 150; // We wont let the duck jump if it is higher than this
 
             if(typeOfObject.equals("withCoin")) { // If there is a coin
-                theCoin.setX(platform.getX());//setting the coin and platform to the same x
+                theCoin.setX(imageToAnimate.getX());//setting the coin and platform to the same x
                 //so that even though they respawn randomly they will be put together
             }
             // Check for collision and if duck is too high
