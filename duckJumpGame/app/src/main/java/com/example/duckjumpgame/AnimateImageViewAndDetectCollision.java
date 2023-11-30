@@ -66,23 +66,15 @@ public class AnimateImageViewAndDetectCollision extends AnimateImageView {
             if (checkCollision() && duckPlayer.getDuckY() > maxHeight){
 
                 if(typeOfObject.equals("platform")) {
-                    soundEffect.playSound(R.raw.quack);
-                    duckPlayer.jump();
+                    platformCollision();
                 }
 
                 else if(typeOfObject.equals("hazard")) {
-                    boolean gameOutcome = false;
-                    theGame.endGame(gameOutcome);
+                    hazardCollision();
                 }
 
                 else if(typeOfObject.equals("withCoin")) {
-                    soundEffect.playSound(R.raw.quack);
-                    duckPlayer.jump();
-                    if (theCoin.getVisibility() == View.VISIBLE) {// if the coin is isnt collected
-                        theCoin.setVisibility(View.INVISIBLE); // yet, hide it and increase coins
-                        int newCoinAmount = duckPlayer.getCoinsCollected() + 1; // collected
-                        duckPlayer.setCoinsCollected(newCoinAmount);
-                    }
+                    platformWithCoinCollision();
                 }
 
             }
@@ -93,6 +85,23 @@ public class AnimateImageViewAndDetectCollision extends AnimateImageView {
             }
         }
     };
+    private void platformCollision(){
+        soundEffect.playSound(R.raw.quack);
+        duckPlayer.jump();
+    }
+    private void hazardCollision(){
+        boolean gameOutcome = false;
+        theGame.endGame(gameOutcome);
+    }
+    private void platformWithCoinCollision(){
+        soundEffect.playSound(R.raw.quack);
+        duckPlayer.jump();
+        if (theCoin.getVisibility() == View.VISIBLE) {// if the coin is isnt collected
+            theCoin.setVisibility(View.INVISIBLE); // yet, hide it and increase coins
+            int newCoinAmount = duckPlayer.getCoinsCollected() + 1; // collected
+            duckPlayer.setCoinsCollected(newCoinAmount);
+        }
+    }
 
     /**
      * This method is used to detect collision by comparing coordinates of the
