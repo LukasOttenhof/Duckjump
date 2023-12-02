@@ -49,10 +49,8 @@ public class AnimateImageViewAndDetectCollision extends AnimateImageView {
     /**
      * This runnable is checking for collision repeatedly until the game ends.
      * It uses the checkCollision method for collision, if collision is detected
-     * the function will find out what needs to happen by comparing to the typeOfObject String.
-     * If the collision was for a platform the duck will jump and quack, if the collision was for
-     * a hazard the game will end, and if the collision was for the platform with a coin and the
-     * coin hadnt been collected quack, jump, increase coins collected, and hide the coin.
+     * the function will find out what function should be called as result of the collision by
+     * comparing to the typeOfObject String.
      */
     Runnable collisionChecker = new Runnable(){
         public void run(){
@@ -85,19 +83,36 @@ public class AnimateImageViewAndDetectCollision extends AnimateImageView {
             }
         }
     };
+
+    /**
+     * This method is called when there is collision and the object that there was collision with
+     * was a platform. This method makes the duck jump, and makes the quack sound.
+     */
     private void platformCollision(){
         soundEffect.playSound(R.raw.quack);
         duckPlayer.jump();
     }
+
+    /**
+     * This method is called when there is collision and the object there is collision with is
+     * a hazard. This method ends the game.
+     */
     private void hazardCollision(){
         boolean gameOutcome = false;
         theGame.endGame(gameOutcome);
     }
+
+    /**
+     * This method is called when there is collision and the object there is collision with is a
+     * platform that has a coin. This method calls platformCollision to make the duck act as it
+     * should when comming in contact with the platform, but if the coin hasnt been collected yet
+     * it will hide the coin and raise the number of coins collected
+     */
     private void platformWithCoinCollision(){
-        soundEffect.playSound(R.raw.quack);
-        duckPlayer.jump();
-        if (theCoin.getVisibility() == View.VISIBLE) {// if the coin is isnt collected
-            theCoin.setVisibility(View.INVISIBLE); // yet, hide it and increase coins
+        platformCollision();
+        // if the coin is isnt collected yet, hide it and increase coins
+        if (theCoin.getVisibility() == View.VISIBLE) {
+            theCoin.setVisibility(View.INVISIBLE);
             int newCoinAmount = duckPlayer.getCoinsCollected() + 1; // collected
             duckPlayer.setCoinsCollected(newCoinAmount);
         }

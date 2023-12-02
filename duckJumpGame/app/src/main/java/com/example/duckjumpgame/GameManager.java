@@ -239,6 +239,13 @@ public class GameManager extends AppCompatActivity{
         return score;
     }
 
+    /**
+     * This method is used to pause all animations. It works by calling the pause functions in
+     * each object that can be animated, sets the isPaused boolean to be true, and changes the
+     * pause button to function as a resume button.
+     *
+     * @param myView
+     */
     public void pauseGame(View myView){
         isPaused = true;
         duckPlayer.pauseAnimation();
@@ -257,6 +264,14 @@ public class GameManager extends AppCompatActivity{
         pauseButton.setOnClickListener(this::resumeGame);
         pauseButton.setText("Resume");
     }
+
+    /**
+     * This method is used to resume animation after being paused. It works by calling the resume
+     * methods that are in the classes that have animation. This method sets isPaused to false,
+     * starts the runnables again, and edits the properties of the resume button to make it a
+     * pause button again.
+     * @param myView
+     */
     public void resumeGame(View myView){
         isPaused = false;
         winHandler.postDelayed((timeUpdater),100);
