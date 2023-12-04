@@ -78,7 +78,7 @@ public class AnimateImageViewAndDetectCollision extends AnimateImageView {
             }
             // Continue the collision check if game hasn't ended. Uses the same stopping boolean
             // As the animation in AnimateImageView
-            if(!stopAnimation){
+            if(!stopAnimation && !isGamePaused){
                 collisionHandler.postDelayed(this, 50);
             }
         }
@@ -119,13 +119,14 @@ public class AnimateImageViewAndDetectCollision extends AnimateImageView {
     }
 
     /**
-     * This method is used to detect collision by comparing coordinates of the
-     * duck to coordinates of platforms. It is called constantly in the
-     * collisionChecker runnable
+     * This method is used to detect collision by using the collision checker class. This method
+     * is called constantly in the collisionChecker runnable
      *
      * @return return true if the duck is on a platform
      */
     public boolean checkCollision() {
+        // Getting all of the coordinates to do comparisons between duck and ImageView this class
+        // is animating
         int duckTopY = duckPlayer.getDuckY();
         int duckBottomY = duckPlayer.getDuckY() + duckPlayer.getDuckHeight();
         int objectTopY = (int) imageToAnimate.getY();
@@ -133,19 +134,35 @@ public class AnimateImageViewAndDetectCollision extends AnimateImageView {
         int duckLeft = duckPlayer.getDuckX();
         int duckRight = duckLeft + duckPlayer.getDuckWidth();
         int duckHalf = duckPlayer.getDuckHeight() / 2;
-
         int objectLeft = (int) imageToAnimate.getX();
         int objectRight = objectLeft + imageToAnimate.getWidth();
-        if(typeOfObject.equals("hazard")) { // making the cordiantes a tighter fit for hazard
+        if(typeOfObject.equals("hazard")) { // making the coordinates a tighter fit for hazard
             objectRight -= 50;
             objectLeft += 80;
         }
+
+        // Using collision check class to detect collision
         CollisionChecker collisionChecker = new CollisionChecker(
                 duckTopY, duckBottomY, objectTopY, objectBottomY,
                 duckLeft, duckRight, duckHalf, objectLeft, objectRight
         );
 
         return collisionChecker.checkCollision();
+    }
+    @Override
+    /**
+     * This method is called in game manager to resume the ImageView being animated.
+     * It works by setting isGamePaused to false and using the .resume() function from the
+     * ObjectAnimator library. This method overrides the one in AnimateImageView because in this
+     * class the resume function needs the extra functionality of resuming the collision detection
+     * runnable.
+     */
+    public void resumeAnimation() {
+        isGamePaused = false;
+        if (fallAnimator != null && fallAnimator.isPaused()) {
+            fallAnimator.resume();
+        }
+        collisionHandler.postDelayed(collisionChecker, 100);
     }
 
 }
