@@ -22,12 +22,11 @@ public class DuckPlayer {
     private int screenHeight;
     private boolean isGamePaused = false;
     private int screenWidth;
-    private int coinsCollected = 1; // 1 By default so score wont be set back to 0
+    private int coinsCollected = 1; // 1 By default so score wont be set back to 0 when multiplying
     private int platformsTouched = 0;
-    private int scoreDistance;
     public ValueAnimator jumpAnimator;
     public ValueAnimator fallAnimator;
-
+    private boolean isJumpAfterPause = false;
     private JumpScorer jumpScorer;
     public ObjectAnimator bounceAnimator;
 
@@ -56,10 +55,16 @@ public class DuckPlayer {
         int originalY = (int) theDuck.getY();
         int jumpDuration = 2000;
 
-        platformsTouched += 1;
+        //  Do not update the score if the jump is being called on resume
+        if(!isJumpAfterPause){
+            platformsTouched += 1;
+            jumpScorer.updateScore();
+        }
+        isJumpAfterPause = false;
+
         // Calculate the ending positions for the jump animation, 0 is at the top, 300 is the hight of the jump from where the duck was
         int jumpPeak = originalY - 150;
-        jumpScorer.updateScore();
+
         // Create a ValueAnimator for jump and fall animation
         jumpAnimator = ValueAnimator.ofFloat(originalY, jumpPeak);
         jumpAnimator.setInterpolator(new DecelerateInterpolator()); // Start the duck speed fast and slow at top
@@ -231,6 +236,7 @@ public class DuckPlayer {
      */
     public void resumeAnimation() {
         isGamePaused = false;
+        isJumpAfterPause = true;
         jump();
     }
 }

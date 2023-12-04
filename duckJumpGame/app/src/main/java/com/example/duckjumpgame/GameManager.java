@@ -289,7 +289,6 @@ public class GameManager extends AppCompatActivity{
         hazardObject.resumeAnimation();
         Button pauseButton = findViewById(R.id.pauseButton);
         winHandler.postDelayed(winChecker, 100);
-        winHandler.postDelayed((timeUpdater),100);
         pauseButton.setOnClickListener(this::pauseGame);
         pauseButton.setText("Pause");
     }
