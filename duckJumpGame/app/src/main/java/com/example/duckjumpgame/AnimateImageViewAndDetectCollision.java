@@ -128,17 +128,21 @@ public class AnimateImageViewAndDetectCollision extends AnimateImageView {
     public boolean checkCollision() {
         int duckTopY = duckPlayer.getDuckY();
         int duckBottomY = duckPlayer.getDuckY() + duckPlayer.getDuckHeight();
-        int platformTopY = (int) imageToAnimate.getY();
-        int platformBottomY = (int) imageToAnimate.getY() + imageToAnimate.getHeight();
+        int objectTopY = (int) imageToAnimate.getY();
+        int objectBottomY = (int) imageToAnimate.getY() + imageToAnimate.getHeight();
         int duckLeft = duckPlayer.getDuckX();
         int duckRight = duckLeft + duckPlayer.getDuckWidth();
         int duckHalf = duckPlayer.getDuckHeight() / 2;
-        int platformLeft = (int) imageToAnimate.getX();
-        int platformRight = platformLeft + imageToAnimate.getWidth();
 
+        int objectLeft = (int) imageToAnimate.getX();
+        int objectRight = objectLeft + imageToAnimate.getWidth();
+        if(typeOfObject.equals("hazard")) { // making the cordiantes a tighter fit for hazard
+            objectRight -= 50;
+            objectLeft += 80;
+        }
         CollisionChecker collisionChecker = new CollisionChecker(
-                duckTopY, duckBottomY, platformTopY, platformBottomY,
-                duckLeft, duckRight, duckHalf, platformLeft, platformRight
+                duckTopY, duckBottomY, objectTopY, objectBottomY,
+                duckLeft, duckRight, duckHalf, objectLeft, objectRight
         );
 
         return collisionChecker.checkCollision();
