@@ -10,6 +10,7 @@ import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity{
@@ -72,14 +73,15 @@ public class MainActivity extends AppCompatActivity{
      */
     public void openCredits(View myView){
         buttonSoundEffect.playSound(R.raw.button_sound);
-        TextView mainText = findViewById(R.id.mainText);
+        ImageView mainMenu = findViewById(R.id.mainMenu);
+        TextView creditsText = findViewById(R.id.mainText);
         Button playButton = findViewById(R.id.playButton);
         Button creditButton = findViewById(R.id.creditButton);
-        mainText.setText("Created by: Cole, Edan, and Lukas. Duck icon created by Freepik, https://www.flaticon.com/free-icons/duck");
-        mainText.setTextSize(20);
         creditButton.setOnClickListener(this::backToMain);
 
         creditButton.setText("Back To Menu");
+        mainMenu.setVisibility(View.INVISIBLE);
+        creditsText.setVisibility(View.VISIBLE);
         playButton.setVisibility(View.INVISIBLE);
         playButton.setEnabled(false);
     }
@@ -96,14 +98,15 @@ public class MainActivity extends AppCompatActivity{
      */
     public void backToMain(View myView){
         buttonSoundEffect.playSound(R.raw.button_sound);
-        TextView mainText = findViewById(R.id.mainText);
+        ImageView mainMenu = findViewById(R.id.mainMenu);
+        TextView creditsText = findViewById(R.id.mainText);
         Button playButton = findViewById(R.id.playButton);
         Button creditButton = findViewById(R.id.creditButton);
-        mainText.setText("Duck Jump");
-        mainText.setTextSize(50);
         creditButton.setOnClickListener(this::openCredits);
 
         creditButton.setText("Credits");
+        mainMenu.setVisibility(View.VISIBLE);
+        creditsText.setVisibility(View.INVISIBLE);
         playButton.setVisibility(View.VISIBLE);
         playButton.setEnabled(true);
     }

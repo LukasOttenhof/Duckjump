@@ -16,9 +16,10 @@
         android:layout_marginTop="111dp"
         android:background="@color/white"
         android:gravity="center"
-        android:text="Duck Jump"
-        android:textSize="50dp"
+        android:text="Created by Lukas, Edan, and Cole. \n\nImage Credits: \nhttps://www.flaticon.com/free-icons icons created by Freepik - Flaticon"
+        android:textSize="20dp"
         android:textStyle="bold"
+        android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -76,8 +77,8 @@
         android:id="@+id/imageView5"
         android:layout_width="60dp"
         android:layout_height="64dp"
-        android:layout_marginStart="107dp"
-        android:layout_marginTop="48dp"
+        android:layout_marginStart="60dp"
+        android:layout_marginTop="44dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/snowglobe" />
@@ -105,6 +106,18 @@
         app:layout_constraintTop_toBottomOf="@+id/creditButton"
         app:layout_constraintVertical_bias="0.512"
         tools:text="muteButton" />
+
+    <ImageView
+        android:id="@+id/mainMenu"
+        android:layout_width="336dp"
+        android:layout_height="420dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.493"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.054"
+        app:srcCompat="@drawable/mainmenu" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
