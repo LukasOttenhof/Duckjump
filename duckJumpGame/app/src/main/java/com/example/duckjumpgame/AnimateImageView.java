@@ -61,7 +61,7 @@ public class AnimateImageView {
         fallAnimator.addListener(new Animator.AnimatorListener() {
             @Override
             public void onAnimationStart(Animator animation) {
-                // Animation started
+                // Although this isn't used if we don't have it we get an error
             }
 
             // When that animation ends reset the imageview and call the animator again
@@ -77,13 +77,13 @@ public class AnimateImageView {
 
             @Override
             public void onAnimationCancel(Animator animation) {
-                // Animation canceled
+                // Although this isn't used if we don't have it we get an error
             }
 
 
             @Override
             public void onAnimationRepeat(Animator animation) {
-                // Animation repeated
+                // Although this isn't used if we don't have it we get an error
             }
         });
 

@@ -28,17 +28,18 @@ public class GameManager extends AppCompatActivity{
     private int timePlayed = 0;
     private int screenWidth;
     private int screenHeight;
-    AnimateImageViewAndDetectCollision initialPlatform1;
-    AnimateImageViewAndDetectCollision initialPlatform2;
-    AnimateImageViewAndDetectCollision initialPlatform3;
-    AnimateImageViewAndDetectCollision hiddenPlatform1;
-    AnimateImageViewAndDetectCollision hiddenPlatform2;
-    AnimateImageViewAndDetectCollision hiddenPlatform3;
-    AnimateImageViewAndDetectCollision hiddenPlatform4;
-    AnimateImageViewAndDetectCollision hiddenPlatform5;
-    AnimateImageViewAndDetectCollision coinPlatform;
-    AnimateImageView animateCoin;
-    AnimateImageViewAndDetectCollision hazardObject;
+    // The following objects are used for animation.
+    private AnimateImageViewAndDetectCollision initialPlatform1;
+    private AnimateImageViewAndDetectCollision initialPlatform2;
+    private AnimateImageViewAndDetectCollision initialPlatform3;
+    private AnimateImageViewAndDetectCollision hiddenPlatform1;
+    private AnimateImageViewAndDetectCollision hiddenPlatform2;
+    private AnimateImageViewAndDetectCollision hiddenPlatform3;
+    private AnimateImageViewAndDetectCollision hiddenPlatform4;
+    private AnimateImageViewAndDetectCollision hiddenPlatform5;
+    private AnimateImageViewAndDetectCollision coinPlatform;
+    private AnimateImageView animateCoin;
+    private AnimateImageViewAndDetectCollision hazardObject;
     /**
      *
      * @param savedInstanceState If the activity is being re-initialized after
@@ -93,8 +94,10 @@ public class GameManager extends AppCompatActivity{
      * Manages the platforms that are created by this function.
      *
      * Each platform is created with bounds for screen width and height
-     * to prevent from spawning outside of play area, as well as a duration, and a respawn delay,
-     * the coin parameter is set to null because these platforms don't have coins.
+     * to prevent from spawning outside of play area, as well as a duration,
+     * the coin parameter is set to null because these platforms don't have coins, typeOfObject
+     * is platform because if the duck collides with one fo these platforms we want
+     * platformCollision to be called
      *
      * Initial platforms are spawned at the start of the game and are in the
      * same location each time while hidden platforms respawn after falling off
@@ -111,9 +114,9 @@ public class GameManager extends AppCompatActivity{
         ImageView TopPlatform5 = findViewById(R.id.platformTop5);
         ImageView TopPlatform6 = findViewById(R.id.platformTop6);
 
-        // These platforms are the ones that start on the screen. Dont want them to respawn on screen so make delay huge
-        // The screen with is set to 0 because these platforms should not respawn so it doesnt need
-        // screenwidth and we can instead use it to indicate they should not respawn
+        // These platforms are the ones that start on the screen. Don't want them to respawn.
+        // The screen with is set to 0 because these platforms should not respawn so it doesn't need
+        // screenWidth and we can instead use it to indicate they should not respawn
 
         initialPlatform1 = new AnimateImageViewAndDetectCollision(platform1, 0, screenHeight, duckPlayer, 4000,  null, this, "platform");
         initialPlatform2 = new AnimateImageViewAndDetectCollision(platform2, 0, screenHeight, duckPlayer, 3000, null, this, "platform");
@@ -128,7 +131,7 @@ public class GameManager extends AppCompatActivity{
     }
 
     /**
-     * This class initialized the hazard object and coin so that they
+     * This class initializes the hazard object and coin so that they
      * will become animated and begin detecting collision.
      */
     private void manageCoinAndHazard(){
@@ -136,13 +139,12 @@ public class GameManager extends AppCompatActivity{
         // hazard object.
         ImageView hazardImage = findViewById(R.id.hazard);
 
-        // For some reason if you make it its own AnimateAndDetectCollision it crashes
+
         hazardObject = new AnimateImageViewAndDetectCollision(hazardImage, screenWidth, screenHeight, duckPlayer, 4000, null, this, "hazard");
 
         // Creating the platform with a coin
         ImageView TopPlatform2 = findViewById(R.id.platformTop2);
         ImageView theCoin = findViewById(R.id.coin);
-
 
         coinPlatform = new AnimateImageViewAndDetectCollision(TopPlatform2, screenWidth, screenHeight, duckPlayer, 5500, theCoin, this, "withCoin");
         animateCoin = new AnimateImageView(theCoin, screenWidth, screenHeight,  5500);
@@ -151,7 +153,7 @@ public class GameManager extends AppCompatActivity{
     /**
      * Open the winPage when the game is over and end the runnqables.
      * If the runnables arent ended the quacking noise will continue
-     * while in the EndPage
+     * while in the EndPage. This method also used putExtra to send info to the EnaPage class
      *
      * @return return if the game was won
      */
@@ -183,24 +185,26 @@ public class GameManager extends AppCompatActivity{
     /**
      * Runnable is running every 100 milliseconds checking for game end condition
      * which is when the DuckPlayer is below the screen bounds. It also updates the score
-     * and coins that the user has by calling calculateAndDisplayScore().
+     * and coins that the user has by calling calculateAndDisplayScore(). If the player survived
+     * for more than 180 seconds they win.
      *
      * Learned how to use runnable and handlers from examples online
      */
     Runnable winChecker = new Runnable(){
         public void run(){
-            // Check for if duck is too low
+            // Check for if time played has gone over the limit, if it has player won
             if(timePlayed >= 180){
                 boolean winOutCome = true;
                 endGame(winOutCome);
             }
+            // check if player fell off the screen. If they did they lost
             else if (duckPlayer.getDuckY() >= screenHeight){
                 boolean winOutCome = false;
                 endGame(winOutCome);
                 return;
             }
             calculateAndDisplayScore();
-            // If the game hasn't ended continue
+            // If the game hasn't ended and isn't paused continue the runnable
             if(!stopRunnables && !isPaused){
                 winHandler.postDelayed(this, 100); //execute again in 100 millis
             }
@@ -225,7 +229,7 @@ public class GameManager extends AppCompatActivity{
 
     /**
      * This method calculates and displays the score by first caluclating the score, this is done
-     * by multiplying the platforms touched by the coins collected.
+     * by multiplying the platforms touched + score distance by the coins collected.
      * It then updates the displayed score by setting the TextView that displays the score to be
      * the score that was calculated. It also displays the number of coins collected
      * by using getCoinsCollected. It is called when the duck makes collision since score is

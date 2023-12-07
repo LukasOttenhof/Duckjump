@@ -53,7 +53,7 @@ public class DuckPlayer {
      */
     public void jump() {
         int originalY = (int) theDuck.getY();
-        int jumpDuration = 2000;
+        int jumpDuration = 2000; // Speed of the animation
 
         //  Do not update the score if the jump is being called on resume
         if(!isJumpAfterPause){
@@ -80,8 +80,9 @@ public class DuckPlayer {
         jumpAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
             public void onAnimationUpdate(ValueAnimator animation) {
-                if(isGamePaused){
-
+                if(isGamePaused){ // .pause is like an update do we need this so
+                                // that when thte game pauses the pause is not
+                                //over ridden
                 }
                 else{
                     float animatedValue = (float) animation.getAnimatedValue();
@@ -93,7 +94,9 @@ public class DuckPlayer {
         fallAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
             public void onAnimationUpdate(ValueAnimator animation) {
-                if(isGamePaused) {
+                if(isGamePaused) {// .pause is like an update do we need this so
+                    // that when thte game pauses the pause is not
+                    //over ridden
 
                 }
                 else{
@@ -164,10 +167,10 @@ public class DuckPlayer {
     }
 
     /**
-     * Handles the initial bounce animation of the DuckPlayer on collision. After the
+     * Handles the initial bounce animation of the DuckPlayer. After the
      * initial bounce, the jump is handled by the jump() function. Initial bounce is higher
      * and slower because the customer wants it to be easy to get to the first platform.
-     * <p>
+     *
      * Animator found at
      * https://stackoverflow.com/questions/11633221/android-properties-that-can-be-animated-with-objectanimator
      * https://developer.android.com/develop/ui/views/animations/prop-animation#views
