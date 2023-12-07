@@ -146,8 +146,10 @@ public class GameManager extends AppCompatActivity{
         ImageView TopPlatform2 = findViewById(R.id.platformTop2);
         ImageView theCoin = findViewById(R.id.coin);
 
+        // Creating the AnimateImageViewAndDetectCollision so collision with coin is detected
         coinPlatform = new AnimateImageViewAndDetectCollision(TopPlatform2, screenWidth, screenHeight, duckPlayer, 5500, theCoin, this, "withCoin");
-        animateCoin = new AnimateImageView(theCoin, screenWidth, screenHeight,  5500);
+        // Creating the AnimateImageViewAndDetectCollision so collision with coins platform is detected
+        animateCoin = new AnimateImageViewAndDetectCollision(theCoin, screenWidth, screenHeight, duckPlayer,  5500, theCoin, this, "withCoin");
     }
 
     /**
