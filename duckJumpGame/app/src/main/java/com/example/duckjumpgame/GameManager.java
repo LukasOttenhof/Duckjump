@@ -8,14 +8,12 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-
-
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
 /**
- * GameManager.java is designed to house the UI elements, some logic, as well as the interaction
- * between the two. This is the playable area of DuckJump and is where most of the development is
+ * GameManager.java is designed to manage the interaction between the front and back end.
+ * This is where the backend and front end interact, and is where most of the development is
  * focused.
  */
 
@@ -48,6 +46,12 @@ public class GameManager extends AppCompatActivity{
     private AnimateImageViewAndDetectCollision hazardObject;
 
     /**
+     * In the constructor the a lot of the public and private variables are initialized, this is
+     * also where referenced to ImageViews in the front end are grabbed, such as the duck, background,
+     * time, score and coins displays so that they can be manipulated by data received from the backend.
+     * This class also has a runnable that acts as a timer, once it reaches 180 seconds the game is won
+     * so this class will tell the animator classes that are animating ImageViews in the front end to
+     * stop, and then the end page will be opened.
      *
      * @param savedInstanceState If the activity is being re-initialized after
      *     previously being shut down then this Bundle contains the data it most
@@ -68,9 +72,13 @@ public class GameManager extends AppCompatActivity{
         ImageView theDuck = findViewById(R.id.theDuck);
         ConstraintLayout background = findViewById(R.id.background);
 
+        // Get ImageViews that will display data from the backend
         scoreDisplay = findViewById(R.id.scoreNum);
         timeDisplay = findViewById(R.id.timeNum);
         coinDisplay = findViewById(R.id.coinNum);
+
+        // Getting screen dimensions so they can be sent to the classes that do
+        // animation.
         screenWidth = getResources().getDisplayMetrics().widthPixels;
         screenHeight = getResources().getDisplayMetrics().heightPixels;
         // Set up the DuckPlayer instance
@@ -78,8 +86,10 @@ public class GameManager extends AppCompatActivity{
 
         // Start the platform animation
         managePlatforms();
+
         // Start check for win
         winHandler.postDelayed(winChecker, 100);
+        // Start timer that ends game because game was won
         winHandler.postDelayed((timeUpdater),100);
 
         // Start the platform with coin and hazard
@@ -109,12 +119,18 @@ public class GameManager extends AppCompatActivity{
      * Initial platforms are spawned at the start of the game and are in the
      * same location each time while hidden platforms respawn after falling off
      * bottom of the screen
+     *
      */
     public void managePlatforms(){
+        // Getting references to ImageViews in the front end so they
+        // can be sent to the back end animators
+
+        // These are the platforms initially on the screen
         ImageView platform1 = findViewById(R.id.platform1);
         ImageView platform2 = findViewById(R.id.platform2);
         ImageView platform3 = findViewById(R.id.platform3);
 
+        // These are the platforms that are initially above the screen
         ImageView TopPlatform1 = findViewById(R.id.platformTop1);
         ImageView TopPlatform3 = findViewById(R.id.platformTop3);
         ImageView TopPlatform4 = findViewById(R.id.platformTop4);
@@ -142,8 +158,8 @@ public class GameManager extends AppCompatActivity{
      * will become animated and begin detecting collision.
      */
     private void manageCoinAndHazard(){
-        // Create a hazard by getting the image we want to be a hazard and using it to make a
-        // hazard object.
+        // Create a hazard by getting the image we want to be a hazard from the front end and using it to make a
+        // hazard object, using the AnimateImageViewAndDetectCollision class in the backend
         ImageView hazardImage = findViewById(R.id.hazard);
 
 
@@ -160,7 +176,8 @@ public class GameManager extends AppCompatActivity{
     }
 
     /**
-     * Open the winPage when the game is over and end the runnables.
+     * Open the winPage when the game is over and end the runnables in the backend
+     * that are checking for collision, doing this will also stop the animation.
      * If the runnables aren't ended the quacking noise will continue
      * while in the EndPage. This method also used putExtra to send info to the EnaPage class
      *
@@ -237,11 +254,11 @@ public class GameManager extends AppCompatActivity{
 
 
     /**
-     * This method calculates and displays the score by first caluclating the score, this is done
-     * by multiplying the platforms touched + score distance by the coins collected.
-     * It then updates the displayed score by setting the TextView that displays the score to be
-     * the score that was calculated. It also displays the number of coins collected
-     * by using getCoinsCollected. It is called when the duck makes collision since score is
+     * This method calculates and displays the score by first calculating the score, this is done
+     * by multiplying the platforms touched + score distance by the coins collected. These 3
+     * values are retrieved from the back end. It then updates the displayed score in the front end by setting
+     * the TextView that displays the score to be the score that was calculated. It also displays the number
+     * of coins collected by using getCoinsCollected. It is called when the duck makes collision since score is
      * based off of the score being updated.
      */
     public int calculateAndDisplayScore(){
