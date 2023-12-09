@@ -13,6 +13,12 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
+/**
+ * GameManager.java is designed to house the UI elements, some logic, as well as the interaction
+ * between the two. This is the playable area of DuckJump and is where most of the development is
+ * focused.
+ */
+
 public class GameManager extends AppCompatActivity{
     private DuckPlayer duckPlayer;
     private SoundManager soundEffect;
@@ -40,6 +46,7 @@ public class GameManager extends AppCompatActivity{
     private AnimateImageViewAndDetectCollision coinPlatform;
     private AnimateImageView animateCoin;
     private AnimateImageViewAndDetectCollision hazardObject;
+
     /**
      *
      * @param savedInstanceState If the activity is being re-initialized after
@@ -122,7 +129,7 @@ public class GameManager extends AppCompatActivity{
         initialPlatform2 = new AnimateImageViewAndDetectCollision(platform2, 0, screenHeight, duckPlayer, 3000, null, this, "platform");
         initialPlatform3 = new AnimateImageViewAndDetectCollision(platform3, 0, screenHeight, duckPlayer, 2000, null, this, "platform");
 
-        // The rest of the platforms, they will respawn consistalnty throughout the game.
+        // The rest of the platforms, they will respawn consistently throughout the game.
         hiddenPlatform1 = new AnimateImageViewAndDetectCollision(TopPlatform1, screenWidth, screenHeight, duckPlayer, 6000, null, this, "platform");
         hiddenPlatform2 = new AnimateImageViewAndDetectCollision(TopPlatform3, screenWidth, screenHeight, duckPlayer, 5500, null, this, "platform");
         hiddenPlatform3 = new AnimateImageViewAndDetectCollision(TopPlatform4, screenWidth, screenHeight, duckPlayer, 7000, null, this, "platform");
@@ -153,8 +160,8 @@ public class GameManager extends AppCompatActivity{
     }
 
     /**
-     * Open the winPage when the game is over and end the runnqables.
-     * If the runnables arent ended the quacking noise will continue
+     * Open the winPage when the game is over and end the runnables.
+     * If the runnables aren't ended the quacking noise will continue
      * while in the EndPage. This method also used putExtra to send info to the EnaPage class
      *
      * @return return if the game was won
@@ -199,7 +206,7 @@ public class GameManager extends AppCompatActivity{
                 boolean winOutCome = true;
                 endGame(winOutCome);
             }
-            // check if player fell off the screen. If they did they lost
+            // Check if player fell off the screen. If they did they lost
             else if (duckPlayer.getDuckY() >= screenHeight){
                 boolean winOutCome = false;
                 endGame(winOutCome);

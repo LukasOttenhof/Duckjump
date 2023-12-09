@@ -121,7 +121,7 @@ public class DuckPlayer {
 
 
 
-    //getter for jumping score
+    // Getter used for jumping score
     public int getScoreDistance() {
         return jumpScorer.getScoreDistance();
     }

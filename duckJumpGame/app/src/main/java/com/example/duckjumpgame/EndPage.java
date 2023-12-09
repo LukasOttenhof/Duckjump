@@ -6,6 +6,12 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
+/**
+ * EndPage.java is designed to house all of the UI elements and functions necessary for the win or
+ * loss screen. This includes things like the final score, play again button, main menu button, and
+ * the music/sounds.
+ */
+
 public class EndPage extends AppCompatActivity{
     private TextView finalScoreTextView;
     private SoundManager buttonSoundEffect;

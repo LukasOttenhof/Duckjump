@@ -1,5 +1,12 @@
 package com.example.duckjumpgame;
 
+/**
+ * CollisionChecker.java is designed to check the collision of the duck object through a set of
+ * parameters. These parameters are the x and y values that outline the duck, and are therefore the
+ * collision boxes. This functions by checking if any of the edges of the duck, are currently
+ * overlapping any other object's edges. If so, a collision is detected.
+ */
+
 public class CollisionChecker {
     private int duckTopY;
     private int duckBottomY;

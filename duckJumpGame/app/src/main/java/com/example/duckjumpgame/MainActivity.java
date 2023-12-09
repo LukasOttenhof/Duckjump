@@ -13,6 +13,22 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+/**
+ * MainActivty.java class is designed to control the main menu activity within the game. This
+ * includes the UI elements within the main menu, such as the buttons, images, transitions, and
+ * settings (mute button for the time being). This also handles the main menu theme music using the
+ * SoundManager object. Another important element is the Settings object, this ensures that when
+ * you toggle mute on or off, regardless of whether or not you close the game, the choice will
+ * remain selected throughout DuckJump. The four notable methods within this class are:
+ *
+ * startGame() - Starts the game screen by switching to the GameManager class and intent
+ * openCredits() - Swaps the main screen to view the credits text by swapping UI elements
+ * backToMain() - Called when in credits screen and the return to main menu button is clicked
+ * muteSound() - Normally we would have the settings handle the audio, however, since you can toggle
+ * mute on this screen if you need, we needed to have an additional method to handle this particular
+ * activity's sound
+ */
+
 public class MainActivity extends AppCompatActivity{
     private SoundManager soundEffect;
     private SoundManager buttonSoundEffect;
@@ -25,7 +41,6 @@ public class MainActivity extends AppCompatActivity{
         setContentView(R.layout.activity_main);
 
         settings = new Settings(this);
-        
         settings.loadMuteStatus();
 
         soundEffect = new SoundManager(this);

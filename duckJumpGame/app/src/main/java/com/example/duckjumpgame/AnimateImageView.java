@@ -11,6 +11,9 @@ import java.util.Random;
  * This class is used to create objects that are animated vertically using y coordinates.
  * This class is extended by AnimateImageViewAndDectectCollision for ImageViews that need to
  * detect collision.
+ *
+ * This way we can have a general animation class for any objects, but utilize the child classes
+ * for whether or not we want to have collision along with those animations.
  */
 public class AnimateImageView {
     private int screenWidth;
@@ -105,7 +108,7 @@ public class AnimateImageView {
     }
 
     /**
-     * Used to end the vertical animation when the game ends. It works by setting the stopAmination
+     * Used to end the vertical animation when the game ends. It works by setting the stopAnimation
      * variable to true so that the animation will not repeat once the animation ends.
      */
     public void endRunnables(){

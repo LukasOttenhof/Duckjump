@@ -6,9 +6,9 @@ import android.widget.ImageView;
 
 /**
  * This class extends AnimateImageView because it is for Imageviews that need to be animated with
- * the additional functionality of being able to detect collison. This class is used for all
+ * the additional functionality of being able to detect collision. This class is used for all
  * Imageviews that need collision detection with the duck, this includes the platforms, hazards, and
- * the platform wiht a coin.
+ * the platform with a coin.
  */
 public class AnimateImageViewAndDetectCollision extends AnimateImageView {
     private Handler collisionHandler = new Handler();
@@ -20,7 +20,7 @@ public class AnimateImageViewAndDetectCollision extends AnimateImageView {
     private String typeOfObject;
 
     /**
-     * In the constructor the collision handler is called so that collision
+     * In the constructor, the collision handler is called so that collision
      * will start to be detected.
      *
      * @param screenWidth Maximum width the platform can respawn at.
@@ -43,7 +43,7 @@ public class AnimateImageViewAndDetectCollision extends AnimateImageView {
         collisionHandler.postDelayed(collisionChecker, 100);
         this.theCoin = theCoin;
 
-        settings.checkMute(soundEffect);
+        settings.checkMute(soundEffect); // Used for checking if collision sounds should be muted
     }
 
     /**
@@ -57,8 +57,8 @@ public class AnimateImageViewAndDetectCollision extends AnimateImageView {
             int maxHeight = 150; // We wont let the duck jump if it is higher than this
 
             if(typeOfObject.equals("withCoin")) { // If there is a coin
-                theCoin.setX(imageToAnimate.getX());//setting the coin and platform to the same x
-                //so that even though they respawn randomly they will be put together
+                theCoin.setX(imageToAnimate.getX()); // Setting the coin and platform to the same x
+                // so that even though they respawn randomly they will be put together
             }
             // Check for collision and if duck is too high
             if (checkCollision() && duckPlayer.getDuckY() > maxHeight){
@@ -105,15 +105,15 @@ public class AnimateImageViewAndDetectCollision extends AnimateImageView {
     /**
      * This method is called when there is collision and the object there is collision with is a
      * platform that has a coin. This method calls platformCollision to make the duck act as it
-     * should when comming in contact with the platform, but if the coin hasnt been collected yet
+     * should when coming in contact with the platform, but if the coin hasn't been collected yet
      * it will hide the coin and raise the number of coins collected
      */
     private void platformWithCoinCollision(){
         platformCollision();
-        // if the coin is isnt collected yet, hide it and increase coins
+        // if the coin is isn't collected yet, hide it and increase coins
         if (theCoin.getVisibility() == View.VISIBLE) {
             theCoin.setVisibility(View.INVISIBLE);
-            int newCoinAmount = duckPlayer.getCoinsCollected() + 1; // collected
+            int newCoinAmount = duckPlayer.getCoinsCollected() + 1; // Collected
             duckPlayer.setCoinsCollected(newCoinAmount);
         }
     }
@@ -136,7 +136,7 @@ public class AnimateImageViewAndDetectCollision extends AnimateImageView {
         int duckHalf = duckPlayer.getDuckHeight() / 2;
         int objectLeft = (int) imageToAnimate.getX();
         int objectRight = objectLeft + imageToAnimate.getWidth();
-        if(typeOfObject.equals("hazard")) { // making the coordinates a tighter fit for hazard
+        if(typeOfObject.equals("hazard")) { // Making the coordinates a tighter fit for hazard
             objectRight -= 50;
             objectLeft += 80;
         }
