@@ -26,8 +26,8 @@ public class AnimateImageView {
     private Random randomInt = new Random();
 
     /**
-     * In the constructor the variables will be set to the values of the parameters and the
-     * platformHandler will be called starting the animation loop.
+     * In the constructor the variables will be set to the values of the parameters and
+     * startFallAnimation will be called begining the animation loop.
      *
      * @param imageToAnimate The Imageview of the platform that is being animated.
      * @param screenWidth Maximum width the platform can respawn at.
@@ -39,7 +39,6 @@ public class AnimateImageView {
         this.imageToAnimate = imageToAnimate;
         this.screenWidth = screenWidth;
         this.screenHeight = screenHeight;
-
         this.duration = duration;
 
         startFallAnimation(); // Start the animation
@@ -48,7 +47,9 @@ public class AnimateImageView {
     /**
      * Used to animate the platform ImageView. It starts the animation from the
      * platforms y value and makes it move to below the screen height. It uses the private
-     * ObjectAnimator fallAnimator.
+     * ObjectAnimator fallAnimator. This method has an onAnimation end listener checking
+     * for when the animation ends. When the animation ends the reset method is called
+     * and then the animation will start again.
      */
     public void startFallAnimation(){
         int originalY = (int)imageToAnimate.getY(); // Getting starting point for the animation
@@ -60,7 +61,7 @@ public class AnimateImageView {
         fallAnimator.start();
 
 
-        // Setting up animators for the animator
+        // Setting up listeners for the animator
         fallAnimator.addListener(new Animator.AnimatorListener() {
             @Override
             public void onAnimationStart(Animator animation) {
@@ -70,6 +71,7 @@ public class AnimateImageView {
             // When that animation ends reset the imageview and call the animator again
             @Override
             public void onAnimationEnd(Animator animation) {
+                // If the game hasn't ended and isn't paused the repeat the animation
                 if (!stopAnimation && !isGamePaused && screenWidth != 0) {
                     respawn();
                     imageToAnimate.setVisibility(View.VISIBLE);
@@ -77,19 +79,16 @@ public class AnimateImageView {
                 }
             }
 
-
             @Override
             public void onAnimationCancel(Animator animation) {
                 // Although this isn't used if we don't have it we get an error
             }
-
 
             @Override
             public void onAnimationRepeat(Animator animation) {
                 // Although this isn't used if we don't have it we get an error
             }
         });
-
 
     }
 
@@ -109,7 +108,8 @@ public class AnimateImageView {
 
     /**
      * Used to end the vertical animation when the game ends. It works by setting the stopAnimation
-     * variable to true so that the animation will not repeat once the animation ends.
+     * variable to true so that the animation will not repeat once the animation ends. This method
+     * is called in GameManager once the game ends.
      */
     public void endRunnables(){
         stopAnimation = true;

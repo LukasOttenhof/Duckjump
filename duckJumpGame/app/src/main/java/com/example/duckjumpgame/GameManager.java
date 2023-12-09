@@ -156,7 +156,7 @@ public class GameManager extends AppCompatActivity{
         // Creating the AnimateImageViewAndDetectCollision so collision with coin is detected
         coinPlatform = new AnimateImageViewAndDetectCollision(TopPlatform2, screenWidth, screenHeight, duckPlayer, 5500, theCoin, this, "withCoin");
         // Creating the AnimateImageViewAndDetectCollision so collision with coins platform is detected
-        animateCoin = new AnimateImageViewAndDetectCollision(theCoin, screenWidth, screenHeight, duckPlayer,  5500, theCoin, this, "withCoin");
+        animateCoin = new AnimateImageViewAndDetectCollision(theCoin, screenWidth, screenHeight, duckPlayer,  5500, theCoin, this, "coin");
     }
 
     /**

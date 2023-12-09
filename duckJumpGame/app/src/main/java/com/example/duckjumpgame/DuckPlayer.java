@@ -31,6 +31,10 @@ public class DuckPlayer {
     public ObjectAnimator bounceAnimator;
 
     /**
+     * In the constructor the public and private variables are initialized and
+     * the startBounceAnimation method is called to start the animation of the
+     * duck.
+     *
      * @param theDuck      ImageView of the duck, it is whats being animated in this class.
      * @param screenHeight This is the bottom of the screen, its what the animation will end at
      *                     because the duck is trying to fall off of the screen.
@@ -55,60 +59,75 @@ public class DuckPlayer {
         int originalY = (int) theDuck.getY();
         int jumpDuration = 2000; // Speed of the animation
 
-        //  Do not update the score if the jump is being called on resume
+        // Do not update the score if the jump is being called on resume, this is
+        // because jump is called to make the duck resume animation and so score
+        // should not increase.
         if(!isJumpAfterPause){
             platformsTouched += 1;
             jumpScorer.updateScore();
         }
         isJumpAfterPause = false;
 
-        // Calculate the ending positions for the jump animation, 0 is at the top, 300 is the hight of the jump from where the duck was
+        // Calculate the ending positions for the jump animation, we want the duck to
+        // jump from its current position to 150 higher.
         int jumpPeak = originalY - 150;
 
-        // Create a ValueAnimator for jump and fall animation
+        // Create a ValueAnimator for jump
         jumpAnimator = ValueAnimator.ofFloat(originalY, jumpPeak);
         jumpAnimator.setInterpolator(new DecelerateInterpolator()); // Start the duck speed fast and slow at top
         jumpAnimator.setDuration(jumpDuration / 2);
+        // Create ValueAnimator for fall
         fallAnimator = ValueAnimator.ofFloat(jumpPeak, screenHeight);
         fallAnimator.setInterpolator(new AccelerateInterpolator()); // Start slow and speed up as fall progresses
         fallAnimator.setDuration(jumpDuration - 500);
 
 
-        // Set up an update listener to handle the animation values, found how to set up listener
-        // Online
+        // Set up an update listener to handle the animation values, found how to set up animator
+        // listeners online. We used value animator rather than object animator because
+        // we were having a hard time getting object animator to work, the game kept crashing when
+        // coming into contact with a platform
 
         jumpAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            // This listener is triggered every time the animated value is changed.
+            // We need it so that when the animated value is changed we set the y coordinate
+            // to the new value
             @Override
             public void onAnimationUpdate(ValueAnimator animation) {
-                if(isGamePaused){ // .pause is like an update do we need this so
-                                // that when thte game pauses the pause is not
-                                //over ridden
+                if(isGamePaused){ // we need this so that when the game pauses the pause is not
+                                // over ridden, if we don't have this the y coordinate will continue to
+                                // update when paused.
                 }
                 else{
-                    float animatedValue = (float) animation.getAnimatedValue();
-                    theDuck.setY(animatedValue);
+                    float animatedValue = (float) animation.getAnimatedValue(); // gets current value
+                                                                                // of animator
+                    theDuck.setY(animatedValue); // The y coordinate is what we will animate
+                                                // with the animator so set it to the animatedValue
                 }
             }
+
         });
 
         fallAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            // This listener is triggered every time the animated value is changed.
+            // We need it so that when the animated value is changed we set the y coordinate
+            // to the new value
             @Override
             public void onAnimationUpdate(ValueAnimator animation) {
-                if(isGamePaused) {// .pause is like an update do we need this so
-                    // that when thte game pauses the pause is not
-                    //over ridden
-
+                if(isGamePaused) {// we need this so that when the game pauses the pause is not
+                    // over ridden, if we don't have this the y coordinate will continue to
+                    // update when paused.
                 }
                 else{
-                    float animatedValue = (float) animation.getAnimatedValue();
-                    theDuck.setY(animatedValue);                }
+                    float animatedValue = (float) animation.getAnimatedValue(); // gets current value
+                    // of animator
+                    theDuck.setY(animatedValue); // The y coordinate is what we will animate
+                    // with the animator so set it to the animatedValue
+                }
             }
         });
 
 
-
-
-        // Start the jump and fall animation
+        // Start the jump and fall animation, play them sequentially
         // animator set found at https://stackoverflow.com/questions/64744445/animatorset-stopping-when-playing-sequentially
         AnimatorSet animatorSet = new AnimatorSet();
         animatorSet.playSequentially(jumpAnimator, fallAnimator);
@@ -126,7 +145,7 @@ public class DuckPlayer {
         return jumpScorer.getScoreDistance();
     }
 
-    // Getters are used for detecting collision
+    // Getters used for detecting collision
     public int getDuckX() {
         return (int) theDuck.getX();
     }
