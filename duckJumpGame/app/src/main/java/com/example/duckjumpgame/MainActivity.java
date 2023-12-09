@@ -14,7 +14,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 /**
- * MainActivty.java class is designed to control the main menu activity within the game. This
+ * MainActivity.java class is designed to control the main menu activity within the game. This
  * includes the UI elements within the main menu, such as the buttons, images, transitions, and
  * settings (mute button for the time being). This also handles the main menu theme music using the
  * SoundManager object. Another important element is the Settings object, this ensures that when

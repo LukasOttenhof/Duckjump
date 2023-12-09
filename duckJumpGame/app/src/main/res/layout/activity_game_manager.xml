@@ -198,15 +198,15 @@
         android:layout_height="124dp"
         android:layout_marginStart="268dp"
         android:layout_marginTop="-140dp"
-        android:rotation="270"
+        android:rotation="0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/bird" />
+        app:srcCompat="@drawable/bird1" />
 
     <Button
         android:id="@+id/pauseButton"
         android:layout_width="119dp"
-        android:layout_height="37dp"
+        android:layout_height="48dp"
         android:layout_marginStart="268dp"
         android:layout_marginTop="72dp"
         android:background="#d8863b"
