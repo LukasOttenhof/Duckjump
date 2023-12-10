@@ -54,12 +54,13 @@
 
     <ImageView
         android:id="@+id/imageView2"
-        android:layout_width="164dp"
-        android:layout_height="135dp"
-        android:layout_marginStart="123dp"
+        android:layout_width="97dp"
+        android:layout_height="87dp"
+        android:layout_marginStart="156dp"
+        android:layout_marginTop="28dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/santa" />
+        app:srcCompat="@drawable/santaclaus" />
 
     <ImageView
         android:id="@+id/imageView3"
@@ -69,6 +70,16 @@
         android:layout_marginTop="628dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/treebrightgreen" />
+        app:srcCompat="@drawable/christmastreewithgifts" />
+
+    <ImageView
+        android:id="@+id/imageView8"
+        android:layout_width="127dp"
+        android:layout_height="84dp"
+        android:layout_marginStart="29dp"
+        android:layout_marginTop="618dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/reindeer" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

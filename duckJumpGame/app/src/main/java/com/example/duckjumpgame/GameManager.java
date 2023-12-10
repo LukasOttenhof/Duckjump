@@ -96,7 +96,7 @@ public class GameManager extends AppCompatActivity{
         manageCoinAndHazard();
 
         // Setting up a touch listener for the background, when touch is detected, send this info
-        // to the backend, calling the onTouchEvent in duckPlayer
+        // to DuckPlayer, calling the onTouchEvent in duckPlayer
         background.setOnTouchListener(new View.OnTouchListener(){
             @Override
             public boolean onTouch(View v, MotionEvent event){
@@ -123,7 +123,7 @@ public class GameManager extends AppCompatActivity{
      */
     public void managePlatforms(){
         // Getting references to ImageViews in the front end so they
-        // can be sent to the back end animators
+        // can be sent to the animators
 
         // These are the platforms initially on the screen
         ImageView platform1 = findViewById(R.id.platform1);
@@ -159,7 +159,7 @@ public class GameManager extends AppCompatActivity{
      */
     private void manageCoinAndHazard(){
         // Create a hazard by getting the image we want to be a hazard from the front end and using it to make a
-        // hazard object, using the AnimateImageViewAndDetectCollision class in the backend
+        // hazard object, using the AnimateImageViewAndDetectCollision class
         ImageView hazardImage = findViewById(R.id.hazard);
 
 
@@ -176,7 +176,7 @@ public class GameManager extends AppCompatActivity{
     }
 
     /**
-     * Open the winPage when the game is over and end the runnables in the backend
+     * Open the winPage when the game is over and end the runnables in the animator classes
      * that are checking for collision, doing this will also stop the animation.
      * If the runnables aren't ended the quacking noise will continue
      * while in the EndPage. This method also used putExtra to send info to the EnaPage class
@@ -236,7 +236,10 @@ public class GameManager extends AppCompatActivity{
             }
         }
     };
-
+    /**
+     * This runnable is a timer. It will continue to add 1 to the timePlayed every second until the
+     * game ends.
+     */
     Runnable timeUpdater = new Runnable(){
 
         public void run() {
@@ -256,7 +259,7 @@ public class GameManager extends AppCompatActivity{
     /**
      * This method calculates and displays the score by first calculating the score, this is done
      * by multiplying the platforms touched + score distance by the coins collected. These 3
-     * values are retrieved from the back end. It then updates the displayed score in the front end by setting
+     * values are retrieved from dukPlayer. It then updates the displayed score in the front end by setting
      * the TextView that displays the score to be the score that was calculated. It also displays the number
      * of coins collected by using getCoinsCollected. It is called when the duck makes collision since score is
      * based off of the score being updated.

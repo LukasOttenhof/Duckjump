@@ -86,7 +86,7 @@ public class DuckPlayer {
         // coming into contact with a platform when using object animator for this.
 
         jumpAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-            // This listener is triggered every time the animated value is changed.
+            // This listener is triggered continuously as the animated value is changed.
             // We need it so that when the animated value is changed we set the y coordinate of duck
             // to the new value
             @Override
@@ -106,7 +106,7 @@ public class DuckPlayer {
         });
 
         fallAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-            // This listener is triggered every time the animated value is changed.
+            // This listener is triggered continuously as the animated value is changed.
             // We need it so that when the animated value is changed we set the y coordinate
             // to the new value
             @Override
@@ -126,7 +126,7 @@ public class DuckPlayer {
 
 
         // Start the jump and fall animation, play them sequentially
-        // animator set found at https://stackoverflow.com/questions/64744445/animatorset-stopping-when-playing-sequentially
+        // animator set found on stack overflow
         AnimatorSet animatorSet = new AnimatorSet();
         animatorSet.playSequentially(jumpAnimator, fallAnimator);
 

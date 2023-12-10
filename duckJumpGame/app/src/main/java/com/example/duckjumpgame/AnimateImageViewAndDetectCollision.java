@@ -60,8 +60,9 @@ public class AnimateImageViewAndDetectCollision extends AnimateImageView {
             int maxHeight = 150; // We wont let the duck jump if it is higher than this
 
             if(typeOfObject.equals("withCoin")) { // If the imageview is a platform with a coin
-                theCoin.setX(imageToAnimate.getX()); // Setting the coin and platform to the same x
-                // so that even though they respawn randomly they will be put together
+                theCoin.setX(imageToAnimate.getX() + 16); // Setting the coin and platform to the same x
+                // so that even though they respawn randomly they will be put together. + 16 is to
+                // center the coin on its platform
             }
             // Check for collision and if duck is too high
             if (checkCollision() && duckPlayer.getDuckY() > maxHeight){
@@ -139,7 +140,7 @@ public class AnimateImageViewAndDetectCollision extends AnimateImageView {
         int objectLeft = (int) imageToAnimate.getX();
         int objectRight = objectLeft + imageToAnimate.getWidth();
         if(typeOfObject.equals("hazard")) { // Making the coordinates a tighter fit for hazard
-            objectRight -= 50;
+            objectRight -= 50;              // Otherwise the hitbox for the hazard will
             objectLeft += 80;
         }
 
