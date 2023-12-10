@@ -45,11 +45,23 @@
         android:layout_width="277dp"
         android:layout_height="51dp"
         android:layout_marginStart="67dp"
-        android:layout_marginTop="536dp"
+        android:layout_marginTop="566dp"
         android:background="#d8863b"
         android:onClick="openCredits"
         android:soundEffectsEnabled="false"
         android:text="Credits"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+    <Button
+        android:id="@+id/howToPlayButton"
+        android:layout_width="277dp"
+        android:layout_height="51dp"
+        android:layout_marginStart="67dp"
+        android:layout_marginTop="502dp"
+        android:background="#d8863b"
+        android:onClick="openHowToPlay"
+        android:soundEffectsEnabled="false"
+        android:text="How to Play"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 

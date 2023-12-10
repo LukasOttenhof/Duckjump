@@ -19,7 +19,9 @@ import android.widget.TextView;
  *
  * startGame() - Starts the game screen by switching to the GameManager class and intent
  * openCredits() - Swaps the main screen to view the credits text by swapping UI elements
- * backToMain() - Called when in credits screen and the return to main menu button is clicked
+ * openHowToPlay() - Swaps the main screen to view the How to play text by swapping UI elements
+ * backToMain() - Called when in credits screen or How to play screen and the return to main menu
+ * button is clicked
  * muteSound() - Normally we would have the settings handle the audio, however, since you can toggle
  * mute on this screen if you need, we needed to have an additional method to handle this particular
  * activity's sound
@@ -77,6 +79,9 @@ public class MainActivity extends AppCompatActivity{
      * Handles the "Credits" button on the main menu
      * and swaps main menu widgets with the corresponding credits widgets.
      *
+     * This method displays the main text which is a big white text box and sets its text to
+     * be the credits.
+     *
      * This is done to prevent memory leak and performance issues associated with creating
      * or removing new intents.
      *
@@ -88,22 +93,55 @@ public class MainActivity extends AppCompatActivity{
         TextView creditsText = findViewById(R.id.mainText);
         Button playButton = findViewById(R.id.playButton);
         Button creditButton = findViewById(R.id.creditButton);
+        Button howToPlayButton = findViewById(R.id.howToPlayButton);
         creditButton.setOnClickListener(this::backToMain);
 
         creditButton.setText("Back To Menu");
         mainMenu.setVisibility(View.INVISIBLE);
         creditsText.setVisibility(View.VISIBLE);
+        creditsText.setText("Created by Lukas, Edan, and Cole. \n\nImage Credits:" +
+                " \nhttps://www.flaticon.com/free-icons icons created by Freepik - Flaticon");
         playButton.setVisibility(View.INVISIBLE);
-        playButton.setEnabled(false);
+        howToPlayButton.setVisibility(View.INVISIBLE);
+
+    }
+    /**
+     * Handles the "How To Play" button on the main menu
+     * and swaps main menu widgets with the corresponding credits widgets.
+     *
+     * This method displays the main text which is a big white text box and sets its text to
+     * be instructions on how to play.
+     *
+     * @param myView - Current View
+     */
+    public void openHowToPlay(View myView){
+        buttonSoundEffect.playSound(R.raw.button_sound);
+        ImageView mainMenu = findViewById(R.id.mainMenu);
+        TextView instructionsText = findViewById(R.id.mainText);
+        Button playButton = findViewById(R.id.playButton);
+        Button creditButton = findViewById(R.id.creditButton);
+        Button howToPlayButton = findViewById(R.id.howToPlayButton);
+        howToPlayButton.setOnClickListener(this::backToMain);
+
+        howToPlayButton.setText("Back To Menu");
+        mainMenu.setVisibility(View.INVISIBLE);
+        instructionsText.setVisibility(View.VISIBLE);
+        instructionsText.setText("Welcome to Duck Jump!\n While playing swipe or tap anywhere to move\n " +
+                "Collect as many coins as you can \n Don't let your duck fall, collide with platforms to jump higher \n Dodge the bird\n" +
+                "Good Luck and Merry Christmas!");
+
+        playButton.setVisibility(View.INVISIBLE);
+        creditButton.setVisibility(View.INVISIBLE);
     }
 
-
     /**
-     * Handles the "Main Menu" button on the credits screen
-     * and swaps credits widgets with the corresponding main menu widgets.
+     * This method is called after pressing back to menu. This restores the main menu back
+     * to its original state.
      *
-     * This is done to prevent memory leak and performance issues associated with creating
-     * or removing new intents.
+     * This method is used to switch the main menu back to how it is before pressing credits or
+     * how to play. It works by setting the credits button and how to play buttons onclick function
+     * to be what they are by default rather than this method. It also makes all buttons visable
+     * again.
      *
      * @param myView - Current View
      */
@@ -113,13 +151,17 @@ public class MainActivity extends AppCompatActivity{
         TextView creditsText = findViewById(R.id.mainText);
         Button playButton = findViewById(R.id.playButton);
         Button creditButton = findViewById(R.id.creditButton);
+        Button howToPlayButton = findViewById(R.id.howToPlayButton);
         creditButton.setOnClickListener(this::openCredits);
+        howToPlayButton.setOnClickListener(this::openHowToPlay);
 
         creditButton.setText("Credits");
+        howToPlayButton.setText("How To Play");
         mainMenu.setVisibility(View.VISIBLE);
         creditsText.setVisibility(View.INVISIBLE);
         playButton.setVisibility(View.VISIBLE);
-        playButton.setEnabled(true);
+        howToPlayButton.setVisibility(View.VISIBLE);
+        creditButton.setVisibility(View.VISIBLE);
     }
 
     /**
