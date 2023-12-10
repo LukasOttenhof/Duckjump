@@ -45,8 +45,8 @@ public class AnimateImageView {
     }
 
     /**
-     * Used to animate the platform ImageView. It starts the animation from the
-     * platforms y value and makes it move to below the screen height. It uses the private
+     * Used to animate the ImageView. It starts the animation from the
+     * ImageViews y value and makes it move to below the screen height. It uses the private
      * ObjectAnimator fallAnimator. This method has an onAnimation end listener checking
      * for when the animation ends. When the animation ends the reset method is called
      * and then the animation will start again.
@@ -93,9 +93,9 @@ public class AnimateImageView {
     }
 
     /**
-     * This method is used to reset the location of the platform after the animation.
-     * It works by moving the platform to a coordinate above the screen and then moving
-     * the platform to a random x coordinate within the screen width.
+     * This method is used to reset the location of the ImageView after the animation.
+     * It works by moving the ImageView to a coordinate above the screen and then moving
+     * the ImageView to a random x coordinate within the screen width.
      */
     public void respawn(){
         int randomX = randomInt.nextInt(screenWidth - imageToAnimate.getWidth()); // Random x coordinate minus width so doesn't spawn off screen to the right

@@ -79,7 +79,7 @@ public class AnimateImageViewAndDetectCollision extends AnimateImageView {
                 }
 
             }
-            // Continue the collision check if game hasn't ended and isnt paused. Uses the same
+            // Continue the collision check if game hasn't ended and isn't paused. Uses the same
             //  stopping boolean as the animation in AnimateImageView
             if(!stopAnimation && !isGamePaused){
                 collisionHandler.postDelayed(this, 50);

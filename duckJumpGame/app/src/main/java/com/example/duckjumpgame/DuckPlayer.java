@@ -20,7 +20,7 @@ public class DuckPlayer {
     private int screenHeight;
     private boolean isGamePaused = false;
     private int screenWidth;
-    private int coinsCollected = 1; // 1 By default so score wont be set back to 0 when multiplying
+    private int coinsCollected = 1; // 1 By default so score wont be set back to 0 when calculating score
     private int platformsTouched = 0;
     public ValueAnimator jumpAnimator;
     public ValueAnimator fallAnimator;
@@ -83,11 +83,11 @@ public class DuckPlayer {
         // Set up an update listener to handle the animation values, found how to set up animator
         // listeners online. We used value animator rather than object animator because
         // we were having a hard time getting object animator to work, the game kept crashing when
-        // coming into contact with a platform
+        // coming into contact with a platform when using object animator for this.
 
         jumpAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             // This listener is triggered every time the animated value is changed.
-            // We need it so that when the animated value is changed we set the y coordinate
+            // We need it so that when the animated value is changed we set the y coordinate of duck
             // to the new value
             @Override
             public void onAnimationUpdate(ValueAnimator animation) {
