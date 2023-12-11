@@ -50,7 +50,7 @@ public class DuckPlayer {
     /**
      * This method is used for making the duck jump when coming into contact with a platform,
      * it is called once collision is detected. It works by creating an animation that starts from
-     * where the duck was at the point of collision, up to the jump height, and then brings the
+     * where the duck was at the point of collision, up to the jump peak, and then brings the
      * duck back down to the screenHeight.
      */
     public void jump() {
@@ -171,6 +171,7 @@ public class DuckPlayer {
         theDuck.setLayoutParams(params);
     }
 
+    // The following are used for calculating the score
     public int getPlatformsTouched() {
         return platformsTouched;
     }
@@ -217,11 +218,11 @@ public class DuckPlayer {
      * @return true to the touch event to indicate that the event has finished
      */
     public boolean onTouchEvent(MotionEvent event) {
-        // Subtract to center duck on pointer
+        // Subtract to center duck on where user touched
         int newX = (int) event.getRawX() - getDuckWidth() / 2;
         // Getting duck params so we can change them
         ViewGroup.MarginLayoutParams params = getDuckLayoutParams();
-        // as long as the new location will be within the screen make the change
+        // as long as the new location will be within the screen, and game is not paused make the change
         if (newX >= 0 && newX + getDuckWidth() <= screenWidth && !isGamePaused) {
             params.leftMargin = newX;
             setDuckLayoutParams(params);

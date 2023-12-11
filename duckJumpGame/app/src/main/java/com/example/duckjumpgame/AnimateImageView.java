@@ -20,7 +20,7 @@ public class AnimateImageView {
     private int screenHeight;
     protected Boolean stopAnimation = false; // Used to stop Runnables when game ends
     public ImageView imageToAnimate; // Made public for testing
-    protected boolean isGamePaused = false;
+    protected boolean isGamePaused = false; // Used to stop animation when game is paused
     protected ObjectAnimator fallAnimator;
     private int duration;
     private Random randomInt = new Random();

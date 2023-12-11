@@ -15,7 +15,7 @@ import android.widget.TextView;
  * settings (mute button for the time being). This also handles the main menu theme music using the
  * SoundManager object. Another important element is the Settings object, this ensures that when
  * you toggle mute on or off, regardless of whether or not you close the game, the choice will
- * remain selected throughout DuckJump. The four notable methods within this class are:
+ * remain selected throughout DuckJump. The notable methods within this class are:
  *
  * startGame() - Starts the game screen by switching to the GameManager class and intent
  * openCredits() - Swaps the main screen to view the credits text by swapping UI elements

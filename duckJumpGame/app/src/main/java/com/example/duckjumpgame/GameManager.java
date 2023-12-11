@@ -72,7 +72,7 @@ public class GameManager extends AppCompatActivity{
         ImageView theDuck = findViewById(R.id.theDuck);
         ConstraintLayout background = findViewById(R.id.background);
 
-        // Get Views that will display data from the backend
+        // Get Views that will display data from the DuckPlayer class
         scoreDisplay = findViewById(R.id.scoreNum);
         timeDisplay = findViewById(R.id.timeNum);
         coinDisplay = findViewById(R.id.coinNum);
@@ -89,10 +89,10 @@ public class GameManager extends AppCompatActivity{
 
         // Start check for win
         winHandler.postDelayed(winChecker, 100);
-        // Start timer that ends game because game was won
+        // Start timer that counts to 180, once 180 is reached game is won
         winHandler.postDelayed((timeUpdater),100);
 
-        // Start the platform with coin and hazard
+        // Start animation for the platform with coin and hazard
         manageCoinAndHazard();
 
         // Setting up a touch listener for the background, when touch is detected, send this info
@@ -108,7 +108,8 @@ public class GameManager extends AppCompatActivity{
 
 
     /**
-     * Manages the platforms that are created by this function.
+     * Creates instances of the AnimateImageViewAndDetectCollision class so the platforms will be animated
+     * and detect collision.
      *
      * Each platform is created with bounds for screen width and height
      * to prevent from spawning outside of play area, as well as a duration,
@@ -176,10 +177,10 @@ public class GameManager extends AppCompatActivity{
     }
 
     /**
-     * Open the winPage when the game is over and end the runnables in the animator classes
+     * This method opens the winPage when the game is over and ends the runnables in the animator classes
      * that are checking for collision, doing this will also stop the animation.
      * If the runnables aren't ended the quacking noise will continue
-     * while in the EndPage. This method also used putExtra to send info to the EnaPage class
+     * while in the EndPage. This method also uses putExtra to send info to the EndPage class
      *
      * @return return if the game was won
      */
@@ -254,11 +255,11 @@ public class GameManager extends AppCompatActivity{
             }
         }
     };
-    
+
     /**
      * This method calculates and displays the score by first calculating the score, this is done
      * by multiplying the platforms touched + score distance by the coins collected. These 3
-     * values are retrieved from dukPlayer. It then updates the displayed score in the front end by setting
+     * values are retrieved from duckPlayer. It then updates the displayed score in the front end by setting
      * the TextView that displays the score to be the score that was calculated. It also displays the number
      * of coins collected by using getCoinsCollected. It is called when the duck makes collision since score is
      * based off of the score being updated.

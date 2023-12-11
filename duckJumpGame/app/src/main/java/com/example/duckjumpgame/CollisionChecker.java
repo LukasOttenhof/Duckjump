@@ -23,15 +23,15 @@ public class CollisionChecker {
      * In the constructor initialize all private variables which are coordinates, to the corresponding
      * parameter.
      *
-     * @param duckTopY
-     * @param duckBottomY
-     * @param objectTopY
-     * @param objectBottomY
-     * @param duckLeft
-     * @param duckRight
-     * @param duckHalf
-     * @param objectLeft
-     * @param objectRight
+     * @param duckTopY Y value of the top of the duck.
+     * @param duckBottomY y value of the bottom of the duck
+     * @param objectTopY y value of the top of the ImageView compared with the duck
+     * @param objectBottomY y value of the bottom of the ImageView compared with the duck
+     * @param duckLeft x value of the left side of the duck
+     * @param duckRight x value of the right side of the duck
+     * @param duckHalf y value of the middle of the duck
+     * @param objectLeft x value of the left side of the ImageView compared with the duck
+     * @param objectRight x value of the right side of the ImageView compared with the duck
      */
     public CollisionChecker(int duckTopY, int duckBottomY, int objectTopY, int objectBottomY,
                             int duckLeft, int duckRight, int duckHalf, int objectLeft, int objectRight) {
@@ -55,16 +55,16 @@ public class CollisionChecker {
      */
     public boolean checkCollision() {
         // First create booleans that evaluate to true if there is vertical overlap
-        boolean topCollision = duckTopY <= objectBottomY && duckTopY >= objectTopY;
-        boolean bottomCollision = duckBottomY >= objectTopY && duckBottomY <= objectBottomY;
-        boolean middleCollision = (duckBottomY + duckHalf >= objectTopY && (duckBottomY +
+        boolean isTopCollision = duckTopY <= objectBottomY && duckTopY >= objectTopY;
+        boolean isBottomCollision = duckBottomY >= objectTopY && duckBottomY <= objectBottomY;
+        boolean isMiddleCollision = (duckBottomY + duckHalf >= objectTopY && (duckBottomY +
                 (duckHalf) <= objectBottomY));
 
         // Next create booleans that evaluate to true if there is horizontal overlap
-        boolean leftCollision = duckLeft >= objectLeft && duckLeft <= objectRight;
-        boolean rightCollision = duckRight >= objectLeft && duckRight <= objectRight;
+        boolean isLeftCollision = duckLeft >= objectLeft && duckLeft <= objectRight;
+        boolean isRightCollision = duckRight >= objectLeft && duckRight <= objectRight;
 
         // Return true if there is vertical overlap and horizontal overlap to indicate collision
-        return (topCollision || bottomCollision || middleCollision) && (leftCollision || rightCollision);
+        return (isTopCollision || isBottomCollision || isMiddleCollision) && (isLeftCollision || isRightCollision);
     }
 }
