@@ -72,7 +72,7 @@ public class GameManager extends AppCompatActivity{
         ImageView theDuck = findViewById(R.id.theDuck);
         ConstraintLayout background = findViewById(R.id.background);
 
-        // Get ImageViews that will display data from the backend
+        // Get Views that will display data from the backend
         scoreDisplay = findViewById(R.id.scoreNum);
         timeDisplay = findViewById(R.id.timeNum);
         coinDisplay = findViewById(R.id.coinNum);
@@ -113,12 +113,12 @@ public class GameManager extends AppCompatActivity{
      * Each platform is created with bounds for screen width and height
      * to prevent from spawning outside of play area, as well as a duration,
      * the coin parameter is set to null because these platforms don't have coins, typeOfObject
-     * is platform because if the duck collides with one fo these platforms we want
-     * platformCollision to be called
+     * is platform because if the duck collides with one of these platforms we want
+     * platformCollision to be called.
      *
      * Initial platforms are spawned at the start of the game and are in the
      * same location each time while hidden platforms respawn after falling off
-     * bottom of the screen
+     * bottom of the screen.
      *
      */
     public void managePlatforms(){
@@ -254,8 +254,7 @@ public class GameManager extends AppCompatActivity{
             }
         }
     };
-
-
+    
     /**
      * This method calculates and displays the score by first calculating the score, this is done
      * by multiplying the platforms touched + score distance by the coins collected. These 3

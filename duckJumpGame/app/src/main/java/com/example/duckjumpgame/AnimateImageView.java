@@ -27,7 +27,7 @@ public class AnimateImageView {
 
     /**
      * In the constructor the variables will be set to the values of the parameters and
-     * startFallAnimation will be called begining the animation loop.
+     * startFallAnimation will be called to begin the animation loop.
      *
      * @param imageToAnimate The Imageview of the platform that is being animated.
      * @param screenWidth Maximum width the platform can respawn at.
