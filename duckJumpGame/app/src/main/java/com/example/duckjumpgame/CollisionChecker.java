@@ -61,8 +61,8 @@ public class CollisionChecker {
                 (duckHalf) <= objectBottomY));
 
         // Next create booleans that evaluate to true if there is horizontal overlap
-        boolean isLeftCollision = duckLeft >= objectLeft && duckLeft <= objectRight;
-        boolean isRightCollision = duckRight >= objectLeft && duckRight <= objectRight;
+            boolean isLeftCollision = duckLeft >= objectLeft && duckLeft <= objectRight;
+            boolean isRightCollision = duckRight >= objectLeft && duckRight <= objectRight;
 
         // Return true if there is vertical overlap and horizontal overlap to indicate collision
         return (isTopCollision || isBottomCollision || isMiddleCollision) && (isLeftCollision || isRightCollision);
