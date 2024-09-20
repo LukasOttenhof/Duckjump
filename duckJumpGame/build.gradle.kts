@@ -2,3 +2,14 @@
 plugins {
     id("com.android.application") version "8.2.0" apply false
 }
+plugins {
+  id "org.sonarqube" version "4.4.1.3373"
+}
+
+sonar {
+  properties {
+    property "sonar.projectKey", "LukasOttenhof_Duckjump"
+    property "sonar.organization", "lukasottenhof"
+    property "sonar.host.url", "https://sonarcloud.io"
+  }
+}
